@@ -132,6 +132,7 @@ export default class Player {
     this._animator && this._animator.stop()
     this.currentFrame = 0
     this._renderer.drawFrame(this.currentFrame)
+    this._renderer.stopAudio()
     this.$onEvent.stop()
   }
 
@@ -205,6 +206,10 @@ export default class Player {
         return void 0
       }
 
+      if (value === 0) {
+        this._renderer.playAudio()
+      }
+
       this.currentFrame = value
 
       this.progress = parseFloat((value + 1).toString()) / parseFloat(videoItem.frames.toString()) * 100
@@ -214,6 +219,7 @@ export default class Player {
       this.$onEvent.process()
     }
 
+    this._renderer.playAudio()
     this._animator.start(this.currentFrame)
   }
 
