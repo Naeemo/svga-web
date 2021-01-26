@@ -14,3 +14,6 @@ svga.lite.min.js
 util.js
 db.js
 parser.1x.js
+
+.idea/
+yarn.lock

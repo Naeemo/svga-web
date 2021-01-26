@@ -11,3 +11,4 @@ scripts
 tsconfig.json
 types
 yarn.lock
+.idea/
