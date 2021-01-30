@@ -68,7 +68,7 @@ const ForkTsCheckerWebpackPluginConfig = new ForkTsCheckerWebpackPlugin({
 module.exports = [
   {
     entry: {
-      'svga.lite': './core/index.ts'
+      'svga-web': './core/index.ts'
     },
     output: {
       path: outputPath,

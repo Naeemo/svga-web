@@ -35,17 +35,17 @@
 ### NPM
 
 ```sh
-yarn add svga.lite
+yarn add svga-web
 
 # 或者
 
-npm i svga.lite
+npm i svga-web
 ```
 
 ### CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/svga.lite/svga.lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/svga-web/svga-web.min.js"></script>
 ```
 
 ## 使用
@@ -57,7 +57,7 @@ npm i svga.lite
 ```
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 // 默认调用 WebWorker 线程解析
@@ -118,9 +118,9 @@ noExecutionDelay(v1.5+) | 是否避免执行延迟 | `boolean` | `false` | 开�
 ### 支持 1.x 版本 SVGA
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
-import Parser1x from 'svga.lite/parser.1x'
-import * as util from 'svga.lite/util'
+import { Downloader, Parser, Player } from 'svga-web'
+import Parser1x from 'svga-web/parser.1x'
+import * as util from 'svga-web/util'
 
 const downloader = new Downloader()
 const svgaFile = './svga/show.svga'
@@ -141,7 +141,7 @@ player.start()
 你能够通过改变 `svga data` 对应键值的元素
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -220,7 +220,7 @@ player.start()
 ### 可复用实例化 Downloader & Parser
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -259,8 +259,8 @@ player.destroy()
 已下载并解析的数据利用 IndexedDB 进行持久化缓存，下次可避免重复消耗资源对统一 SVGA 下载和解析
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
-import DB from 'svga.lite/db'
+import { Downloader, Parser, Player } from 'svga-web'
+import DB from 'svga-web/db'
 
 const svgaFile = 'test.svga'
 let data = void 0

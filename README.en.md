@@ -33,17 +33,17 @@ If there is a problem such as `Promise is not a constructor`, the outer chain po
 ### NPM
 
 ```sh
-yarn add svga.lite
+yarn add svga-web
 
 # or
 
-npm i svga.lite
+npm i svga-web
 ```
 
 ### CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/svga.lite/svga.lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/svga-web/svga-web.min.js"></script>
 ```
 
 ## Use
@@ -55,7 +55,7 @@ npm i svga.lite
 ```
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 // calls WebWorker parsing by default
@@ -92,9 +92,9 @@ const player = new Player('#canvas') // #canvas is HTMLCanvasElement
 ### Support v1.x of SVGA
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
-import Parser1x from 'svga.lite/parser.1x'
-import * as util from 'svga.lite/util'
+import { Downloader, Parser, Player } from 'svga-web'
+import Parser1x from 'svga-web/parser.1x'
+import * as util from 'svga-web/util'
 
 const downloader = new Downloader()
 const svgaFile = './svga/show.svga'
@@ -116,7 +116,7 @@ player.start()
 You can change the elements of the `svga data` corresponding to the key values.
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -195,7 +195,7 @@ player.start()
 ### Reusable instantiated Downloader & Parser
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -234,8 +234,8 @@ player.destroy()
 The downloaded and parsed data is persisted and cached using IndexedDB, and the next time you can avoid reusing resources for unified SVGA download and parsing
 
 ```js
-import { Downloader, Parser, Player } from 'svga.lite'
-import DB from 'svga.lite/db'
+import { Downloader, Parser, Player } from 'svga-web'
+import DB from 'svga-web/db'
 
 const svgaFile = 'test.svga'
 let data = void 0

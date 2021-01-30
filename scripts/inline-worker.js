@@ -3,13 +3,13 @@ const fs = require('fs-extra')
 const del = require('del')
 
 module.exports = function (env) {
-  const coreFile = path.resolve(__dirname, `../${env === 'test' ? 'tests' : ''}/svga.lite.min.js`)
+  const coreFile = path.resolve(__dirname, `../${env === 'test' ? 'tests' : ''}/svga-web.min.js`)
   const parserWorkerFile = path.resolve(__dirname, `../${env === 'test' ? 'tests' : ''}/parser.worker.min.js`)
   const parser1xFile = path.resolve(__dirname, `../${env === 'test' ? 'tests' : ''}/parser.1x.js`)
   const parser1xWorkerFile = path.resolve(__dirname, `../${env === 'test' ? 'tests' : ''}/parser1x.worker.min.js`)
   // const offscreenCanvasRenderFile = path.resolve(__dirname, `../${env === 'test' ? 'tests' : ''}/offscreen.canvas.render.min.js`)
 
-  const distFile = env === 'test' ? path.resolve(__dirname, '../tests/svga.lite.min.js') : coreFile
+  const distFile = env === 'test' ? path.resolve(__dirname, '../tests/svga-web.min.js') : coreFile
   const distParser1xFile = env === 'test' ? path.resolve(__dirname, '../tests/parser.1x.js') : parser1xFile
 
   const parserWorker = fs.readFileSync(parserWorkerFile, 'utf8')
