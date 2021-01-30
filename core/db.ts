@@ -2,14 +2,14 @@ export default class DB {
   private storeName: string
   private dbPromise: Promise<IDBDatabase>
 
-  constructor ({ name, version, storeName } = { name: 'SVGA.Lite.DB', version: 1.0, storeName: 'svga_file' }) {
+  constructor ({ name, version, storeName } = { name: 'svgaWeb.DB', version: 1.0, storeName: 'svga_file' }) {
     this.storeName = storeName
     this.dbPromise = new Promise<IDBDatabase>(function (resolve, reject) {
       if (window.indexedDB) {
         const request = window.indexedDB.open(name, version) as IDBOpenDBRequest
 
         request.onerror = function (err) {
-          reject(new Error('[SVGA.Lite.DB] indexedDB open fail' + err))
+          reject(new Error('[svgaWeb.DB] indexedDB open fail' + err))
         }
 
         request.onsuccess = function () {
@@ -21,7 +21,7 @@ export default class DB {
           db.createObjectStore(storeName)
         }
       } else {
-        throw new Error('[SVGA.Lite.DB] indexedDB not supported')
+        throw new Error('[svgaWeb.DB] indexedDB not supported')
       }
     })
   }

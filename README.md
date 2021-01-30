@@ -1,6 +1,6 @@
-# SVGAPlayer-Web-Lite
+# svga-web
 
-这是一个 SVGA 在移动端 Web 上的播放器，它的目标是 **更轻量**、**更高效**，但它也放弃了对旧版本浏览器的兼容性支持。
+这是一个 SVGA Web 播放器
 
 [English](./README.en.md)
 

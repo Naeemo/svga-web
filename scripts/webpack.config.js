@@ -8,8 +8,7 @@ const banner =
 `[name]
 
 Version: ${version}
-Document: https://github.com/svga/SVGAPlayer-Web-Lite
-(c) 2019 YY.SVGA
+Document: https://github.com/Naeemo/svga-web
 Released under the MIT License.`
 
 const defaultConfig = {
