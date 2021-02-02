@@ -1,10 +1,12 @@
-<header><meta name="viewport" content="maximum-scale=1, width=750, initial-scale=1, user-scalable=0"></header>
+<header>
+  <meta name="viewport" content="maximum-scale=1, width=750, initial-scale=1, user-scalable=0">
+</header>
 <script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>
 <script>
-// new VConsole()
+  // new VConsole()
 </script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script> -->
-<script src="svga.lite.min.js"></script>
+<script src="../dist/svga-web.umd.js"></script>
 <canvas id="canvas"></canvas>
 
 <style>
@@ -25,7 +27,7 @@
   //   endFrame: 20
   // })
 
-  downloader.get('./svga/soundwave.svga').then(function (fileData) {
+  downloader.get('./svga/readygo.svga').then(function (fileData) {
     parser.do(fileData).then(function (svgaData) {
       player.mount(svgaData).then(function () {
         player.start()

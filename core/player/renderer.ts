@@ -1,9 +1,13 @@
-import Player, { PLAY_MODE } from '../player/index'
+import Player, {PLAY_MODE} from '../player/index'
 import render from './offscreen.canvas.render'
+
+export type DynamicElement = CanvasImageSource | {
+  source: CanvasImageSource,
+  fit: 'contain' | 'cover' | 'fill' | 'none'
+}
 
 export default class Renderer {
   private _player: Player
-  private _bitmapCache: { [key: string]: HTMLImageElement } = {}
   private _audioCache: { [key: string]: HTMLAudioElement } = {}
   private _dynamicElements: { [key: string]: DynamicElement } = {}
   // ImageData
@@ -19,7 +23,6 @@ export default class Renderer {
 
   public prepare () {
     return new Promise<void>((resolve, reject) => {
-      this._bitmapCache = {}
       this._audioCache = {}
 
       if (!this._player.videoItem.images || Object.keys(this._player.videoItem.images).length == 0) {
@@ -37,31 +40,21 @@ export default class Renderer {
       for (let imageKey in this._player.videoItem.images) {
         const src = this._player.videoItem.images[imageKey]
 
+
+
         if (typeof src === 'string') {
-          if (src.indexOf('iVBO') === 0 || src.indexOf('/9j/2w') === 0) {
-            totalCount++
-
-            const img = document.createElement('img')
-
-            img.src = 'data:image/png;base64,' + src
-
-            this._bitmapCache[imageKey] = img
-
-            img.onload = () => {
-              loadedCount++
-              loadedCount === totalCount && resolve()
-            }
-          } else if (src.indexOf('SUQz') === 0) {
-            const audio = new Audio(
-              navigator.vendor === 'Google Inc.' ? URL.createObjectURL(Renderer.dataURLtoBlob('audio/x-mpeg', src)) : 'data:audio/x-mpeg;base64,' + src
-            )
-            audio.load()
-            this._audioCache[imageKey] = audio
-          }
-        } else {
-          this._bitmapCache[imageKey] = src
+          // TODO audio
+          // if (src.indexOf('SUQz') === 0) {
+          //   const audio = new Audio(
+          //     navigator.vendor === 'Google Inc.' ? URL.createObjectURL(Renderer.dataURLtoBlob('audio/x-mpeg', src)) : 'data:audio/x-mpeg;base64,' + src
+          //   )
+          //   audio.load()
+          //   this._audioCache[imageKey] = audio
+          // }
         }
       }
+
+      resolve()
     })
   }
 
@@ -93,11 +86,11 @@ export default class Renderer {
     ofsCanvas.height = this._player.container.height
 
     render(
-      ofsCanvas,
-      this._bitmapCache,
-      this._dynamicElements,
-      this._player.videoItem,
-      this._player.currentFrame
+        ofsCanvas,
+        this._player.videoItem.images,
+        this._dynamicElements,
+        this._player.videoItem,
+        this._player.currentFrame
     )
 
     context2d.drawImage(
@@ -150,6 +143,6 @@ export default class Renderer {
       u8arr[n] = bstr.charCodeAt(n)
     }
 
-    return new Blob([u8arr], { type: mimeType })
+    return new Blob([u8arr], {type: mimeType})
   }
 }

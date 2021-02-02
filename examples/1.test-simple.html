@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="maximum-scale=1, width=750, initial-scale=1, user-scalable=0" name="viewport">
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>
+    <script>
+        // new VConsole()
+    </script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script> -->
+    <script src="../core/index.ts" type="module"></script>
+
+    <style>
+        #canvas {
+            background-color: black;
+            transform: scale(0.5);
+            transform-origin: 0 0;
+        }
+    </style>
+
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script type="module">
+    import SVGA from '../core/index.ts'
+
+    const {Downloader, Parser, Player} = SVGA
+
+    var downloader = new Downloader()
+    var parser = new Parser()
+    var player = new Player('#canvas')
+
+    // player.set({
+    //   // startFrame: 50
+    //   endFrame: 20
+    // })
+
+    downloader.get('./svga/soundwave.svga').then(function (fileData) {
+        parser.do(fileData).then(function (svgaData) {
+            console.log('parser')
+            player.mount(svgaData).then(function () {
+                console.log('mount')
+                player.start()
+            })
+        })
+    })
+</script>
+</body>
+</html>

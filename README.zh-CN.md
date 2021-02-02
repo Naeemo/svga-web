@@ -22,17 +22,7 @@ npm i svga-web
 <script src="https://cdn.jsdelivr.net/npm/svga-web/svga-web.min.js"></script>
 ```
 
-## 实现
-
-- [x] 兼容 Android 4.4+ / iOS 9+
-- [x] 更好的异步操作
-- [x] 多线程 (WebWorker) 解析文件数据
-- [x] OffscreenCanvas
-- [ ] 渲染引擎模拟运行在 WebWorker
-- [ ] 使用 WebAssembly 替代 WebWorker
-- [ ] GPU 加速运算
-
-## 使用
+## 例子/文档
 
 ### 简单使用
 
@@ -45,8 +35,6 @@ npm i svga-web
 import {Downloader, Parser, Player} from 'svga-web'
 
 const downloader = new Downloader()
-// 默认调用 WebWorker 线程解析
-// 可配置 new Parser({ disableWorker: true }) 禁止
 const parser = new Parser()
 // #canvas 是 HTMLCanvasElement
 const player = new Player('#canvas')
@@ -99,27 +87,6 @@ intersectionObserverRender（v1.5+）| 是否开启动画容器视窗检测 | `b
 检测动画容器是否处于视窗内，若处于视窗外，停止描绘渲染帧避免造成资源消耗 noExecutionDelay(v1.5+) | 是否避免执行延迟 | `boolean` | `false` | 开启后使用 `WebWorker`
 确保动画按时执行（ [一些情况下浏览器会延迟或停止执行一些任务](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance)
 ）
-
-### 支持 1.x 版本 SVGA
-
-```js
-import {Downloader, Parser, Player} from 'svga-web'
-import Parser1x from 'svga-web/parser.1x'
-import * as util from 'svga-web/util'
-
-const downloader = new Downloader()
-const svgaFile = './svga/show.svga'
-const fileData = await downloader.get(svgaFile)
-
-// Parser1x 默认调用 WebWorker 线程解析
-// 可配置 new Parser1x({ disableWorker: true }) 禁止
-const parser = util.version(fileData) === 1 ? new Parser1x() : new Parser()
-const svgaData = await parser.do(fileData)
-
-const player = new Player('#canvas')
-await player.mount(svgaData)
-player.start()
-```
 
 ### 替换元素
 
@@ -179,7 +146,7 @@ await player.mount(svgaData)
 player.start()
 ```
 
-为动态元素设置自适应参数 `fit`，参考[例子](./tests/11.test-dynamicElement.html).
+为动态元素设置自适应参数 `fit`，参考[例子](examples/11.test-dynamicElement.html).
 
 ```js
 const video = document.getElementById('video')
@@ -239,13 +206,12 @@ const player = new Player('#canvas')
 player.destroy()
 ```
 
-### DB (v1.5+)
+### DB
 
 已下载并解析的数据利用 IndexedDB 进行持久化缓存，下次可避免重复消耗资源对统一 SVGA 下载和解析
 
 ```js
-import {Downloader, Parser, Player} from 'svga-web'
-import DB from 'svga-web/db'
+import {Downloader, Parser, Player, DB} from 'svga-web'
 
 const svgaFile = 'test.svga'
 let data = void 0
@@ -278,7 +244,7 @@ await player.mount(data)
 player.start()
 ```
 
-## Downloader Cancel (v1.4.0+)
+### Downloader Cancel (v1.4.0+)
 
 你可以取消下载中的 SVGA 文件请求
 
@@ -294,16 +260,12 @@ setTimeout(() => {
 }, 1000)
 ```
 
-## 贡献
-
-我们感谢社区提供错误修正和改进。
-
 ```sh
 # 安装依赖
 yarn install
 
-# 开发测试
-yarn test
+# 开发
+yarn start
 
 # 构建
 yarn build

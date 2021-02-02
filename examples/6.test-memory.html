@@ -1,0 +1,52 @@
+<style type="text/css">
+    canvas {
+        width: 300px;
+        border: 1px solid #ccc;
+        margin: 0 10px;
+    }
+</style>
+
+<button onclick="mount()">mount</button>
+<button onclick="play()">Play</button>
+<canvas id="canvas"></canvas>
+
+<script src="../dist/svga-web.umd.js"></script>
+
+<script>
+    const {Downloader, Player, Parser} = SVGA
+    const SVGAFileURL = './svga/angel.svga'
+
+    async function mount() {
+        const downloader = new Downloader()
+        const fileData = await downloader.get(SVGAFileURL)
+        const parser = new Parser()
+        const svgaData = await parser.do(fileData)
+        const player = new Player('#canvas')
+        await player.mount(svgaData)
+        parser.destroy()
+        console.log('end')
+    }
+
+    async function play() {
+        const downloader = new Downloader()
+        const fileData = await downloader.get(SVGAFileURL)
+        const parser = new Parser()
+        const svgaData = await parser.do(fileData)
+        const player = new Player('#canvas')
+        player.set({loop: 1})
+        await player.mount(svgaData)
+        player.start()
+        player.$on('end', () => {
+            // 第二次未能被销毁
+            // parser.destroy()
+            // player.destroy()
+            // console.log('end')
+
+            setTimeout(() => {
+                parser.destroy()
+                player.destroy()
+                console.log('end')
+            }, 0)
+        })
+    }
+</script>

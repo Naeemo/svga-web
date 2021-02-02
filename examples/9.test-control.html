@@ -5,11 +5,11 @@
 
 <canvas id="canvas"></canvas>
 
-<script src="svga.lite.min.js"></script>
+<script src="../dist/svga-web.umd.js"></script>
 <script>
   let player
   ;(async () => {
-    const { Downloader, Parser, Player } = SVGA
+    const {Downloader, Parser, Player} = SVGA
     const downloader = new Downloader()
     const svgaFile = './svga/angel.svga'
     const fileData = await downloader.get(svgaFile)

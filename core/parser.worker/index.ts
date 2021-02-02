@@ -1,42 +1,41 @@
-/// <reference path="../../types/vendor.d.ts" />
+import {inflate} from 'pako'
+import VideoEntity, {ImageSources} from './video-entity'
+import {com} from "../proto/svga";
+import svga = com.opensource.svga;
 
-import './btoa.polyfill'
-import { Root } from 'protobufjs'
-import svgaFileDataDescriptor from '../common/svga-file-data-descriptor'
-import { Zlib } from 'zlibjs/bin/inflate.min.js'
-import u8aToString from './u8a-to-string'
-import VideoEntity from './video-entity'
+onmessage = function (event: MessageEvent<ArrayBuffer>) {
+    const inflateData: Uint8Array = inflate(new Uint8Array(event.data))
+    const movie = svga.MovieEntity.decode(inflateData)
+    const images: ImageSources = {}
+    const transferables: Transferable[] = []
+    // const webpdata = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoCAAEAAQAcJaQAA3AA/v3AgAA=';
+    // const webpdata = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAnElEQVR42u3RAQ0AAAgDoL9/aK3hHFSgyUw4o0KEIEQIQoQgRAhChAgRghAhCBGCECEIEYIQhAhBiBCECEGIEIQgRAhChCBECEKEIAQhQhAiBCFCECIEIQgRghAhCBGCECEIQYgQhAhBiBCECEEIQoQgRAhChCBECEIQIgQhQhAiBCFCEIIQIQgRghAhCBGCECFChCBECEKEIOS7BU5Hx50BmcQaAAAAAElFTkSuQmCC';
 
-declare var self: any
-let worker: any
+    // fetch(webpdata).then(response => response.blob()).then((blob) => {
+    //     console.log(blob)
+    // })
+    //
+    // fetch(webpdata).then(response => response.arrayBuffer()).then((ab) => {
+    //     console.log(ab)
+    // })
 
-if (!self.document) {
-  worker = self
-} else {
-  worker = self.SVGAParserMockWorker = {}
+    console.log('origin data', movie)
+    const promises = Object.entries(movie.images)
+        .map(async ([key, uint8]) => {
+            const blob = new Blob([uint8], {type: 'image/png'})
+            // const blob = await fetch(webpdata).then(response => response.blob())
 
-  worker.disableWorker = true
+            return createImageBitmap(blob)
+                .then((bitMap) => {
+                    images[key] = bitMap
+                    transferables.push(bitMap)
+                })
+        })
 
-  worker.postMessage = function (data: VideoEntity) {
-    worker.onmessageCallback && worker.onmessageCallback(data)
-  }
-}
-
-const proto = Root.fromJSON(svgaFileDataDescriptor)
-const message = proto.lookupType('com.opensource.svga.MovieEntity')
-
-worker.onmessage = function (event: any) {
-  const inflateData: Uint8Array = (new Zlib.Inflate(new Uint8Array(event.data))).decompress()
-  const movie: any = message.decode(inflateData)
-  const images: { [key: string]: string } = {}
-
-  for (let key in movie.images) {
-    const element = movie.images[key]
-    const value = u8aToString(element)
-
-    images[key] = btoa(value)
-  }
-
-  const data = new VideoEntity(movie, images)
-  worker.postMessage(data)
+    Promise.all(promises)
+        .then(() => {
+            console.log(movie, images)
+            const data = new VideoEntity(movie, images)
+            postMessage(data, transferables)
+        })
 }

@@ -1,16 +1,15 @@
-<script src="svga.lite.min.js"></script>
-<script src="db.js"></script>
+<script src="../dist/svga-web.umd.js"></script>
 
 <canvas id="canvas"></canvas>
 
 <script>
   (async () => {
-    const { Downloader, Parser, Player } = SVGA
+    const {Downloader, Parser, Player, DB} = SVGA
     let db = void 0
     let data = void 0
 
     try {
-      db = new SVGADB()
+      db = new DB()
     } catch (error) {
       console.error(error)
     }

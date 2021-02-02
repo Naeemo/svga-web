@@ -1,10 +1,15 @@
-import BezierPath from '../common/bezier-path'
+import {IBezierPath} from '../common/bezier-path'
 import EllipsePath from '../common/ellipse-path'
 import RectPath from '../common/rect-path'
+import VideoEntity, {ImageSources} from "../parser.worker/video-entity";
+import {DynamicElement} from "./renderer";
+import {com} from "../proto/svga";
+import svga = com.opensource.svga;
+import {IParseStyles} from "../parser.worker/frame-entity";
 
 const validMethods = 'MLHVCSQRZmlhvcsqrz'
 
-function render (canvas, bitmapCache, dynamicElements, videoItem, currentFrame) {
+function render (canvas, bitmapCache: ImageSources, dynamicElements: { [key: string]: DynamicElement }, videoItem: VideoEntity, currentFrame) {
   const context = canvas.getContext('2d')
 
   videoItem.sprites.forEach(sprite => {
@@ -17,29 +22,30 @@ function render (canvas, bitmapCache, dynamicElements, videoItem, currentFrame) 
     context.save()
     context.globalAlpha = frameItem.alpha
     context.transform(
-      frameItem.transform.a || 1,
-      frameItem.transform.b || 0,
-      frameItem.transform.c || 0,
-      frameItem.transform.d || 1,
-      frameItem.transform.tx || 0,
-      frameItem.transform.ty || 0
+        frameItem.transform.a || 1,
+        frameItem.transform.b || 0,
+        frameItem.transform.c || 0,
+        frameItem.transform.d || 1,
+        frameItem.transform.tx || 0,
+        frameItem.transform.ty || 0
     )
 
-    const img = bitmapCache[sprite.imageKey]
+    const img = sprite.imageKey && bitmapCache[sprite.imageKey]
     if (img) {
-      if (frameItem.maskPath !== undefined && frameItem.maskPath !== null) {
-        frameItem.maskPath._styles = undefined
-        drawBezier(context, frameItem.maskPath)
+      if (frameItem.clipPath) {
+        drawBezier(context, {
+          _d: frameItem.clipPath,
+        })
         context.clip()
       }
       context.drawImage(img, 0, 0)
     }
 
-    const dynamicElement = dynamicElements[sprite.imageKey]
+    const dynamicElement = sprite.imageKey && dynamicElements[sprite.imageKey]
     if (dynamicElement) {
       const { source, fit } = 'fit' in dynamicElement ? dynamicElement : { source: dynamicElement, fit: 'none' }
-      const sourceWidth = source.naturalWidth || source.videoWidth || source.width
-      const sourceHeight = source.naturalHeight || source.videoHeight || source.height
+      const sourceWidth = source['naturalWidth'] || source['videoWidth'] || source.width
+      const sourceHeight = source['naturalHeight'] || source['videoHeight'] || source.height
 
       switch (fit) {
         case 'contain': {
@@ -71,38 +77,39 @@ function render (canvas, bitmapCache, dynamicElements, videoItem, currentFrame) 
     }
 
     frameItem.shapes && frameItem.shapes.forEach(shape => {
-      if (shape.type === 'shape' && shape.pathArgs && shape.pathArgs.d) {
+      if (shape.type === svga.ShapeEntity.ShapeType.SHAPE && shape.shape && shape.shape.d) {
         drawBezier(
-          context,
-          new BezierPath(
-            shape.pathArgs.d,
-            shape.transform,
-            shape.styles
-          )
+            context,
+            {
+              _d: shape.shape.d,
+              _transform: shape.transform,
+              _styles: shape.styles
+            }
         )
-      } else if (shape.type === 'ellipse' && shape.pathArgs) {
+      } else if (shape.type === svga.ShapeEntity.ShapeType.ELLIPSE && shape.ellipse) {
         drawEllipse(
-          context,
-          new EllipsePath(
-            parseFloat(shape.pathArgs.x) || 0.0,
-            parseFloat(shape.pathArgs.y) || 0.0,
-            parseFloat(shape.pathArgs.radiusX) || 0.0,
-            parseFloat(shape.pathArgs.radiusY) || 0.0,
-            shape.transform,
-            shape.styles
-          )
+            context,
+            new EllipsePath(
+                shape.ellipse.x || 0.0,
+                shape.ellipse.y || 0.0,
+                shape.ellipse.radiusX || 0.0,
+                shape.ellipse.radiusY || 0.0,
+                shape.transform,
+                shape.styles
+            )
         )
-      } else if (shape.type === 'rect' && shape.pathArgs) {
+      } else if (shape.type === svga.ShapeEntity.ShapeType.RECT && shape.rect) {
         drawRect(
-          context,
-          new RectPath(
-            parseFloat(shape.pathArgs.x) || 0.0,
-            parseFloat(shape.pathArgs.y) || 0.0,
-            parseFloat(shape.pathArgs.width) || 0.0,
-            parseFloat(shape.pathArgs.height) || 0.0,
-            parseFloat(shape.pathArgs.cornerRadius) || 0.0,
-            shape.transform, shape.styles
-          )
+            context,
+            new RectPath(
+                shape.rect.x || 0.0,
+                shape.rect.y || 0.0,
+                shape.rect.width || 0.0,
+                shape.rect.height || 0.0,
+                shape.rect.cornerRadius || 0.0,
+                shape.transform,
+                shape.styles
+            )
         )
       }
     })
@@ -112,48 +119,40 @@ function render (canvas, bitmapCache, dynamicElements, videoItem, currentFrame) 
   return canvas
 }
 
-function resetShapeStyles (context, obj) {
-  const styles = obj._styles
-
-  if (styles === undefined) {
-    return
-  }
-
-  if (styles && styles.stroke) {
-    context.strokeStyle = `rgba(${parseInt((styles.stroke[0] * 255).toString())}, ${parseInt((styles.stroke[1] * 255).toString())}, ${parseInt((styles.stroke[2] * 255).toString())}, ${styles.stroke[3]})`
-  } else {
-    context.strokeStyle = 'transparent'
-  }
+function resetShapeStyles (context, styles: IParseStyles) {
+  context.strokeStyle = styles?.strokeStr || 'transparent'
 
   if (styles) {
     context.lineWidth = styles.strokeWidth || undefined
-    context.lineCap = styles.lineCap || undefined
-    context.lineJoin = styles.lineJoin || undefined
+    context.lineCap = styles.lineCapStr || undefined
+    context.lineJoin = styles.lineJoinStr || undefined
     context.miterLimit = styles.miterLimit || undefined
   }
 
-  if (styles && styles.fill) {
-    context.fillStyle = `rgba(${parseInt((styles.fill[0] * 255).toString())}, ${parseInt((styles.fill[1] * 255).toString())}, ${parseInt((styles.fill[2] * 255).toString())}, ${styles.fill[3]})`
-  } else {
-    context.fillStyle = 'transparent'
-  }
+  context.fillStyle = styles?.fillStr || 'transparent'
 
-  styles && styles.lineDash && context.setLineDash(styles.lineDash)
+  if (styles.lineDashI || styles.lineDashII || styles.lineDashIII) {
+    context.setLineDash([
+      styles.lineDashI ? styles.lineDashI : 0,
+      styles.lineDashII ? styles.lineDashII : 0,
+      styles.lineDashIII ? styles.lineDashIII : 0,
+    ])
+  }
 }
 
-function drawBezier (context, obj) {
+function drawBezier (context, obj: IBezierPath) {
   context.save()
 
-  resetShapeStyles(context, obj)
+  obj._styles && resetShapeStyles(context, obj._styles)
 
-  if (obj._transform !== undefined && obj._transform !== null) {
+  if (obj._transform) {
     context.transform(
-      obj._transform.a || 1.0,
-      obj._transform.b || 0,
-      obj._transform.c || 0,
-      obj._transform.d || 1.0,
-      obj._transform.tx || 0,
-      obj._transform.ty || 0
+        obj._transform.a || 1.0,
+        obj._transform.b || 0,
+        obj._transform.c || 0,
+        obj._transform.d || 1.0,
+        obj._transform.tx || 0,
+        obj._transform.ty || 0
     )
   }
 
@@ -298,19 +297,19 @@ function drawBezierElement (context, currentPoint, method, args) {
   }
 }
 
-function drawEllipse (context, obj) {
+function drawEllipse (context, obj: EllipsePath) {
   context.save()
 
-  resetShapeStyles(context, obj)
+  obj._styles && resetShapeStyles(context, obj._styles)
 
   if (obj._transform !== undefined && obj._transform !== null) {
     context.transform(
-      obj._transform.a || 1.0,
-      obj._transform.b || 0,
-      obj._transform.c || 0,
-      obj._transform.d || 1.0,
-      obj._transform.tx || 0,
-      obj._transform.ty || 0
+        obj._transform.a || 1.0,
+        obj._transform.b || 0,
+        obj._transform.c || 0,
+        obj._transform.d || 1.0,
+        obj._transform.tx || 0,
+        obj._transform.ty || 0
     )
   }
 
@@ -349,16 +348,16 @@ function drawEllipse (context, obj) {
 function drawRect (context, obj) {
   context.save()
 
-  resetShapeStyles(context, obj)
+  obj._styles && resetShapeStyles(context, obj._styles)
 
   if (obj._transform !== undefined && obj._transform !== null) {
     context.transform(
-      obj._transform.a || 1.0,
-      obj._transform.b || 0,
-      obj._transform.c || 0,
-      obj._transform.d || 1.0,
-      obj._transform.tx || 0,
-      obj._transform.ty || 0
+        obj._transform.a || 1.0,
+        obj._transform.b || 0,
+        obj._transform.c || 0,
+        obj._transform.d || 1.0,
+        obj._transform.tx || 0,
+        obj._transform.ty || 0
     )
   }
 
