@@ -1,6 +1,6 @@
 {
   "name": "svga-web",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Lightweight SVGA Web Player",
   "main": "svga-web.min.js",
   "types": "index.d.ts",
