@@ -1,4 +1,4 @@
-import Player, { PLAY_MODE } from '../player/index'
+import Player from '../player/index'
 import render from './offscreen.canvas.render'
 
 export default class Renderer {
@@ -122,7 +122,7 @@ export default class Renderer {
   }
 
   public playAudio () {
-    if (this._player.playMode !== PLAY_MODE.FORWARDS) {
+    if (this._player.playMode !== 'forwards') {
       return
     }
 
