@@ -6,7 +6,6 @@ benchmark
 .editorconfig
 .eslintignore
 .eslintrc.js
-core
 scripts
 tsconfig.json
 types

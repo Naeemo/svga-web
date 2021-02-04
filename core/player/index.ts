@@ -1,7 +1,7 @@
 import Renderer from './renderer'
 import Animator from './animator'
 
-enum EVENT_TYPES {
+export enum EVENT_TYPES {
   START = 'start',
   PROCESS = 'process',
   PAUSE = 'pause',
@@ -21,12 +21,12 @@ interface options {
   noExecutionDelay: boolean
 }
 
-enum FILL_MODE {
+export enum FILL_MODE {
   FORWARDS = 'forwards',
   BACKWARDS = 'backwards'
 }
 
-enum PLAY_MODE {
+export enum PLAY_MODE {
   FORWARDS = 'forwards',
   FALLBACKS = 'fallbacks'
 }
