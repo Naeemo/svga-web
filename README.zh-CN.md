@@ -24,6 +24,19 @@ npm i svga-web
 
 ## 例子/文档
 
+### Player.set({ 参数 })
+
+| 属性名 | 说明 | 类型 | 默认值 | 备注 |
+| ----- | --- | --- | ----- | ---- |
+| loop | 循环次数 | `number` | `1` | 设置为 `0` 时，无限循环 |
+| fillMode | 最后停留的目标模式 | `forwards` `backwards` | `forwards` | 类似于 [css animation-fill-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-fill-mode) |
+| playMode | 播放模式 | `forwards` `fallbacks` | `forwards` |
+| startFrame | 开始播放帧 | `number` | `0` | |
+| endFrame | 结束播放帧 | `number` | `0` | 设置为 `0` 时，默认为 SVGA 文件最后一帧 |
+| cacheFrames | 是否缓存帧 | `boolean` | `false` | 开启后对已绘制的帧进行缓存，提升重复播放动画性能 |
+| noExecutionDelay | 是否避免执行延迟 | `boolean` | `false` | 开启后使用 `WebWorker` 确保动画按时执行（ [一些情况下浏览器会延迟或停止执行一些任务](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance) ） |
+| intersectionObserverRender | 是否开启动画容器视窗检测 | `boolean` | `false` | 开启后利用 [Intersection Observer API](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API) 检测动画容器是否处于视窗内，若处于视窗外，停止描绘渲染帧避免造成资源消耗 |
+
 ### 简单使用
 
 ```html
@@ -74,19 +87,6 @@ const player = new Player('#canvas')
   // player.clear()
 })()
 ```
-
-### Player.set({ 参数 })
-
-属性名 | 说明 | 类型 | 默认值 | 备注 -|-|-|-|- loop | 循环次数 | `number` | `0` | 设置为 `0` 时，循环播放 fillMode | 最后停留的目标模式
-| `forwards` `backwards` | `forwards` |
-类似于 [css animation-fill-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-fill-mode)
-playMode | 播放模式 | `forwards` `fallbacks` | `forwards` | startFrame | 开始播放帧 | `number` | `0` | endFrame | 结束播放帧
-| `number` | `0` | 设置为 `0` 时，默认为 SVGA 文件最后一帧 cacheFrames（v1.5+）| 是否缓存帧 | `boolean` | `false` | 开启后对已绘制的帧进行缓存，提升重复播放动画性能
-intersectionObserverRender（v1.5+）| 是否开启动画容器视窗检测 | `boolean` | `false` |
-开启后利用 [Intersection Observer API](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
-检测动画容器是否处于视窗内，若处于视窗外，停止描绘渲染帧避免造成资源消耗 noExecutionDelay(v1.5+) | 是否避免执行延迟 | `boolean` | `false` | 开启后使用 `WebWorker`
-确保动画按时执行（ [一些情况下浏览器会延迟或停止执行一些任务](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance)
-）
 
 ### 替换元素
 

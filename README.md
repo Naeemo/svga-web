@@ -20,19 +20,34 @@ npm i svga-web
 ### CDN
 
 ```html
+
 <script src="https://cdn.jsdelivr.net/npm/svga-web/svga-web.min.js"></script>
 ```
 
 ## Example/Doc
 
+### Player options
+
+| option name | type | default | detail |
+| ----- | --- | ----- | ---- |
+| loop | `number` | `1` | how many times to repeat, `0` means loop forever |
+| fillMode | `forwards` `backwards` | `forwards` | just like [css animation-fill-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode) |
+| playMode | `forwards` `fallbacks` | `forwards` |
+| startFrame | `number` | `0` |
+| endFrame | `number` | `0` | `0` means the last frame |
+| cacheFrames | `boolean` | `false` | Cache rendered frames, performance friendly if played repeatedly |
+| noExecutionDelay | `boolean` | `false` | Use timer inside `WebWorker` to ensure no execution delay, because [sometimes the browser may delay/stop some tasks](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance) ） |
+| intersectionObserverRender | `boolean` | `false` | Skip actual frame rendering if not visible, [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) |
+
 ### Simple Use
 
 ```html
+
 <canvas id="canvas"></canvas>
 ```
 
 ```js
-import { Downloader, Parser, Player } from 'svga-web'
+import {Downloader, Parser, Player} from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
