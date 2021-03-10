@@ -33,33 +33,41 @@ export default class Renderer {
 
       let totalCount = 0
       let loadedCount = 0
+      const loadResolver = () => {
+        loadedCount++
+        totalCount === loadedCount && resolve()
+      }
 
       for (let imageKey in this._player.videoItem.images) {
         const src = this._player.videoItem.images[imageKey]
+        totalCount++
 
         if (typeof src === 'string') {
           if (src.indexOf('iVBO') === 0 || src.indexOf('/9j/2w') === 0) {
-            totalCount++
-
             const img = document.createElement('img')
 
+            img.onload = loadResolver
             img.src = 'data:image/png;base64,' + src
 
             this._bitmapCache[imageKey] = img
-
-            img.onload = () => {
-              loadedCount++
-              loadedCount === totalCount && resolve()
-            }
           } else if (src.indexOf('SUQz') === 0) {
             const audio = new Audio(
               navigator.vendor === 'Google Inc.' ? URL.createObjectURL(Renderer.dataURLtoBlob('audio/x-mpeg', src)) : 'data:audio/x-mpeg;base64,' + src
             )
+
+            audio.onloadeddata = loadResolver
             audio.load()
+
             this._audioCache[imageKey] = audio
           }
         } else {
           this._bitmapCache[imageKey] = src
+
+          if (src instanceof Image && !src.complete) {
+            src.addEventListener('load', loadResolver)
+          } else {
+            loadResolver()
+          }
         }
       }
     })
