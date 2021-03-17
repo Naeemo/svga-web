@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="maximum-scale=1, width=750, initial-scale=1, user-scalable=0" name="viewport">
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/svga.lite/svga.lite.min.js"></script>
+    <style type="text/css">
+        canvas {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<script type="module">
+
+    const {Downloader, Parser, Player} = SVGA;
+    (async () => {
+        let svgaArray = []
+
+        for (let i = 0; i < 5; i++) {
+            svgaArray = svgaArray.concat(['../svga/1.svga', '../svga/2.svga', '../svga/3.svga'])
+        }
+
+        for (const item of svgaArray) {
+            const canvas = document.createElement('canvas')
+            document.body.appendChild(canvas)
+
+            const downloader = new Downloader()
+            const parser = new Parser()
+            const player = new Player(canvas)
+            player.set({
+                cacheFrames: true,
+                intersectionObserverRender: true
+            })
+
+            downloader.get(item).then(fileData => {
+                parser.do(fileData).then(svgaData => {
+                    player.mount(svgaData).then(() => {
+                        player.start()
+                        downloader.destroy()
+                        parser.destroy()
+                    })
+                })
+            })
+        }
+    })()
+</script>
+</body>
+</html>
