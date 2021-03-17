@@ -265,3 +265,7 @@ yarn build
 ## LICENSE
 
 [MIT](./LICENSE)
+
+___
+
+Supported by [JetBrains open source program](https://www.jetbrains.com/community/opensource/#support?from=svga-web).
