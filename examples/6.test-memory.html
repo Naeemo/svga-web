@@ -9,14 +9,13 @@
 <button onclick="mount()">mount</button>
 <button onclick="play()">Play</button>
 <canvas id="canvas"></canvas>
+<script type="module">
+    import SVGA from '../core/index.ts'
 
-<script src="../dist/svga-web.umd.js"></script>
-
-<script>
     const {Downloader, Player, Parser} = SVGA
     const SVGAFileURL = './svga/angel.svga'
 
-    async function mount() {
+    window.mount = async function mount() {
         const downloader = new Downloader()
         const fileData = await downloader.get(SVGAFileURL)
         const parser = new Parser()
@@ -27,7 +26,7 @@
         console.log('end')
     }
 
-    async function play() {
+    window.play = async function play() {
         const downloader = new Downloader()
         const fileData = await downloader.get(SVGAFileURL)
         const parser = new Parser()
