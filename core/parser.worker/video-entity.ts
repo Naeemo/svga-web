@@ -8,7 +8,7 @@ export interface VideoSize {
 }
 
 export interface ImageSources {
-  [key: string]: ImageBitmap // TODO audio support
+  [key: string]: ImageBitmap
 }
 
 interface SpriteEntity {
@@ -22,10 +22,11 @@ export default class VideoEntity {
   public FPS: number
   public frames: number
   public images: ImageSources = {}
+  public audios: ArrayBuffer[] = []
   public dynamicElements = {}
   public sprites: Array<SpriteEntity> = []
 
-  constructor (spec: svga.MovieEntity, images: ImageSources) {
+  constructor (spec: svga.MovieEntity, images: ImageSources, audios: ArrayBuffer[]) {
     this.version = spec.version
     this.videoSize.width = spec.params?.viewBoxWidth || 0.0
     this.videoSize.height = spec.params?.viewBoxHeight || 0.0
@@ -40,5 +41,6 @@ export default class VideoEntity {
     })
 
     this.images = images
+    this.audios = audios
   }
 }

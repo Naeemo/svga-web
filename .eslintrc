@@ -1,17 +1,14 @@
 {
-  "parser": "typescript-eslint-parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": false
-    }
-  },
+  "parser": "@typescript-eslint/parser",
   "extends": [
-    "standard"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
-    "typescript"
+    "@typescript-eslint"
   ],
   "rules": {
+    "indent": ["error", 2],
     "eqeqeq": "off",
     "no-undef": "off",
     "no-unused-vars": "off",
