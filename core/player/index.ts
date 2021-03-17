@@ -1,5 +1,6 @@
 import Renderer from './renderer'
 import Animator from './animator'
+import VideoEntity, {VideoSize} from "../parser.worker/video-entity";
 
 export enum EVENT_TYPES {
   START = 'start',
@@ -102,16 +103,15 @@ export default class Player {
   }
 
   public mount (videoItem: VideoEntity) {
-    return new Promise((resolve, reject) => {
       this.currentFrame = 0
       this.progress = 0
       this.totalFramesCount = videoItem.frames - 1
       this.videoItem = videoItem
 
-      this._renderer.prepare().then(resolve)
+      const prepare = this._renderer.prepare()
       this._renderer.clear()
       this._setSize()
-    })
+    return prepare
   }
 
   public start () {

@@ -1,83 +1,56 @@
-import Player, { PLAY_MODE } from '../player/index'
+import Player, {PLAY_MODE} from '../player/index'
 import render from './offscreen.canvas.render'
+
+export type DynamicElement = CanvasImageSource | {
+  source: CanvasImageSource,
+  fit: 'contain' | 'cover' | 'fill' | 'none'
+}
 
 export default class Renderer {
   private _player: Player
-  private _bitmapCache: { [key: string]: HTMLImageElement } = {}
-  private _audioCache: { [key: string]: HTMLAudioElement } = {}
+  private _audioCache: HTMLAudioElement[] = []
   private _dynamicElements: { [key: string]: DynamicElement } = {}
-  // ImageData
-  // private _frames: {[key: string]: ImageData} = {}
   private _frames: { [key: string]: HTMLImageElement | ImageBitmap } = {}
   private _ofsCanvas: HTMLCanvasElement | OffscreenCanvas
 
-  constructor (player: Player) {
+  constructor(player: Player) {
     this._player = player
     const container = this._player.container
     this._ofsCanvas = window.OffscreenCanvas ? new window.OffscreenCanvas(container.width, container.height) : document.createElement('canvas')
   }
 
-  public prepare () {
-    return new Promise<void>((resolve, reject) => {
-      this._bitmapCache = {}
-      this._audioCache = {}
+  public async prepare(): Promise<void> {
+    this._audioCache = []
 
-      if (!this._player.videoItem.images || Object.keys(this._player.videoItem.images).length == 0) {
-        resolve()
-        return void 0
-      }
+    if (Object.keys(this._player.videoItem.images).length == 0) {
+      return
+    }
 
-      if (this._player.videoItem.dynamicElements) {
-        this._dynamicElements = this._player.videoItem.dynamicElements
-      }
+    if (this._player.videoItem.dynamicElements) {
+      this._dynamicElements = this._player.videoItem.dynamicElements
+    }
 
-      let totalCount = 0
-      let loadedCount = 0
-      const loadResolver = () => {
-        loadedCount++
-        totalCount === loadedCount && resolve()
-      }
+    const loadAudios = this._player.videoItem.audios.map((audioBuffer) =>
+      new Promise((resolve) => {
+        const audio = new Audio(
+          // navigator.vendor === 'Google Inc.' ? URL.createObjectURL(new Blob([audioBuffer], {type: 'audio/x-mpeg'})) : 'data:audio/x-mpeg;base64,'
+          URL.createObjectURL(new Blob([new Uint8Array(audioBuffer)], {type: 'audio/x-mpeg'}))
+        )
+        audio.onloadeddata = resolve
+        audio.load()
+        this._audioCache.push(audio)
+      })
+    )
 
-      for (let imageKey in this._player.videoItem.images) {
-        const src = this._player.videoItem.images[imageKey]
-        totalCount++
-
-        if (typeof src === 'string') {
-          if (src.indexOf('iVBO') === 0 || src.indexOf('/9j/2w') === 0) {
-            const img = document.createElement('img')
-
-            img.onload = loadResolver
-            img.src = 'data:image/png;base64,' + src
-
-            this._bitmapCache[imageKey] = img
-          } else if (src.indexOf('SUQz') === 0) {
-            const audio = new Audio(
-              navigator.vendor === 'Google Inc.' ? URL.createObjectURL(Renderer.dataURLtoBlob('audio/x-mpeg', src)) : 'data:audio/x-mpeg;base64,' + src
-            )
-
-            audio.onloadeddata = loadResolver
-            audio.load()
-
-            this._audioCache[imageKey] = audio
-          }
-        } else {
-          this._bitmapCache[imageKey] = src
-
-          if (src instanceof Image && !src.complete) {
-            src.addEventListener('load', loadResolver)
-          } else {
-            loadResolver()
-          }
-        }
-      }
-    })
+    await Promise.all(loadAudios)
   }
 
-  public clear () {
+  public clear(): void {
+    // eslint-disable-next-line no-self-assign
     this._player.container.width = this._player.container.width
   }
 
-  public drawFrame (frame: number) {
+  public drawFrame(frame: number): void {
     const player = this._player
     if (player.intersectionObserverRender && !player.intersectionObserverRenderShow) {
       return
@@ -85,7 +58,7 @@ export default class Renderer {
 
     this.clear()
 
-    const context2d = player.container.getContext('2d')!!
+    const context2d = player.container.getContext('2d')!
 
     if (this._player.cacheFrames && this._frames[frame]) {
       const ofsFrame = this._frames[frame]
@@ -102,7 +75,7 @@ export default class Renderer {
 
     render(
       ofsCanvas,
-      this._bitmapCache,
+      this._player.videoItem.images,
       this._dynamicElements,
       this._player.videoItem,
       this._player.currentFrame
@@ -115,9 +88,6 @@ export default class Renderer {
     )
 
     if (this._player.cacheFrames) {
-      // ImageData
-      // const imageData = (ofsCanvas.getContext('2d') as OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D).getImageData(0, 0, ofsCanvas.width, ofsCanvas.height)
-      // this._frames[frame] = imageData
       if ('toDataURL' in ofsCanvas) {
         const ofsImageBase64 = ofsCanvas.toDataURL()
         const ofsImage = new Image()
@@ -129,27 +99,25 @@ export default class Renderer {
     }
   }
 
-  public playAudio () {
+  public playAudio(): void {
     if (this._player.playMode !== PLAY_MODE.FORWARDS) {
       return
     }
 
-    for (const key in this._audioCache) {
-      const audio = this._audioCache[key]
+    for (const audio of this._audioCache) {
       audio.currentTime = 0
       audio.play()
     }
   }
 
-  public stopAudio () {
-    for (const key in this._audioCache) {
-      const audio = this._audioCache[key]
+  public stopAudio(): void {
+    for (const audio of this._audioCache) {
       audio.pause()
       audio.currentTime = 0
     }
   }
 
-  private static dataURLtoBlob (mimeType, base64Str) {
+  private static dataURLtoBlob(mimeType, base64Str) {
     const bstr = atob(base64Str)
     let n = bstr.length
     const u8arr = new Uint8Array(n)
@@ -158,6 +126,6 @@ export default class Renderer {
       u8arr[n] = bstr.charCodeAt(n)
     }
 
-    return new Blob([u8arr], { type: mimeType })
+    return new Blob([u8arr], {type: mimeType})
   }
 }

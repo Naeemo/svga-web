@@ -5,7 +5,7 @@ This is a [SVGA](http://svga.io/en/) player for the Web.
 [中文](./README.zh-CN.md)
 
 
-## Install
+## Usage
 
 ### NPM
 
@@ -20,33 +20,36 @@ npm i svga-web
 ### CDN
 
 ```html
+
 <script src="https://cdn.jsdelivr.net/npm/svga-web/svga-web.min.js"></script>
 ```
 
-## Target Future
+## Example/Doc
 
-- [x] Compatible Android 4.4+ / iOS 9+
-- [x] Better Asynchronous Operation
-- [x] Multi-threaded (WebWorker) parsing file data
-- [x] OffscreenCanvas
-- [ ] Rendering engine simulation runs in the WebWorker
-- [ ] Use WebAssembly instead of WebWorker
-- [ ] GPU accelerated operation
+### Player options
 
-## Use
+| option name | type | default | detail |
+| ----- | --- | ----- | ---- |
+| loop | `number` | `1` | how many times to repeat, `0` means loop forever |
+| fillMode | `forwards` `backwards` | `forwards` | just like [css animation-fill-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode) |
+| playMode | `forwards` `fallbacks` | `forwards` |
+| startFrame | `number` | `0` |
+| endFrame | `number` | `0` | `0` means the last frame |
+| cacheFrames | `boolean` | `false` | Cache rendered frames, performance friendly if played repeatedly |
+| noExecutionDelay | `boolean` | `false` | Use timer inside `WebWorker` to ensure no execution delay, because [sometimes the browser may delay/stop some tasks](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance) ） |
+| intersectionObserverRender | `boolean` | `false` | Skip actual frame rendering if not visible, [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) |
 
 ### Simple Use
 
 ```html
+
 <canvas id="canvas"></canvas>
 ```
 
 ```js
-import { Downloader, Parser, Player } from 'svga-web'
+import {Downloader, Parser, Player} from 'svga-web'
 
 const downloader = new Downloader()
-// calls WebWorker parsing by default
-// configurable `new Parser({ disableWorker: true })`
 const parser = new Parser()
 const player = new Player('#canvas') // #canvas is HTMLCanvasElement
 
@@ -74,28 +77,6 @@ const player = new Player('#canvas') // #canvas is HTMLCanvasElement
   // player.stop()
   // player.clear()
 })()
-```
-
-### Support v1.x of SVGA
-
-```js
-import { Downloader, Parser, Player } from 'svga-web'
-import Parser1x from 'svga-web/parser.1x'
-import * as util from 'svga-web/util'
-
-const downloader = new Downloader()
-const svgaFile = './svga/show.svga'
-const fileData = await downloader.get(svgaFile)
-
-// Parser1x calls WebWorker parsing by default
-// configurable `new Parser1x({ disableWorker: true })`
-const parser = util.version(fileData) === 1 ? new Parser1x() : new Parser()
-const svgaData = await parser.do(fileData)
-
-const player = new Player('#canvas')
-await player.mount(svgaData)
-
-player.start()
 ```
 
 ### Replace Element
@@ -156,7 +137,7 @@ await player.mount(svgaData)
 player.start()
 ```
 
-Set `fit` strategy of the dynamic element, check out [example](./tests/11.test-dynamicElement.html).
+Set `fit` strategy of the dynamic element, check out [example](examples/11.test-dynamicElement.html).
 
 ```js
 const video = document.getElementById('video')
@@ -216,13 +197,12 @@ const player = new Player('#canvas')
 player.destroy()
 ```
 
-### DB (v1.5+)
+### DB
 
 The downloaded and parsed data is persisted and cached using IndexedDB, and the next time you can avoid reusing resources for unified SVGA download and parsing
 
 ```js
-import { Downloader, Parser, Player } from 'svga-web'
-import DB from 'svga-web/db'
+import {Downloader, Parser, Player, DB} from 'svga-web'
 
 const svgaFile = 'test.svga'
 let data = void 0
@@ -255,7 +235,7 @@ await player.mount(data)
 player.start()
 ```
 
-## Downloader Cancel
+### Downloader Cancel
 
 You can cancel the SVGA file request in the download
 
@@ -271,16 +251,12 @@ setTimeout(() => {
 }, 1000)
 ```
 
-## Contributing
-
-We are grateful to the community for contributing bugfixes and improvements.
-
 ```sh
 # Installation dependencies
 yarn install
 
-# Development & Test
-yarn test
+# Development
+yarn start
 
 # Build
 yarn build
@@ -289,3 +265,7 @@ yarn build
 ## LICENSE
 
 [MIT](./LICENSE)
+
+___
+
+Supported by [JetBrains open source program](https://www.jetbrains.com/community/opensource/#support?from=svga-web).

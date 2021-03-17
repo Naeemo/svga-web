@@ -1,44 +1,30 @@
 {
   "name": "svga-web",
   "version": "1.6.5",
-  "description": "Lightweight SVGA Web Player",
+  "description": "SVGA Web Player",
   "main": "svga-web.min.js",
-  "types": "index.d.ts",
+  "types": "core/index.ts",
   "scripts": {
-    "test": "node ./scripts/test.js",
-    "benchmark": "node ./scripts/benchmark.js",
-    "build": "node ./scripts/build.js",
-    "prepublish": "npm run build"
+    "start": "vite",
+    "build": "vite build",
+    "proto": "node scripts/generate-proto.js"
   },
   "author": "naeemo<naeemo@qq.com>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.1.0",
-    "@babel/core": "^7.1.0",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-proposal-decorators": "^7.1.0",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/runtime-corejs2": "^7.0.0",
     "@types/node": "^14.14.8",
     "@types/offscreencanvas": "^2019.6.2",
+    "@types/pako": "^1.0.1",
     "@types/protobufjs": "^6.0.0",
-    "@types/websql": "^0.0.27",
-    "babel-loader": "^8.0.4",
-    "browser-sync": "^2.26.0",
-    "del": "^6.0.0",
-    "fork-ts-checker-webpack-plugin": "^6.0.3",
-    "fs-extra": "^9.1.0",
-    "nice-commit": "^0.0.8",
-    "raw-loader": "^4.0.2",
-    "ts-loader": "^8.0.11",
-    "typescript": "^4.0.0",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "eslint": "^7.22.0",
+    "np": "^7.4.0",
+    "typescript": "^4.2.3",
+    "vite": "^2.0.0-beta.61"
   },
   "dependencies": {
-    "protobufjs": "^6.10.2",
-    "zlibjs": "^0.3.1"
+    "pako": "^2.0.3",
+    "protobufjs": "^6.10.2"
   }
 }

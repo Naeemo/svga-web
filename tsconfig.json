@@ -6,7 +6,9 @@
     "noImplicitAny": false,
     "declaration": true,
     "strictNullChecks": true,
+    "resolveJsonModule": true,
     "noImplicitThis": true,
+    "esModuleInterop": true,
     "alwaysStrict": true,
     "lib": [
       "es2015",

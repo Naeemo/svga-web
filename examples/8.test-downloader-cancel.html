@@ -1,0 +1,17 @@
+<canvas id="canvas"></canvas>
+<script type="module">
+    import SVGA from '../core/index.ts'
+
+    var downloader = new SVGA.Downloader()
+
+    downloader.get('./svga/angel.svga').then(function (fileData) {
+        console.log(fileData)
+    }).catch(function (error) {
+        console.log('catch', error)
+    })
+
+    setTimeout(function () {
+        console.log('cancel')
+        downloader.cancel()
+    }, 2000)
+</script>

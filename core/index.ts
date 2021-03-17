@@ -1,8 +1,10 @@
 import Downloader from './downloader'
 import Parser from './parser'
-import Player, { EVENT_TYPES, FILL_MODE, PLAY_MODE } from './player'
+import Player, {EVENT_TYPES, FILL_MODE, PLAY_MODE} from './player'
+import DB from "./db";
 
-const SVGA = {
+export default {
+  DB,
   Downloader,
   Parser,
   Player,
@@ -11,4 +13,3 @@ const SVGA = {
   PLAY_MODE
 }
 
-export default SVGA
