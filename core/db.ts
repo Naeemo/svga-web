@@ -1,12 +1,14 @@
+import {version} from '../package.json'
+
 export default class DB {
   private storeName: string
   private dbPromise: Promise<IDBDatabase>
 
-  constructor ({ name, version, storeName } = { name: 'svgaWeb.DB', version: 1.0, storeName: 'svga_file' }) {
+  constructor({name, storeName} = {name: 'svga-web.' + version, storeName: 'svga_file'}) {
     this.storeName = storeName
     this.dbPromise = new Promise<IDBDatabase>(function (resolve, reject) {
       if (window.indexedDB) {
-        const request = window.indexedDB.open(name, version) as IDBOpenDBRequest
+        const request = window.indexedDB.open(name)
 
         request.onerror = function (err) {
           reject(new Error('[svgaWeb.DB] indexedDB open fail' + err))
@@ -17,8 +19,10 @@ export default class DB {
         }
 
         request.onupgradeneeded = function () {
-          let db = request.result
-          db.createObjectStore(storeName)
+          const db = request.result
+          if (!db.objectStoreNames.contains(storeName)) {
+            db.createObjectStore(storeName)
+          }
         }
       } else {
         throw new Error('[svgaWeb.DB] indexedDB not supported')
