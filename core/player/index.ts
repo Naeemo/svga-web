@@ -37,11 +37,11 @@ export default class Player {
   public loop: number | boolean = true
   public fillMode: FILL_MODE = FILL_MODE.FORWARDS
   public playMode: PLAY_MODE = PLAY_MODE.FORWARDS
-  public progress: number = 0
-  public currentFrame: number = 0
-  public totalFramesCount: number = 0
-  public startFrame: number = 0
-  public endFrame: number = 0
+  public progress = 0
+  public currentFrame = 0
+  public totalFramesCount = 0
+  public startFrame = 0
+  public endFrame = 0
   public cacheFrames = false
   public intersectionObserverRender = false
   public intersectionObserverRenderShow = true
@@ -103,14 +103,14 @@ export default class Player {
   }
 
   public mount (videoItem: VideoEntity) {
-      this.currentFrame = 0
-      this.progress = 0
-      this.totalFramesCount = videoItem.frames - 1
-      this.videoItem = videoItem
+    this.currentFrame = 0
+    this.progress = 0
+    this.totalFramesCount = videoItem.frames - 1
+    this.videoItem = videoItem
 
-      const prepare = this._renderer.prepare()
-      this._renderer.clear()
-      this._setSize()
+    const prepare = this._renderer.prepare()
+    this._renderer.clear()
+    this._setSize()
     return prepare
   }
 
@@ -132,7 +132,7 @@ export default class Player {
     this._animator && this._animator.stop()
     this.currentFrame = 0
     this._renderer.drawFrame(this.currentFrame)
-    this._renderer.stopAudio()
+    this._renderer.stopAllAudio()
     this.$onEvent.stop()
   }
 
@@ -206,9 +206,7 @@ export default class Player {
         return void 0
       }
 
-      if (value === 0) {
-        this._renderer.playAudio()
-      }
+      this._renderer.processAudio(value)
 
       this.currentFrame = value
 
@@ -219,7 +217,7 @@ export default class Player {
       this.$onEvent.process()
     }
 
-    this._renderer.playAudio()
+    this._renderer.processAudio(0)
     this._animator.start(this.currentFrame)
   }
 

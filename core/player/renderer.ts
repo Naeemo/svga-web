@@ -1,14 +1,21 @@
 import Player, {PLAY_MODE} from '../player/index'
 import render from './offscreen.canvas.render'
+import {com} from "../proto/svga";
+import svga = com.opensource.svga;
 
 export type DynamicElement = CanvasImageSource | {
   source: CanvasImageSource,
   fit: 'contain' | 'cover' | 'fill' | 'none'
 }
 
+interface AudioConfig extends svga.AudioEntity {
+  audio: HTMLAudioElement
+}
+
 export default class Renderer {
   private _player: Player
-  private _audioCache: HTMLAudioElement[] = []
+  private audios: HTMLAudioElement[] = []
+  private audioConfigs: { [frame: number]: AudioConfig[] | undefined } = {}
   private _dynamicElements: { [key: string]: DynamicElement } = {}
   private _frames: { [key: string]: HTMLImageElement | ImageBitmap } = {}
   private _ofsCanvas: HTMLCanvasElement | OffscreenCanvas
@@ -20,7 +27,8 @@ export default class Renderer {
   }
 
   public async prepare(): Promise<void> {
-    this._audioCache = []
+    this.audios = []
+    this.audioConfigs = {}
 
     if (Object.keys(this._player.videoItem.images).length == 0) {
       return
@@ -30,19 +38,62 @@ export default class Renderer {
       this._dynamicElements = this._player.videoItem.dynamicElements
     }
 
-    const loadAudios = this._player.videoItem.audios.map((audioBuffer) =>
+    const loadAudios = Object.values(this._player.videoItem.audios).map(({
+      source,
+      startFrame,
+      endFrame,
+      audioKey,
+      startTime,
+      totalTime
+    }) =>
       new Promise((resolve) => {
         const audio = new Audio(
-          // navigator.vendor === 'Google Inc.' ? URL.createObjectURL(new Blob([audioBuffer], {type: 'audio/x-mpeg'})) : 'data:audio/x-mpeg;base64,'
-          URL.createObjectURL(new Blob([new Uint8Array(audioBuffer)], {type: 'audio/x-mpeg'}))
+          URL.createObjectURL(new Blob([new Uint8Array(source)], {type: 'audio/x-mpeg'}))
         )
+
+        const ac: AudioConfig = {
+          audioKey,
+          audio,
+          startFrame,
+          endFrame,
+          startTime,
+          totalTime
+        }
+        this.addAudioConfig(startFrame, ac)
+        this.addAudioConfig(endFrame, ac)
+        this.audios.push(audio)
+
         audio.onloadeddata = resolve
         audio.load()
-        this._audioCache.push(audio)
       })
     )
 
     await Promise.all(loadAudios)
+  }
+
+  public processAudio(frame: number): void {
+    if (this._player.playMode !== PLAY_MODE.FORWARDS) {
+      return
+    }
+
+    const acs = this.audioConfigs[frame]
+    if (!acs || acs.length === 0) {
+      return;
+    }
+
+    acs.forEach(function (ac) {
+      if (ac.startFrame === frame) {
+        ac.audio.currentTime = ac.startTime
+        ac.audio.play()
+        return
+      }
+
+      if (ac.endFrame === frame) {
+        ac.audio.pause()
+        ac.audio.currentTime = 0
+        return
+      }
+    })
   }
 
   public clear(): void {
@@ -99,33 +150,16 @@ export default class Renderer {
     }
   }
 
-  public playAudio(): void {
-    if (this._player.playMode !== PLAY_MODE.FORWARDS) {
-      return
-    }
-
-    for (const audio of this._audioCache) {
-      audio.currentTime = 0
-      audio.play()
-    }
-  }
-
-  public stopAudio(): void {
-    for (const audio of this._audioCache) {
+  public stopAllAudio(): void {
+    this.audios.forEach(function (audio) {
       audio.pause()
       audio.currentTime = 0
-    }
+    })
   }
 
-  private static dataURLtoBlob(mimeType, base64Str) {
-    const bstr = atob(base64Str)
-    let n = bstr.length
-    const u8arr = new Uint8Array(n)
-
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n)
-    }
-
-    return new Blob([u8arr], {type: mimeType})
+  private addAudioConfig(frame: number, ac: AudioConfig): void {
+    const acs = this.audioConfigs[frame] || []
+    acs.push(ac)
+    this.audioConfigs[frame] = acs
   }
 }

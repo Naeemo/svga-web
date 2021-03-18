@@ -1,7 +1,8 @@
 import {inflate} from 'pako'
-import VideoEntity, {ImageSources} from './video-entity'
+import VideoEntity, {AudioSources, ImageSources} from './video-entity'
 import {com} from "../proto/svga";
 import svga = com.opensource.svga;
+import AudioEntity = com.opensource.svga.AudioEntity;
 
 /**
  * audio/x-mpeg
@@ -25,22 +26,36 @@ onmessage = function (event: MessageEvent<ArrayBuffer>) {
   const inflateData: Uint8Array = inflate(new Uint8Array(event.data))
   const movie = svga.MovieEntity.decode(inflateData)
   const images: ImageSources = {}
-  const audios: ArrayBuffer[] = []
+  const audios: AudioSources = {}
   const transferables: Transferable[] = []
   const promises: Promise<void>[] = []
 
-  if (movie.audios.length !== 0) {
-    // TODO
-    console.warn('svga.MovieEntity.audios not supported for now')
-  }
+  // parse audios
+  movie.audios.forEach((audio) =>{
+    const {audioKey, endFrame, startFrame, startTime, totalTime} = audio as svga.AudioEntity
+    const uint8 = movie.images[audioKey]
+    if (!uint8) {
+      return
+    }
 
+    const sourceBuffer = uint8.buffer.slice(uint8.byteOffset, uint8.byteOffset + uint8.byteLength)
+    transferables.push(sourceBuffer)
+    audios[audioKey] = {
+      audioKey,
+      source: sourceBuffer,
+      startFrame,
+      endFrame,
+      startTime,
+      totalTime
+    }
+  })
+
+  // parse images
   for (const key in movie.images) {
     const uint8 = movie.images[key]
 
+    // skip audio data
     if (isAudioData(uint8)) {
-      const buffer = uint8.buffer.slice(uint8.byteOffset, uint8.byteOffset + uint8.byteLength)
-      audios.push(buffer)
-      transferables.push(buffer)
       continue
     }
 
