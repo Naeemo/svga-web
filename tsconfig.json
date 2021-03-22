@@ -22,7 +22,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "core/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules"

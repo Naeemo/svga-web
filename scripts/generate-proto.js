@@ -11,14 +11,14 @@ const generateJS = new Promise((resolve, reject) => pbjs.main(
   [
     "--target", "static-module",
     "-w", "es6",
-    "-o", "./core/proto/svga.js",
+    "-o", "./src/proto/svga.js",
     "--no-create",
     "--no-encode",
     "--no-verify",
     "--no-convert",
     "--no-beautify",
     "--no-delimited",
-    "./core/proto/svga.proto"
+    "./src/proto/svga.proto"
   ],
   err => err ? reject(err) : resolve()
 ));
@@ -27,8 +27,8 @@ const generateJS = new Promise((resolve, reject) => pbjs.main(
 // generate types from generated js
 const generateTypes = new Promise((resolve, reject) => pbts.main(
   [
-    "-o", "./core/proto/svga.d.ts",
-    "./core/proto/svga.js"
+    "-o", "./src/proto/svga.d.ts",
+    "./src/proto/svga.js"
   ],
   err => err ? reject(err) : resolve()
 ));
@@ -36,8 +36,8 @@ const generateTypes = new Promise((resolve, reject) => pbts.main(
 
 /**
  * cli equivalent:
- * pbjs -t static-module --es6 -o ../core/proto/svga.js --no-delimited ../core/proto/svga.proto
- * pbts -o ../core/proto/svga.d.ts ../core/proto/svga.js
+ * pbjs -t static-module --es6 -o ../src/proto/svga.js --no-delimited ../src/proto/svga.proto
+ * pbts -o ../src/proto/svga.d.ts ../src/proto/svga.js
  */
 (async () => {
   await generateJS

@@ -3,7 +3,7 @@
   "version": "2.0.0-2",
   "description": "SVGA Web Player",
   "main": "svga-web.min.js",
-  "types": "core/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "start": "vite",
     "build": "vite build",

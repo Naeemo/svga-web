@@ -1,9 +1,8 @@
 <canvas id="canvas"></canvas>
 <script type="module">
-    import SVGA from '../core/index.ts'
+    import {DB, Downloader, Parser, Player} from '../src/index.ts'
 
     (async () => {
-        const {Downloader, Parser, Player, DB} = SVGA
         let db = void 0
         let data = void 0
 

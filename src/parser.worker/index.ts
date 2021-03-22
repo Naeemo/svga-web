@@ -2,7 +2,6 @@ import {inflate} from 'pako'
 import VideoEntity, {AudioSources, ImageSources} from './video-entity'
 import {com} from "../proto/svga";
 import svga = com.opensource.svga;
-import AudioEntity = com.opensource.svga.AudioEntity;
 
 /**
  * audio/x-mpeg

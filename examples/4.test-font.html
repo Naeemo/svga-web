@@ -1,7 +1,7 @@
 <canvas id="font"></canvas>
 <canvas id="canvas"></canvas>
 <script type="module">
-    import SVGA from '../core/index.ts'
+    import {Downloader, Parser, Player} from '../src/index.ts'
 
     (async () => {
         const text = 'hello gg'
@@ -13,8 +13,6 @@
         fontContext.textBaseline = 'middle'
         fontContext.fillStyle = '#000'
         fontContext.fillText(text, fontCanvas.clientWidth / 2, fontCanvas.clientHeight / 2)
-
-        const {Downloader, Parser, Player} = SVGA
 
         const downloader = new Downloader()
         const svgaFile = './svga/kingset.svga'

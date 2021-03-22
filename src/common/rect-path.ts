@@ -3,14 +3,14 @@ import {com} from "../proto/svga";
 import svga = com.opensource.svga;
 
 export default class RectPath extends BezierPath {
-  _x?: Number
-  _y?: Number
-  _width?: Number
-  _height?: Number
-  _cornerRadius?: Number
+  _x?: number
+  _y?: number
+  _width?: number
+  _height?: number
+  _cornerRadius?: number
   _transform?: svga.Transform
 
-  constructor (x?: Number, y?: Number, width?: Number, height?: Number, cornerRadius?: Number, transform?: svga.Transform, styles?: any) {
+  constructor (x?: number, y?: number, width?: number, height?: number, cornerRadius?: number, transform?: svga.Transform, styles?: any) {
     super()
 
     this._x = x

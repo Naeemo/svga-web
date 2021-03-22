@@ -42,17 +42,17 @@
 
 </div>
 <script type="module">
-    import SVGA from '../core/index.ts'
+    import {Downloader, Parser, Player} from '../src/index.ts'
 
     (async() => {
-        const downloader = new SVGA.Downloader()
-        const parser = new SVGA.Parser()
+        const downloader = new Downloader()
+        const parser = new Parser()
         const fileData = await downloader.get('./svga/angel.svga')
         const videoItem = await parser.do(fileData)
         const normalBox = document.getElementById('normalBox')
         const noDelayBox = document.getElementById('noDelayBox')
-        const normalPlayer = new SVGA.Player('#normal', videoItem, {loop: 1})
-        const noDelayPlayer = new SVGA.Player('#noDelay', videoItem, {noExecutionDelay: true, loop: 1})
+        const normalPlayer = new Player('#normal', videoItem, {loop: 1})
+        const noDelayPlayer = new Player('#noDelay', videoItem, {noExecutionDelay: true, loop: 1})
 
         normalPlayer.$on('process', () => {
             document.title = `normal: ${normalPlayer.currentFrame}`

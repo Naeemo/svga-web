@@ -3,7 +3,7 @@ import Parser from './parser'
 import Player, {EVENT_TYPES, FILL_MODE, PLAY_MODE} from './player'
 import DB from "./db";
 
-export default {
+export {
   DB,
   Downloader,
   Parser,

@@ -13,11 +13,11 @@
     }
 </style>
 <script type="module">
-    import SVGA from '../core/index.ts'
+    import {Downloader, Parser, Player} from '../src/index.ts'
 
-    var downloader = new SVGA.Downloader()
-    var parser = new SVGA.Parser()
-    var player = new SVGA.Player('#canvas')
+    var downloader = new Downloader()
+    var parser = new Parser()
+    var player = new Player('#canvas')
 
     // player.set({
     //   // startFrame: 50

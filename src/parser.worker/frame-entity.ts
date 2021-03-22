@@ -79,27 +79,27 @@ export default class FrameEntity {
             }
 
             switch (shape.styles.lineJoin) {
-              case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_MITER:
-                shape.styles.lineJoinStr = 'miter'
-                break
-              case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_ROUND:
-                shape.styles.lineJoinStr = 'round'
-                break
-              case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_BEVEL:
-                shape.styles.lineJoinStr = 'bevel'
-                break
+            case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_MITER:
+              shape.styles.lineJoinStr = 'miter'
+              break
+            case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_ROUND:
+              shape.styles.lineJoinStr = 'round'
+              break
+            case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_BEVEL:
+              shape.styles.lineJoinStr = 'bevel'
+              break
             }
 
             switch (shape.styles.lineCap) {
-              case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_BUTT:
-                shape.styles.lineCapStr = 'butt'
-                break
-              case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_ROUND:
-                shape.styles.lineCapStr = 'round'
-                break
-              case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_SQUARE:
-                shape.styles.lineCapStr = 'square'
-                break
+            case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_BUTT:
+              shape.styles.lineCapStr = 'butt'
+              break
+            case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_ROUND:
+              shape.styles.lineCapStr = 'round'
+              break
+            case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_SQUARE:
+              shape.styles.lineCapStr = 'square'
+              break
             }
           }
           return shape

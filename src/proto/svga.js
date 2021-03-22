@@ -111,21 +111,21 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.viewBoxWidth = r.float();
-                break;
-              case 2:
-                m.viewBoxHeight = r.float();
-                break;
-              case 3:
-                m.fps = r.int32();
-                break;
-              case 4:
-                m.frames = r.int32();
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+            case 1:
+              m.viewBoxWidth = r.float();
+              break;
+            case 2:
+              m.viewBoxHeight = r.float();
+              break;
+            case 3:
+              m.fps = r.int32();
+              break;
+            case 4:
+              m.frames = r.int32();
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;
@@ -203,20 +203,20 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.imageKey = r.string();
-                break;
-              case 2:
-                if (!(m.frames && m.frames.length))
-                  m.frames = [];
-                m.frames.push($root.com.opensource.svga.FrameEntity.decode(r, r.uint32()));
-                break;
-              case 3:
-                m.matteKey = r.string();
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+            case 1:
+              m.imageKey = r.string();
+              break;
+            case 2:
+              if (!(m.frames && m.frames.length))
+                m.frames = [];
+              m.frames.push($root.com.opensource.svga.FrameEntity.decode(r, r.uint32()));
+              break;
+            case 3:
+              m.matteKey = r.string();
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;
@@ -311,24 +311,24 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.audioKey = r.string();
-                break;
-              case 2:
-                m.startFrame = r.int32();
-                break;
-              case 3:
-                m.endFrame = r.int32();
-                break;
-              case 4:
-                m.startTime = r.int32();
-                break;
-              case 5:
-                m.totalTime = r.int32();
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+            case 1:
+              m.audioKey = r.string();
+              break;
+            case 2:
+              m.startFrame = r.int32();
+              break;
+            case 3:
+              m.endFrame = r.int32();
+              break;
+            case 4:
+              m.startTime = r.int32();
+              break;
+            case 5:
+              m.totalTime = r.int32();
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;
@@ -414,21 +414,21 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.x = r.float();
-                break;
-              case 2:
-                m.y = r.float();
-                break;
-              case 3:
-                m.width = r.float();
-                break;
-              case 4:
-                m.height = r.float();
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+            case 1:
+              m.x = r.float();
+              break;
+            case 2:
+              m.y = r.float();
+              break;
+            case 3:
+              m.width = r.float();
+              break;
+            case 4:
+              m.height = r.float();
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;
@@ -532,27 +532,27 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.a = r.float();
-                break;
-              case 2:
-                m.b = r.float();
-                break;
-              case 3:
-                m.c = r.float();
-                break;
-              case 4:
-                m.d = r.float();
-                break;
-              case 5:
-                m.tx = r.float();
-                break;
-              case 6:
-                m.ty = r.float();
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+            case 1:
+              m.a = r.float();
+              break;
+            case 2:
+              m.b = r.float();
+              break;
+            case 3:
+              m.c = r.float();
+              break;
+            case 4:
+              m.d = r.float();
+              break;
+            case 5:
+              m.tx = r.float();
+              break;
+            case 6:
+              m.ty = r.float();
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;
@@ -670,27 +670,27 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.type = r.int32();
-                break;
-              case 2:
-                m.shape = $root.com.opensource.svga.ShapeEntity.ShapeArgs.decode(r, r.uint32());
-                break;
-              case 3:
-                m.rect = $root.com.opensource.svga.ShapeEntity.RectArgs.decode(r, r.uint32());
-                break;
-              case 4:
-                m.ellipse = $root.com.opensource.svga.ShapeEntity.EllipseArgs.decode(r, r.uint32());
-                break;
-              case 10:
-                m.styles = $root.com.opensource.svga.ShapeEntity.ShapeStyle.decode(r, r.uint32());
-                break;
-              case 11:
-                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+            case 1:
+              m.type = r.int32();
+              break;
+            case 2:
+              m.shape = $root.com.opensource.svga.ShapeEntity.ShapeArgs.decode(r, r.uint32());
+              break;
+            case 3:
+              m.rect = $root.com.opensource.svga.ShapeEntity.RectArgs.decode(r, r.uint32());
+              break;
+            case 4:
+              m.ellipse = $root.com.opensource.svga.ShapeEntity.EllipseArgs.decode(r, r.uint32());
+              break;
+            case 10:
+              m.styles = $root.com.opensource.svga.ShapeEntity.ShapeStyle.decode(r, r.uint32());
+              break;
+            case 11:
+              m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;
@@ -764,12 +764,12 @@ export const com = $root.com = (() => {
             while (r.pos < c) {
               var t = r.uint32();
               switch (t >>> 3) {
-                case 1:
-                  m.d = r.string();
-                  break;
-                default:
-                  r.skipType(t & 7);
-                  break;
+              case 1:
+                m.d = r.string();
+                break;
+              default:
+                r.skipType(t & 7);
+                break;
               }
             }
             return m;
@@ -864,24 +864,24 @@ export const com = $root.com = (() => {
             while (r.pos < c) {
               var t = r.uint32();
               switch (t >>> 3) {
-                case 1:
-                  m.x = r.float();
-                  break;
-                case 2:
-                  m.y = r.float();
-                  break;
-                case 3:
-                  m.width = r.float();
-                  break;
-                case 4:
-                  m.height = r.float();
-                  break;
-                case 5:
-                  m.cornerRadius = r.float();
-                  break;
-                default:
-                  r.skipType(t & 7);
-                  break;
+              case 1:
+                m.x = r.float();
+                break;
+              case 2:
+                m.y = r.float();
+                break;
+              case 3:
+                m.width = r.float();
+                break;
+              case 4:
+                m.height = r.float();
+                break;
+              case 5:
+                m.cornerRadius = r.float();
+                break;
+              default:
+                r.skipType(t & 7);
+                break;
               }
             }
             return m;
@@ -967,21 +967,21 @@ export const com = $root.com = (() => {
             while (r.pos < c) {
               var t = r.uint32();
               switch (t >>> 3) {
-                case 1:
-                  m.x = r.float();
-                  break;
-                case 2:
-                  m.y = r.float();
-                  break;
-                case 3:
-                  m.radiusX = r.float();
-                  break;
-                case 4:
-                  m.radiusY = r.float();
-                  break;
-                default:
-                  r.skipType(t & 7);
-                  break;
+              case 1:
+                m.x = r.float();
+                break;
+              case 2:
+                m.y = r.float();
+                break;
+              case 3:
+                m.radiusX = r.float();
+                break;
+              case 4:
+                m.radiusY = r.float();
+                break;
+              default:
+                r.skipType(t & 7);
+                break;
               }
             }
             return m;
@@ -1112,36 +1112,36 @@ export const com = $root.com = (() => {
             while (r.pos < c) {
               var t = r.uint32();
               switch (t >>> 3) {
-                case 1:
-                  m.fill = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
-                  break;
-                case 2:
-                  m.stroke = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
-                  break;
-                case 3:
-                  m.strokeWidth = r.float();
-                  break;
-                case 4:
-                  m.lineCap = r.int32();
-                  break;
-                case 5:
-                  m.lineJoin = r.int32();
-                  break;
-                case 6:
-                  m.miterLimit = r.float();
-                  break;
-                case 7:
-                  m.lineDashI = r.float();
-                  break;
-                case 8:
-                  m.lineDashII = r.float();
-                  break;
-                case 9:
-                  m.lineDashIII = r.float();
-                  break;
-                default:
-                  r.skipType(t & 7);
-                  break;
+              case 1:
+                m.fill = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
+                break;
+              case 2:
+                m.stroke = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
+                break;
+              case 3:
+                m.strokeWidth = r.float();
+                break;
+              case 4:
+                m.lineCap = r.int32();
+                break;
+              case 5:
+                m.lineJoin = r.int32();
+                break;
+              case 6:
+                m.miterLimit = r.float();
+                break;
+              case 7:
+                m.lineDashI = r.float();
+                break;
+              case 8:
+                m.lineDashII = r.float();
+                break;
+              case 9:
+                m.lineDashIII = r.float();
+                break;
+              default:
+                r.skipType(t & 7);
+                break;
               }
             }
             return m;
@@ -1225,21 +1225,21 @@ export const com = $root.com = (() => {
               while (r.pos < c) {
                 var t = r.uint32();
                 switch (t >>> 3) {
-                  case 1:
-                    m.r = r.float();
-                    break;
-                  case 2:
-                    m.g = r.float();
-                    break;
-                  case 3:
-                    m.b = r.float();
-                    break;
-                  case 4:
-                    m.a = r.float();
-                    break;
-                  default:
-                    r.skipType(t & 7);
-                    break;
+                case 1:
+                  m.r = r.float();
+                  break;
+                case 2:
+                  m.g = r.float();
+                  break;
+                case 3:
+                  m.b = r.float();
+                  break;
+                case 4:
+                  m.a = r.float();
+                  break;
+                default:
+                  r.skipType(t & 7);
+                  break;
                 }
               }
               return m;
@@ -1373,26 +1373,26 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.alpha = r.float();
-                break;
-              case 2:
-                m.layout = $root.com.opensource.svga.Layout.decode(r, r.uint32());
-                break;
-              case 3:
-                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
-                break;
-              case 4:
-                m.clipPath = r.string();
-                break;
-              case 5:
-                if (!(m.shapes && m.shapes.length))
-                  m.shapes = [];
-                m.shapes.push($root.com.opensource.svga.ShapeEntity.decode(r, r.uint32()));
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+            case 1:
+              m.alpha = r.float();
+              break;
+            case 2:
+              m.layout = $root.com.opensource.svga.Layout.decode(r, r.uint32());
+              break;
+            case 3:
+              m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
+              break;
+            case 4:
+              m.clipPath = r.string();
+              break;
+            case 5:
+              if (!(m.shapes && m.shapes.length))
+                m.shapes = [];
+              m.shapes.push($root.com.opensource.svga.ShapeEntity.decode(r, r.uint32()));
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;
@@ -1490,47 +1490,47 @@ export const com = $root.com = (() => {
           while (r.pos < c) {
             var t = r.uint32();
             switch (t >>> 3) {
-              case 1:
-                m.version = r.string();
-                break;
-              case 2:
-                m.params = $root.com.opensource.svga.MovieParams.decode(r, r.uint32());
-                break;
-              case 3:
-                if (m.images === $util.emptyObject)
-                  m.images = {};
-                var c2 = r.uint32() + r.pos;
-                k = "";
-                value = [];
-                while (r.pos < c2) {
-                  var tag2 = r.uint32();
-                  switch (tag2 >>> 3) {
-                    case 1:
-                      k = r.string();
-                      break;
-                    case 2:
-                      value = r.bytes();
-                      break;
-                    default:
-                      r.skipType(tag2 & 7);
-                      break;
-                  }
+            case 1:
+              m.version = r.string();
+              break;
+            case 2:
+              m.params = $root.com.opensource.svga.MovieParams.decode(r, r.uint32());
+              break;
+            case 3:
+              if (m.images === $util.emptyObject)
+                m.images = {};
+              var c2 = r.uint32() + r.pos;
+              k = "";
+              value = [];
+              while (r.pos < c2) {
+                var tag2 = r.uint32();
+                switch (tag2 >>> 3) {
+                case 1:
+                  k = r.string();
+                  break;
+                case 2:
+                  value = r.bytes();
+                  break;
+                default:
+                  r.skipType(tag2 & 7);
+                  break;
                 }
-                m.images[k] = value;
-                break;
-              case 4:
-                if (!(m.sprites && m.sprites.length))
-                  m.sprites = [];
-                m.sprites.push($root.com.opensource.svga.SpriteEntity.decode(r, r.uint32()));
-                break;
-              case 5:
-                if (!(m.audios && m.audios.length))
-                  m.audios = [];
-                m.audios.push($root.com.opensource.svga.AudioEntity.decode(r, r.uint32()));
-                break;
-              default:
-                r.skipType(t & 7);
-                break;
+              }
+              m.images[k] = value;
+              break;
+            case 4:
+              if (!(m.sprites && m.sprites.length))
+                m.sprites = [];
+              m.sprites.push($root.com.opensource.svga.SpriteEntity.decode(r, r.uint32()));
+              break;
+            case 5:
+              if (!(m.audios && m.audios.length))
+                m.audios = [];
+              m.audios.push($root.com.opensource.svga.AudioEntity.decode(r, r.uint32()));
+              break;
+            default:
+              r.skipType(t & 7);
+              break;
             }
           }
           return m;

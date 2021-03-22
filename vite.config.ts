@@ -5,8 +5,11 @@ import path from "path";
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'core/index.ts'),
+      entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'SVGA'
     },
   },
+  resolve: {
+    extensions: ['.ts', '.js']
+  }
 })

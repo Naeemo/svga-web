@@ -1,9 +1,8 @@
 <canvas id="canvas"></canvas>
 <script type="module">
-    import SVGA from '../core/index.ts'
+    import {Downloader, Parser, Player} from '../src/index.ts'
 
     (async () => {
-        const {Downloader, Parser, Player} = SVGA
 
         const downloader = new Downloader()
 

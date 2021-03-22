@@ -10,9 +10,8 @@
 <button onclick="play()">Play</button>
 <canvas id="canvas"></canvas>
 <script type="module">
-    import SVGA from '../core/index.ts'
+    import {Downloader, Parser, Player} from '../src/index.ts'
 
-    const {Downloader, Player, Parser} = SVGA
     const SVGAFileURL = './svga/angel.svga'
 
     window.mount = async function mount() {
