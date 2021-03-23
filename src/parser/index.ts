@@ -1,11 +1,11 @@
-import ParserWorker from './parser.worker/index.ts?worker&inline'
-import VideoEntity from './parser.worker/video-entity'
-import {getVersion, Version} from './util';
+import ParserWorker from './worker.ts?worker&inline'
+import VideoEntity from './video-entity'
+import {getVersion, Version} from './version';
 
 export default class Parser {
   public worker: Worker
 
-  constructor () {
+  constructor() {
     this.worker = new ParserWorker()
   }
 

@@ -1,6 +1,6 @@
 import Renderer from './renderer'
 import Animator from './animator'
-import VideoEntity, {VideoSize} from "../parser.worker/video-entity";
+import VideoEntity, {VideoSize} from "../parser/video-entity";
 
 export enum EVENT_TYPES {
   START = 'start',

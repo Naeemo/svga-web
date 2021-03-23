@@ -1,4 +1,5 @@
 import {version} from '../package.json'
+import VideoEntity from "./parser/video-entity";
 
 export default class DB {
   private storeName: string
@@ -30,7 +31,7 @@ export default class DB {
     })
   }
 
-  find (id: IDBValidKey) {
+  async find(id: IDBValidKey): Promise<VideoEntity | null> {
     return this.dbPromise.then(db => new Promise(resolve => {
       const tx = db.transaction([this.storeName], 'readonly')
       const req = tx.objectStore(this.storeName).get(id)
@@ -38,7 +39,7 @@ export default class DB {
     }))
   }
 
-  insert (id: IDBValidKey, data: any) {
+  async insert(id: IDBValidKey, data: VideoEntity): Promise<Event> {
     return this.dbPromise.then(db => new Promise(resolve => {
       const tx = db.transaction([this.storeName], 'readwrite')
       tx.objectStore(this.storeName).put(data, id)
@@ -46,7 +47,7 @@ export default class DB {
     }))
   }
 
-  delete (id: IDBValidKey) {
+  async delete(id: IDBValidKey): Promise<Event> {
     return this.dbPromise.then(db => new Promise(resolve => {
       const tx = db.transaction([this.storeName], 'readwrite')
       const req = tx.objectStore(this.storeName).delete(id)

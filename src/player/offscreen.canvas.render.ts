@@ -1,16 +1,27 @@
 import {IBezierPath} from '../common/bezier-path'
 import EllipsePath from '../common/ellipse-path'
 import RectPath from '../common/rect-path'
-import VideoEntity, {ImageSources} from "../parser.worker/video-entity";
+import VideoEntity, {ImageSources} from "../parser/video-entity";
 import {DynamicElement} from "./renderer";
 import {com} from "../proto/svga";
-import {IParseStyles} from "../parser.worker/frame-entity";
+import {IParseStyles} from "../parser/frame-entity";
 import svga = com.opensource.svga;
 
 const validMethods = 'MLHVCSQRZmlhvcsqrz'
 
-function render (canvas, bitmapCache: ImageSources, dynamicElements: { [key: string]: DynamicElement }, videoItem: VideoEntity, currentFrame) {
+function render(
+  canvas: HTMLCanvasElement | OffscreenCanvas,
+  bitmapCache: ImageSources,
+  dynamicElements: { [key: string]: DynamicElement },
+  videoItem: VideoEntity,
+  currentFrame: number
+): HTMLCanvasElement | OffscreenCanvas {
   const context = canvas.getContext('2d')
+
+  if (context === null) {
+    console.error('svga render fail, 2d context null')
+    return canvas
+  }
 
   videoItem.sprites.forEach(sprite => {
     const frameItem = sprite.frames[currentFrame]
@@ -43,7 +54,7 @@ function render (canvas, bitmapCache: ImageSources, dynamicElements: { [key: str
 
     const dynamicElement = sprite.imageKey && dynamicElements[sprite.imageKey]
     if (dynamicElement) {
-      const { source, fit } = 'fit' in dynamicElement ? dynamicElement : { source: dynamicElement, fit: 'none' }
+      const {source, fit} = 'fit' in dynamicElement ? dynamicElement : {source: dynamicElement, fit: 'none'}
       const sourceWidth = source['naturalWidth'] || source['videoWidth'] || source.width
       const sourceHeight = source['naturalHeight'] || source['videoHeight'] || source.height
 
@@ -119,7 +130,7 @@ function render (canvas, bitmapCache: ImageSources, dynamicElements: { [key: str
   return canvas
 }
 
-function resetShapeStyles (context, styles: IParseStyles) {
+function resetShapeStyles(context, styles: IParseStyles) {
   context.strokeStyle = styles?.strokeStr || 'transparent'
 
   if (styles) {
@@ -140,7 +151,7 @@ function resetShapeStyles (context, styles: IParseStyles) {
   }
 }
 
-function drawBezier (context, obj: IBezierPath) {
+function drawBezier(context, obj: IBezierPath) {
   context.save()
 
   obj._styles && resetShapeStyles(context, obj._styles)
@@ -156,7 +167,7 @@ function drawBezier (context, obj: IBezierPath) {
     )
   }
 
-  const currentPoint = { x: 0, y: 0, x1: 0, y1: 0, x2: 0, y2: 0 }
+  const currentPoint = {x: 0, y: 0, x1: 0, y1: 0, x2: 0, y2: 0}
 
   context.beginPath()
 
@@ -180,7 +191,7 @@ function drawBezier (context, obj: IBezierPath) {
   context.restore()
 }
 
-function drawBezierElement (context, currentPoint, method, args) {
+function drawBezierElement(context, currentPoint, method, args) {
   switch (method) {
   case 'M':
     currentPoint.x = Number(args[0])
@@ -223,8 +234,8 @@ function drawBezierElement (context, currentPoint, method, args) {
     currentPoint.y1 = Number(args[1])
     currentPoint.x2 = Number(args[2])
     currentPoint.y2 = Number(args[3])
-    currentPoint.x = Number(args[ 4 ])
-    currentPoint.y = Number(args[ 5 ])
+    currentPoint.x = Number(args[4])
+    currentPoint.y = Number(args[5])
     context.bezierCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x2, currentPoint.y2, currentPoint.x, currentPoint.y)
     break
   case 'c':
@@ -232,8 +243,8 @@ function drawBezierElement (context, currentPoint, method, args) {
     currentPoint.y1 = currentPoint.y + Number(args[1])
     currentPoint.x2 = currentPoint.x + Number(args[2])
     currentPoint.y2 = currentPoint.y + Number(args[3])
-    currentPoint.x += Number(args[ 4 ])
-    currentPoint.y += Number(args[ 5 ])
+    currentPoint.x += Number(args[4])
+    currentPoint.y += Number(args[5])
     context.bezierCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x2, currentPoint.y2, currentPoint.x, currentPoint.y)
     break
   case 'S':
@@ -297,7 +308,7 @@ function drawBezierElement (context, currentPoint, method, args) {
   }
 }
 
-function drawEllipse (context, obj: EllipsePath) {
+function drawEllipse(context, obj: EllipsePath) {
   context.save()
 
   obj._styles && resetShapeStyles(context, obj._styles)
@@ -345,7 +356,7 @@ function drawEllipse (context, obj: EllipsePath) {
   context.restore()
 }
 
-function drawRect (context, obj) {
+function drawRect(context, obj) {
   context.save()
 
   obj._styles && resetShapeStyles(context, obj._styles)

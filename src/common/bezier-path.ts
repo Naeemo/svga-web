@@ -1,5 +1,5 @@
 import {com} from "../proto/svga";
-import {IParseStyles} from "../parser.worker/frame-entity";
+import {IParseStyles} from "../parser/frame-entity";
 import svga = com.opensource.svga;
 
 export interface IBezierPath {
