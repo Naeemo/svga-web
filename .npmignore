@@ -9,3 +9,4 @@ scripts
 tsconfig.json
 yarn.lock
 .idea/
+src

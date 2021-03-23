@@ -3,10 +3,10 @@
   "version": "2.0.0-2",
   "description": "SVGA Web Player",
   "main": "svga-web.min.js",
-  "types": "src/index.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build && tsc -p ./",
     "proto": "node scripts/generate-proto.js"
   },
   "author": "naeemo<naeemo@qq.com>",

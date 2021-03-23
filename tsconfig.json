@@ -10,6 +10,9 @@
     "noImplicitThis": true,
     "esModuleInterop": true,
     "alwaysStrict": true,
+    "noEmitOnError": true,
+    "outFile": "./dist/index.d.ts",
+    "emitDeclarationOnly": true,
     "lib": [
       "es2015",
       "dom",
