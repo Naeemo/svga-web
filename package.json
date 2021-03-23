@@ -2,7 +2,17 @@
   "name": "svga-web",
   "version": "2.0.0-3",
   "description": "SVGA Web Player",
-  "main": "svga-web.min.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/svga-web.umd.js",
+  "module": "./dist/svga-web.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/svga-web.es.js",
+      "require": "./dist/svga-web.umd.js"
+    }
+  },
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "vite",
