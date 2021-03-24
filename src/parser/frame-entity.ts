@@ -66,7 +66,7 @@ export default class FrameEntity {
           if (!Object.prototype.hasOwnProperty.call(shape, 'type')) {
             Object.defineProperty(shape, 'type', {
               value: shape.type,
-              enumerable: tre,
+              enumerable: true,
             })
           }
 

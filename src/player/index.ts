@@ -122,7 +122,7 @@ export default class Player {
         },
         {
           rootMargin: '0px',
-          threshold: [0 0.5, 1],
+          threshold: [0, 0.5, 1],
         }
       )
       this._intersectionObserver.observe(this.container)

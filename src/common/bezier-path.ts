@@ -11,9 +11,9 @@ export interface IBezierPath {
 export default class BezierPath {
   _d?: string
   _transform?: svga.Transform
-  _styles?: any
+  _styles?: IParseStyles
 
-  constructor(d?: string, transform?: any, styles?: any) {
+  constructor(d?: string, transform?: svga.Transform, styles?: IParseStyles) {
     this._d = d
     this._transform = transform
     this._styles = styles

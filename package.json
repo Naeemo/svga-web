@@ -16,10 +16,10 @@
   },
   "types": "src/index.ts",
   "scripts": {
-    "start": "vite",
+    "prestart": "prettier --check ./src",
+    "start": "eslint ./src && vite",
     "prebuild": "prettier --check ./src",
-    "build": "vite build",
-    "postbuild": "tsc -p ./",
+    "build": "vite build && tsc -p ./",
     "prepublish": "prettier --check ./src",
     "proto": "node scripts/generate-proto.js"
   },

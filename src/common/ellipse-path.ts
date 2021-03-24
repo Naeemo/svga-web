@@ -1,12 +1,13 @@
 import BezierPath from './bezier-path'
 import { com } from '../proto/svga'
+import { IParseStyles } from '../parser'
 import svga = com.opensource.svga
 
 export default class EllipsePath extends BezierPath {
   _x: number
   _y: number
   _transform?: svga.Transform
-  _styles?: any
+  _styles?: IParseStyles
   _radiusX: number
   _radiusY: number
 
@@ -16,7 +17,7 @@ export default class EllipsePath extends BezierPath {
     radiusX: number,
     radiusY: number,
     transform?: svga.Transform,
-    styles?: any
+    styles?: IParseStyles
   ) {
     super(undefined, transform, styles)
 

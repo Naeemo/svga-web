@@ -1,5 +1,6 @@
 import BezierPath from './bezier-path'
 import { com } from '../proto/svga'
+import { IParseStyles } from '../parser'
 import svga = com.opensource.svga
 
 export default class RectPath extends BezierPath {
@@ -17,7 +18,7 @@ export default class RectPath extends BezierPath {
     height?: number,
     cornerRadius?: number,
     transform?: svga.Transform,
-    styles?: any
+    styles?: IParseStyles
   ) {
     super()
 
