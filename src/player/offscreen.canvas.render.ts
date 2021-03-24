@@ -55,13 +55,16 @@ function render(
     const dynamicElement = sprite.imageKey && dynamicElements[sprite.imageKey]
     if (dynamicElement) {
       const {source, fit} = 'fit' in dynamicElement ? dynamicElement : {source: dynamicElement, fit: 'none'}
-      let sourceWidth, sourceHeight
+      let sourceWidth: number, sourceHeight: number
       if (source instanceof HTMLImageElement) {
         sourceWidth = source.naturalWidth
         sourceHeight = source.naturalHeight
       } else if (source instanceof HTMLVideoElement) {
         sourceWidth = source.videoWidth
         sourceHeight = source.videoHeight
+      } else if (source instanceof SVGImageElement) {
+        sourceWidth = source.width.baseVal.value
+        sourceHeight = source.height.baseVal.value
       } else {
         sourceWidth = source.width
         sourceHeight = source.height
