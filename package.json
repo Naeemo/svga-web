@@ -1,6 +1,6 @@
 {
   "name": "svga-web",
-  "version": "2.0.0-10",
+  "version": "2.0.0-11",
   "description": "SVGA Web Player",
   "files": [
     "dist",
