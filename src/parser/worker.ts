@@ -1,7 +1,7 @@
-import {inflate} from 'pako'
-import VideoEntity, {AudioSources, ImageSources} from './video-entity'
-import {com} from "../proto/svga";
-import svga = com.opensource.svga;
+import { inflate } from 'pako'
+import VideoEntity, { AudioSources, ImageSources } from './video-entity'
+import { com } from '../proto/svga'
+import svga = com.opensource.svga
 
 /**
  * audio/x-mpeg
@@ -30,14 +30,23 @@ onmessage = function (event: MessageEvent<ArrayBuffer>) {
   const promises: Promise<void>[] = []
 
   // parse audios
-  movie.audios.forEach((audio) =>{
-    const {audioKey, endFrame, startFrame, startTime, totalTime} = audio as svga.AudioEntity
+  movie.audios.forEach((audio) => {
+    const {
+      audioKey,
+      endFrame,
+      startFrame,
+      startTime,
+      totalTime,
+    } = audio as svga.AudioEntity
     const uint8 = movie.images[audioKey]
     if (!uint8) {
       return
     }
 
-    const sourceBuffer = uint8.buffer.slice(uint8.byteOffset, uint8.byteOffset + uint8.byteLength)
+    const sourceBuffer = uint8.buffer.slice(
+      uint8.byteOffset,
+      uint8.byteOffset + uint8.byteLength
+    )
     transferables.push(sourceBuffer)
     audios[audioKey] = {
       audioKey,
@@ -45,7 +54,7 @@ onmessage = function (event: MessageEvent<ArrayBuffer>) {
       startFrame,
       endFrame,
       startTime,
-      totalTime
+      totalTime,
     }
   })
 
@@ -58,7 +67,7 @@ onmessage = function (event: MessageEvent<ArrayBuffer>) {
       continue
     }
 
-    const blob = new Blob([uint8], {type: 'image/png'})
+    const blob = new Blob([uint8], { type: 'image/png' })
     promises.push(
       createImageBitmap(blob).then((bitMap) => {
         images[key] = bitMap
@@ -67,9 +76,8 @@ onmessage = function (event: MessageEvent<ArrayBuffer>) {
     )
   }
 
-  Promise.all(promises)
-    .then(() => {
-      const data = new VideoEntity(movie, images, audios)
-      postMessage(data, transferables)
-    })
+  Promise.all(promises).then(() => {
+    const data = new VideoEntity(movie, images, audios)
+    postMessage(data, transferables)
+  })
 }

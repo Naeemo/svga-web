@@ -1,6 +1,6 @@
-import {com} from "../proto/svga";
-import FrameEntity from "./frame-entity";
-import svga = com.opensource.svga;
+import { com } from '../proto/svga'
+import FrameEntity from './frame-entity'
+import svga = com.opensource.svga
 
 export interface VideoSize {
   width: number
@@ -26,7 +26,7 @@ interface SpriteEntity {
 
 export default class VideoEntity {
   public version: string
-  public videoSize: VideoSize = {width: 0, height: 0}
+  public videoSize: VideoSize = { width: 0, height: 0 }
   public FPS: number
   public frames: number
   public images: ImageSources = {}
@@ -34,17 +34,21 @@ export default class VideoEntity {
   public dynamicElements = {}
   public sprites: Array<SpriteEntity> = []
 
-  constructor (spec: svga.MovieEntity, images: ImageSources, audios: AudioSources) {
+  constructor(
+    spec: svga.MovieEntity,
+    images: ImageSources,
+    audios: AudioSources
+  ) {
     this.version = spec.version
     this.videoSize.width = spec.params?.viewBoxWidth || 0.0
     this.videoSize.height = spec.params?.viewBoxHeight || 0.0
     this.FPS = spec.params?.fps || 20
     this.frames = spec.params?.frames || 0
 
-    this.sprites = spec.sprites.map(({imageKey = null, frames}) => {
+    this.sprites = spec.sprites.map(({ imageKey = null, frames }) => {
       return {
         imageKey,
-        frames: (frames || []).map((obj) => new FrameEntity(obj))
+        frames: (frames || []).map((obj) => new FrameEntity(obj)),
       }
     })
 

@@ -1,5 +1,5 @@
-import {com} from "../proto/svga";
-import svga = com.opensource.svga;
+import { com } from '../proto/svga'
+import svga = com.opensource.svga
 
 export interface IParseStyles extends svga.ShapeEntity.ShapeStyle {
   fillStr: string
@@ -10,7 +10,7 @@ export interface IParseStyles extends svga.ShapeEntity.ShapeStyle {
 
 interface ShapeEntity {
   /** ShapeEntity type. */
-  type: svga.ShapeEntity.ShapeType;
+  type: svga.ShapeEntity.ShapeType
   /** ShapeEntity shape. */
   shape?: svga.ShapeEntity.ShapeArgs
   /** ShapeEntity rect. */
@@ -22,7 +22,7 @@ interface ShapeEntity {
   /** ShapeEntity transform. */
   transform?: svga.Transform
   /** ShapeEntity args. */
-  args?: ("shape" | "rect" | "ellipse");
+  args?: 'shape' | 'rect' | 'ellipse'
 }
 
 export default class FrameEntity {
@@ -34,7 +34,7 @@ export default class FrameEntity {
   public clipPath: string | null
   public shapes: ShapeEntity[] = []
 
-  constructor (spec: svga.IFrameEntity) {
+  constructor(spec: svga.IFrameEntity) {
     this.alpha = spec.alpha || 0.0
 
     this.layout = {
@@ -50,56 +50,69 @@ export default class FrameEntity {
       c: spec.transform?.c || 0.0,
       d: spec.transform?.d || 1.0,
       tx: spec.transform?.tx || 0.0,
-      ty: spec.transform?.ty || 0.0
+      ty: spec.transform?.ty || 0.0,
     }
 
     this.clipPath = spec.clipPath || null
 
     if (spec.shapes) {
-      if (spec.shapes[0] && spec.shapes[0].type === svga.ShapeEntity.ShapeType.KEEP) {
+      if (
+        spec.shapes[0] &&
+        spec.shapes[0].type === svga.ShapeEntity.ShapeType.KEEP
+      ) {
         this.shapes = FrameEntity.lastShapes
       } else {
-        const shapes = (spec.shapes as ShapeEntity[]).map(shape => {
-          if (!shape.hasOwnProperty('type')) {
+        const shapes = (spec.shapes as ShapeEntity[]).map((shape) => {
+          if (!Object.prototype.hasOwnProperty.call(shape, 'type')) {
             Object.defineProperty(shape, 'type', {
               value: shape.type,
-              enumerable: true
+              enumerable: tre,
             })
           }
 
           if (shape.styles) {
             if (shape.styles.fill) {
-              const {r, g, b, a} = shape.styles.fill as svga.ShapeEntity.ShapeStyle.RGBAColor
-              shape.styles.fillStr = `rgba(${parseInt((r * 255).toString())}, ${parseInt((g * 255).toString())}, ${parseInt((b * 255).toString())}, ${a})`
+              const { r, g, b, a } = shape.styles
+                .fill as svga.ShapeEntity.ShapeStyle.RGBAColor
+              shape.styles.fillStr = `rgba(${parseInt(
+                (r * 255).toString()
+              )}, ${parseInt((g * 255).toString())}, ${parseInt(
+                (b * 255).toString()
+              )}, ${a})`
             }
 
             if (shape.styles.stroke) {
-              const {r, g, b, a} = shape.styles.stroke as svga.ShapeEntity.ShapeStyle.RGBAColor
-              shape.styles.strokeStr = `rgba(${parseInt((r * 255).toString())}, ${parseInt((g * 255).toString())}, ${parseInt((b * 255).toString())}, ${a})`
+              const { r, g, b, a } = shape.styles
+                .stroke as svga.ShapeEntity.ShapeStyle.RGBAColor
+              shape.styles.strokeStr = `rgba(${parseInt(
+                (r * 255).toString()
+              )}, ${parseInt((g * 255).toString())}, ${parseInt(
+                (b * 255).toString()
+              )}, ${a})`
             }
 
             switch (shape.styles.lineJoin) {
-            case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_MITER:
-              shape.styles.lineJoinStr = 'miter'
-              break
-            case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_ROUND:
-              shape.styles.lineJoinStr = 'round'
-              break
-            case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_BEVEL:
-              shape.styles.lineJoinStr = 'bevel'
-              break
+              case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_MITER:
+                shape.styles.lineJoinStr = 'miter'
+                break
+              case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_ROUND:
+                shape.styles.lineJoinStr = 'round'
+                break
+              case svga.ShapeEntity.ShapeStyle.LineJoin.LineJoin_BEVEL:
+                shape.styles.lineJoinStr = 'bevel'
+                break
             }
 
             switch (shape.styles.lineCap) {
-            case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_BUTT:
-              shape.styles.lineCapStr = 'butt'
-              break
-            case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_ROUND:
-              shape.styles.lineCapStr = 'round'
-              break
-            case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_SQUARE:
-              shape.styles.lineCapStr = 'square'
-              break
+              case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_BUTT:
+                shape.styles.lineCapStr = 'butt'
+                break
+              case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_ROUND:
+                shape.styles.lineCapStr = 'round'
+                break
+              case svga.ShapeEntity.ShapeStyle.LineCap.LineCap_SQUARE:
+                shape.styles.lineCapStr = 'square'
+                break
             }
           }
           return shape

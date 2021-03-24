@@ -2,13 +2,15 @@
   "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "rules": {
-    "indent": ["error", 2],
+    "prettier/prettier": "error",
     "eqeqeq": "off",
     "no-undef": "off",
     "no-unused-vars": "off",

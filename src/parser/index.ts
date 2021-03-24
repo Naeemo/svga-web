@@ -1,6 +1,6 @@
 import ParserWorker from './worker.ts?worker&inline'
 import VideoEntity from './video-entity'
-import {getVersion, Version} from './version';
+import { getVersion, Version } from './version'
 
 export * from './frame-entity'
 export * from './video-entity'
@@ -26,7 +26,7 @@ export default class Parser {
 
     return new Promise((resolve) => {
       this.worker.postMessage(data)
-      this.worker.onmessage = ({data}: { data: VideoEntity }) => {
+      this.worker.onmessage = ({ data }: { data: VideoEntity }) => {
         resolve(data)
       }
     })

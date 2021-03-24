@@ -1,6 +1,6 @@
 import BezierPath from './bezier-path'
-import {com} from "../proto/svga";
-import svga = com.opensource.svga;
+import { com } from '../proto/svga'
+import svga = com.opensource.svga
 
 export default class EllipsePath extends BezierPath {
   _x: number
@@ -10,7 +10,14 @@ export default class EllipsePath extends BezierPath {
   _radiusX: number
   _radiusY: number
 
-  constructor (x: number, y: number, radiusX: number, radiusY: number, transform?: svga.Transform, styles?: any) {
+  constructor(
+    x: number,
+    y: number,
+    radiusX: number,
+    radiusY: number,
+    transform?: svga.Transform,
+    styles?: any
+  ) {
     super(undefined, transform, styles)
 
     this._x = x

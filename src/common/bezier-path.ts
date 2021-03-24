@@ -1,6 +1,6 @@
-import {com} from "../proto/svga";
-import {IParseStyles} from "../parser/frame-entity";
-import svga = com.opensource.svga;
+import { com } from '../proto/svga'
+import { IParseStyles } from '../parser'
+import svga = com.opensource.svga
 
 export interface IBezierPath {
   _d: string
@@ -13,7 +13,7 @@ export default class BezierPath {
   _transform?: svga.Transform
   _styles?: any
 
-  constructor (d?: string, transform?: any, styles?: any) {
+  constructor(d?: string, transform?: any, styles?: any) {
     this._d = d
     this._transform = transform
     this._styles = styles

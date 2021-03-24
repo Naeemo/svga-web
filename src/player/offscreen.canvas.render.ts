@@ -1,11 +1,11 @@
-import {IBezierPath} from '../common/bezier-path'
+import { IBezierPath } from '../common/bezier-path'
 import EllipsePath from '../common/ellipse-path'
 import RectPath from '../common/rect-path'
-import VideoEntity, {ImageSources} from "../parser/video-entity";
-import {DynamicElement} from "./renderer";
-import {com} from "../proto/svga";
-import {IParseStyles} from "../parser";
-import svga = com.opensource.svga;
+import VideoEntity, { ImageSources } from '../parser/video-entity'
+import { DynamicElement } from './renderer'
+import { com } from '../proto/svga'
+import { IParseStyles } from '../parser'
+import svga = com.opensource.svga
 
 const validMethods = 'MLHVCSQRZmlhvcsqrz'
 
@@ -23,7 +23,7 @@ function render(
     return canvas
   }
 
-  videoItem.sprites.forEach(sprite => {
+  videoItem.sprites.forEach((sprite) => {
     const frameItem = sprite.frames[currentFrame]
 
     if (frameItem.alpha < 0.05) {
@@ -54,7 +54,10 @@ function render(
 
     const dynamicElement = sprite.imageKey && dynamicElements[sprite.imageKey]
     if (dynamicElement) {
-      const {source, fit} = 'fit' in dynamicElement ? dynamicElement : {source: dynamicElement, fit: 'none'}
+      const { source, fit } =
+        'fit' in dynamicElement
+          ? dynamicElement
+          : { source: dynamicElement, fit: 'none' }
       let sourceWidth: number, sourceHeight: number
       if (source instanceof HTMLImageElement) {
         sourceWidth = source.naturalWidth
@@ -71,71 +74,101 @@ function render(
       }
 
       switch (fit) {
-      case 'contain': {
-        const wRatio = frameItem.layout.width / sourceWidth
-        const hRatio = frameItem.layout.height / sourceHeight
-        const ratio = Math.min(wRatio, hRatio)
-        const width = ratio * sourceWidth
-        const height = ratio * sourceHeight
-        context.drawImage(source, (frameItem.layout.width - width) / 2, (frameItem.layout.height - height) / 2, width, height)
-        break
-      }
-      case 'cover': {
-        const wRatio = frameItem.layout.width / sourceWidth
-        const hRatio = frameItem.layout.height / sourceHeight
-        const ratio = Math.max(wRatio, hRatio)
-        const width = ratio * sourceWidth
-        const height = ratio * sourceHeight
-        context.drawImage(source, (frameItem.layout.width - width) / 2, (frameItem.layout.height - height) / 2, width, height)
-        break
-      }
-      case 'fill':
-        context.drawImage(source, 0, 0, frameItem.layout.width, frameItem.layout.height)
-        break
-      case 'none':
-      default:
-        context.drawImage(source, (frameItem.layout.width - sourceWidth) / 2, (frameItem.layout.height - sourceHeight) / 2)
-        break
+        case 'contain': {
+          const wRatio = frameItem.layout.width / sourceWidth
+          const hRatio = frameItem.layout.height / sourceHeight
+          const ratio = Math.min(wRatio, hRatio)
+          const width = ratio * sourceWidth
+          const height = ratio * sourceHeight
+          context.drawImage(
+            source,
+            (frameItem.layout.width - width) / 2,
+            (frameItem.layout.height - height) / 2,
+            width,
+            height
+          )
+          break
+        }
+        case 'cover': {
+          const wRatio = frameItem.layout.width / sourceWidth
+          const hRatio = frameItem.layout.height / sourceHeight
+          const ratio = Math.max(wRatio, hRatio)
+          const width = ratio * sourceWidth
+          const height = ratio * sourceHeight
+          context.drawImage(
+            source,
+            (frameItem.layout.width - width) / 2,
+            (frameItem.layout.height - height) / 2,
+            width,
+            height
+          )
+          break
+        }
+        case 'fill':
+          context.drawImage(
+            source,
+            0,
+            0,
+            frameItem.layout.width,
+            frameItem.layout.height
+          )
+          break
+        case 'none':
+        default:
+          context.drawImage(
+            source,
+            (frameItem.layout.width - sourceWidth) / 2,
+            (frameItem.layout.height - sourceHeight) / 2
+          )
+          break
       }
     }
 
-    frameItem.shapes && frameItem.shapes.forEach(shape => {
-      if (shape.type === svga.ShapeEntity.ShapeType.SHAPE && shape.shape && shape.shape.d) {
-        drawBezier(
-          context,
-          {
+    frameItem.shapes &&
+      frameItem.shapes.forEach((shape) => {
+        if (
+          shape.type === svga.ShapeEntity.ShapeType.SHAPE &&
+          shape.shape &&
+          shape.shape.d
+        ) {
+          drawBezier(context, {
             _d: shape.shape.d,
             _transform: shape.transform,
-            _styles: shape.styles
-          }
-        )
-      } else if (shape.type === svga.ShapeEntity.ShapeType.ELLIPSE && shape.ellipse) {
-        drawEllipse(
-          context,
-          new EllipsePath(
-            shape.ellipse.x || 0.0,
-            shape.ellipse.y || 0.0,
-            shape.ellipse.radiusX || 0.0,
-            shape.ellipse.radiusY || 0.0,
-            shape.transform,
-            shape.styles
+            _styles: shape.styles,
+          })
+        } else if (
+          shape.type === svga.ShapeEntity.ShapeType.ELLIPSE &&
+          shape.ellipse
+        ) {
+          drawEllipse(
+            context,
+            new EllipsePath(
+              shape.ellipse.x || 0.0,
+              shape.ellipse.y || 0.0,
+              shape.ellipse.radiusX || 0.0,
+              shape.ellipse.radiusY || 0.0,
+              shape.transform,
+              shape.styles
+            )
           )
-        )
-      } else if (shape.type === svga.ShapeEntity.ShapeType.RECT && shape.rect) {
-        drawRect(
-          context,
-          new RectPath(
-            shape.rect.x || 0.0,
-            shape.rect.y || 0.0,
-            shape.rect.width || 0.0,
-            shape.rect.height || 0.0,
-            shape.rect.cornerRadius || 0.0,
-            shape.transform,
-            shape.styles
+        } else if (
+          shape.type === svga.ShapeEntity.ShapeType.RECT &&
+          shape.rect
+        ) {
+          drawRect(
+            context,
+            new RectPath(
+              shape.rect.x || 0.0,
+              shape.rect.y || 0.0,
+              shape.rect.width || 0.0,
+              shape.rect.height || 0.0,
+              shape.rect.cornerRadius || 0.0,
+              shape.transform,
+              shape.styles
+            )
           )
-        )
-      }
-    })
+        }
+      })
     context.restore()
   })
 
@@ -179,13 +212,13 @@ function drawBezier(context, obj: IBezierPath) {
     )
   }
 
-  const currentPoint = {x: 0, y: 0, x1: 0, y1: 0, x2: 0, y2: 0}
+  const currentPoint = { x: 0, y: 0, x1: 0, y1: 0, x2: 0, y2: 0 }
 
   context.beginPath()
 
   const d = obj._d.replace(/([a-zA-Z])/g, '|||$1 ').replace(/,/g, ' ')
 
-  d.split('|||').forEach(segment => {
+  d.split('|||').forEach((segment) => {
     if (segment.length == 0) return
     const firstLetter = segment.substr(0, 1)
     if (validMethods.indexOf(firstLetter) >= 0) {
@@ -205,118 +238,176 @@ function drawBezier(context, obj: IBezierPath) {
 
 function drawBezierElement(context, currentPoint, method, args) {
   switch (method) {
-  case 'M':
-    currentPoint.x = Number(args[0])
-    currentPoint.y = Number(args[1])
-    context.moveTo(currentPoint.x, currentPoint.y)
-    break
-  case 'm':
-    currentPoint.x += Number(args[0])
-    currentPoint.y += Number(args[1])
-    context.moveTo(currentPoint.x, currentPoint.y)
-    break
-  case 'L':
-    currentPoint.x = Number(args[0])
-    currentPoint.y = Number(args[1])
-    context.lineTo(currentPoint.x, currentPoint.y)
-    break
-  case 'l':
-    currentPoint.x += Number(args[0])
-    currentPoint.y += Number(args[1])
-    context.lineTo(currentPoint.x, currentPoint.y)
-    break
-  case 'H':
-    currentPoint.x = Number(args[0])
-    context.lineTo(currentPoint.x, currentPoint.y)
-    break
-  case 'h':
-    currentPoint.x += Number(args[0])
-    context.lineTo(currentPoint.x, currentPoint.y)
-    break
-  case 'V':
-    currentPoint.y = Number(args[0])
-    context.lineTo(currentPoint.x, currentPoint.y)
-    break
-  case 'v':
-    currentPoint.y += Number(args[0])
-    context.lineTo(currentPoint.x, currentPoint.y)
-    break
-  case 'C':
-    currentPoint.x1 = Number(args[0])
-    currentPoint.y1 = Number(args[1])
-    currentPoint.x2 = Number(args[2])
-    currentPoint.y2 = Number(args[3])
-    currentPoint.x = Number(args[4])
-    currentPoint.y = Number(args[5])
-    context.bezierCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x2, currentPoint.y2, currentPoint.x, currentPoint.y)
-    break
-  case 'c':
-    currentPoint.x1 = currentPoint.x + Number(args[0])
-    currentPoint.y1 = currentPoint.y + Number(args[1])
-    currentPoint.x2 = currentPoint.x + Number(args[2])
-    currentPoint.y2 = currentPoint.y + Number(args[3])
-    currentPoint.x += Number(args[4])
-    currentPoint.y += Number(args[5])
-    context.bezierCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x2, currentPoint.y2, currentPoint.x, currentPoint.y)
-    break
-  case 'S':
-    if (currentPoint.x1 && currentPoint.y1 && currentPoint.x2 && currentPoint.y2) {
-      currentPoint.x1 = currentPoint.x - currentPoint.x2 + currentPoint.x
-      currentPoint.y1 = currentPoint.y - currentPoint.y2 + currentPoint.y
-      currentPoint.x2 = Number(args[0])
-      currentPoint.y2 = Number(args[1])
-      currentPoint.x = Number(args[2])
-      currentPoint.y = Number(args[3])
-      context.bezierCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x2, currentPoint.y2, currentPoint.x, currentPoint.y)
-    } else {
+    case 'M':
+      currentPoint.x = Number(args[0])
+      currentPoint.y = Number(args[1])
+      context.moveTo(currentPoint.x, currentPoint.y)
+      break
+    case 'm':
+      currentPoint.x += Number(args[0])
+      currentPoint.y += Number(args[1])
+      context.moveTo(currentPoint.x, currentPoint.y)
+      break
+    case 'L':
+      currentPoint.x = Number(args[0])
+      currentPoint.y = Number(args[1])
+      context.lineTo(currentPoint.x, currentPoint.y)
+      break
+    case 'l':
+      currentPoint.x += Number(args[0])
+      currentPoint.y += Number(args[1])
+      context.lineTo(currentPoint.x, currentPoint.y)
+      break
+    case 'H':
+      currentPoint.x = Number(args[0])
+      context.lineTo(currentPoint.x, currentPoint.y)
+      break
+    case 'h':
+      currentPoint.x += Number(args[0])
+      context.lineTo(currentPoint.x, currentPoint.y)
+      break
+    case 'V':
+      currentPoint.y = Number(args[0])
+      context.lineTo(currentPoint.x, currentPoint.y)
+      break
+    case 'v':
+      currentPoint.y += Number(args[0])
+      context.lineTo(currentPoint.x, currentPoint.y)
+      break
+    case 'C':
+      currentPoint.x1 = Number(args[0])
+      currentPoint.y1 = Number(args[1])
+      currentPoint.x2 = Number(args[2])
+      currentPoint.y2 = Number(args[3])
+      currentPoint.x = Number(args[4])
+      currentPoint.y = Number(args[5])
+      context.bezierCurveTo(
+        currentPoint.x1,
+        currentPoint.y1,
+        currentPoint.x2,
+        currentPoint.y2,
+        currentPoint.x,
+        currentPoint.y
+      )
+      break
+    case 'c':
+      currentPoint.x1 = currentPoint.x + Number(args[0])
+      currentPoint.y1 = currentPoint.y + Number(args[1])
+      currentPoint.x2 = currentPoint.x + Number(args[2])
+      currentPoint.y2 = currentPoint.y + Number(args[3])
+      currentPoint.x += Number(args[4])
+      currentPoint.y += Number(args[5])
+      context.bezierCurveTo(
+        currentPoint.x1,
+        currentPoint.y1,
+        currentPoint.x2,
+        currentPoint.y2,
+        currentPoint.x,
+        currentPoint.y
+      )
+      break
+    case 'S':
+      if (
+        currentPoint.x1 &&
+        currentPoint.y1 &&
+        currentPoint.x2 &&
+        currentPoint.y2
+      ) {
+        currentPoint.x1 = currentPoint.x - currentPoint.x2 + currentPoint.x
+        currentPoint.y1 = currentPoint.y - currentPoint.y2 + currentPoint.y
+        currentPoint.x2 = Number(args[0])
+        currentPoint.y2 = Number(args[1])
+        currentPoint.x = Number(args[2])
+        currentPoint.y = Number(args[3])
+        context.bezierCurveTo(
+          currentPoint.x1,
+          currentPoint.y1,
+          currentPoint.x2,
+          currentPoint.y2,
+          currentPoint.x,
+          currentPoint.y
+        )
+      } else {
+        currentPoint.x1 = Number(args[0])
+        currentPoint.y1 = Number(args[1])
+        currentPoint.x = Number(args[2])
+        currentPoint.y = Number(args[3])
+        context.quadraticCurveTo(
+          currentPoint.x1,
+          currentPoint.y1,
+          currentPoint.x,
+          currentPoint.y
+        )
+      }
+      break
+    case 's':
+      if (
+        currentPoint.x1 &&
+        currentPoint.y1 &&
+        currentPoint.x2 &&
+        currentPoint.y2
+      ) {
+        currentPoint.x1 = currentPoint.x - currentPoint.x2 + currentPoint.x
+        currentPoint.y1 = currentPoint.y - currentPoint.y2 + currentPoint.y
+        currentPoint.x2 = currentPoint.x + Number(args[0])
+        currentPoint.y2 = currentPoint.y + Number(args[1])
+        currentPoint.x += Number(args[2])
+        currentPoint.y += Number(args[3])
+        context.bezierCurveTo(
+          currentPoint.x1,
+          currentPoint.y1,
+          currentPoint.x2,
+          currentPoint.y2,
+          currentPoint.x,
+          currentPoint.y
+        )
+      } else {
+        currentPoint.x1 = currentPoint.x + Number(args[0])
+        currentPoint.y1 = currentPoint.y + Number(args[1])
+        currentPoint.x += Number(args[2])
+        currentPoint.y += Number(args[3])
+        context.quadraticCurveTo(
+          currentPoint.x1,
+          currentPoint.y1,
+          currentPoint.x,
+          currentPoint.y
+        )
+      }
+      break
+    case 'Q':
       currentPoint.x1 = Number(args[0])
       currentPoint.y1 = Number(args[1])
       currentPoint.x = Number(args[2])
       currentPoint.y = Number(args[3])
-      context.quadraticCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x, currentPoint.y)
-    }
-    break
-  case 's':
-    if (currentPoint.x1 && currentPoint.y1 && currentPoint.x2 && currentPoint.y2) {
-      currentPoint.x1 = currentPoint.x - currentPoint.x2 + currentPoint.x
-      currentPoint.y1 = currentPoint.y - currentPoint.y2 + currentPoint.y
-      currentPoint.x2 = currentPoint.x + Number(args[0])
-      currentPoint.y2 = currentPoint.y + Number(args[1])
-      currentPoint.x += Number(args[2])
-      currentPoint.y += Number(args[3])
-      context.bezierCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x2, currentPoint.y2, currentPoint.x, currentPoint.y)
-    } else {
+      context.quadraticCurveTo(
+        currentPoint.x1,
+        currentPoint.y1,
+        currentPoint.x,
+        currentPoint.y
+      )
+      break
+    case 'q':
       currentPoint.x1 = currentPoint.x + Number(args[0])
       currentPoint.y1 = currentPoint.y + Number(args[1])
       currentPoint.x += Number(args[2])
       currentPoint.y += Number(args[3])
-      context.quadraticCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x, currentPoint.y)
-    }
-    break
-  case 'Q':
-    currentPoint.x1 = Number(args[0])
-    currentPoint.y1 = Number(args[1])
-    currentPoint.x = Number(args[2])
-    currentPoint.y = Number(args[3])
-    context.quadraticCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x, currentPoint.y)
-    break
-  case 'q':
-    currentPoint.x1 = currentPoint.x + Number(args[0])
-    currentPoint.y1 = currentPoint.y + Number(args[1])
-    currentPoint.x += Number(args[2])
-    currentPoint.y += Number(args[3])
-    context.quadraticCurveTo(currentPoint.x1, currentPoint.y1, currentPoint.x, currentPoint.y)
-    break
-  case 'A':
-    break
-  case 'a':
-    break
-  case 'Z':
-  case 'z':
-    context.closePath()
-    break
-  default:
-    break
+      context.quadraticCurveTo(
+        currentPoint.x1,
+        currentPoint.y1,
+        currentPoint.x,
+        currentPoint.y
+      )
+      break
+    case 'A':
+      break
+    case 'a':
+      break
+    case 'Z':
+    case 'z':
+      context.closePath()
+      break
+    default:
+      break
   }
 }
 

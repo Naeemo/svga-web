@@ -4,7 +4,12 @@ export enum Version {
 }
 
 export function getVersion(dataHeader: Uint8Array): Version {
-  if (dataHeader[0] == 80 && dataHeader[1] == 75 && dataHeader[2] == 3 && dataHeader[3] == 4) {
+  if (
+    dataHeader[0] == 80 &&
+    dataHeader[1] == 75 &&
+    dataHeader[2] == 3 &&
+    dataHeader[3] == 4
+  ) {
     return Version.VERSION_1
   } else {
     return Version.VERSION_2
