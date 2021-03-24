@@ -4,7 +4,7 @@ import RectPath from '../common/rect-path'
 import VideoEntity, {ImageSources} from "../parser/video-entity";
 import {DynamicElement} from "./renderer";
 import {com} from "../proto/svga";
-import {IParseStyles} from "../parser/frame-entity";
+import {IParseStyles} from "../parser";
 import svga = com.opensource.svga;
 
 const validMethods = 'MLHVCSQRZmlhvcsqrz'
@@ -55,8 +55,17 @@ function render(
     const dynamicElement = sprite.imageKey && dynamicElements[sprite.imageKey]
     if (dynamicElement) {
       const {source, fit} = 'fit' in dynamicElement ? dynamicElement : {source: dynamicElement, fit: 'none'}
-      const sourceWidth = source['naturalWidth'] || source['videoWidth'] || source.width
-      const sourceHeight = source['naturalHeight'] || source['videoHeight'] || source.height
+      let sourceWidth, sourceHeight
+      if (source instanceof HTMLImageElement) {
+        sourceWidth = source.naturalWidth
+        sourceHeight = source.naturalHeight
+      } else if (source instanceof HTMLVideoElement) {
+        sourceWidth = source.videoWidth
+        sourceHeight = source.videoHeight
+      } else {
+        sourceWidth = source.width
+        sourceHeight = source.height
+      }
 
       switch (fit) {
       case 'contain': {
