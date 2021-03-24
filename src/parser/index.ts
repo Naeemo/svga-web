@@ -2,6 +2,10 @@ import ParserWorker from './worker.ts?worker&inline'
 import VideoEntity from './video-entity'
 import {getVersion, Version} from './version';
 
+export * from './frame-entity'
+export * from './video-entity'
+export * from './version'
+
 export default class Parser {
   public worker: Worker
 
@@ -28,7 +32,7 @@ export default class Parser {
     })
   }
 
-  destroy () {
+  destroy(): void {
     this.worker.terminate()
   }
 }

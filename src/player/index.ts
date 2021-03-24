@@ -1,6 +1,11 @@
 import Renderer from './renderer'
 import Animator from './animator'
 import VideoEntity, {VideoSize} from "../parser/video-entity";
+import {noop} from "../common/noop";
+
+export * from './animator'
+export * from './offscreen.canvas.render'
+export * from './renderer'
 
 export enum EVENT_TYPES {
   START = 'start',
@@ -34,6 +39,7 @@ export enum PLAY_MODE {
 
 export default class Player {
   public container: HTMLCanvasElement
+  public videoItem: VideoEntity | null = null
   public loop: number | boolean = true
   public fillMode: FILL_MODE = FILL_MODE.FORWARDS
   public playMode: PLAY_MODE = PLAY_MODE.FORWARDS
@@ -46,10 +52,25 @@ export default class Player {
   public intersectionObserverRender = false
   public intersectionObserverRenderShow = true
   private _intersectionObserver: IntersectionObserver | null = null
-  private _renderer: any
-  private _animator: any
+  private _renderer: Renderer
+  private _animator: Animator
+  private $onEvent: {
+    [EVENT_TYPES.START]: () => unknown
+    [EVENT_TYPES.PROCESS]: () => unknown
+    [EVENT_TYPES.PAUSE]: () => unknown
+    [EVENT_TYPES.STOP]: () => unknown
+    [EVENT_TYPES.END]: () => unknown
+    [EVENT_TYPES.CLEAR]: () => unknown
+  } = {
+    start: noop,
+    process: noop,
+    pause: noop,
+    stop: noop,
+    end: noop,
+    clear: noop
+  }
 
-  constructor (element: string | HTMLCanvasElement, public videoItem: VideoEntity, options?: options) {
+  constructor(element: string | HTMLCanvasElement, videoItem: VideoEntity, options?: options) {
     this.container = typeof element === 'string' ? <HTMLCanvasElement>document.body.querySelector(element) : element
 
     if (!this.container) {
@@ -60,16 +81,16 @@ export default class Player {
       throw new Error('container should be HTMLCanvasElement.')
     }
 
-    this._renderer = new Renderer(this)
+    this._renderer = new Renderer(this.container.width, this.container.height)
     this._animator = new Animator()
-    this.videoItem && this.mount(videoItem)
+    videoItem && this.mount(videoItem)
 
     if (options) {
       this.set(options)
     }
   }
 
-  public set (options: options) {
+  public set(options: options): void {
     typeof options.loop !== 'undefined' && (this.loop = options.loop)
     options.fillMode && (this.fillMode = options.fillMode)
     options.playMode && (this.playMode = options.playMode)
@@ -102,71 +123,64 @@ export default class Player {
     this._animator.noExecutionDelay = options.noExecutionDelay
   }
 
-  public mount (videoItem: VideoEntity) {
+  public mount(videoItem: VideoEntity): Promise<void> {
     this.currentFrame = 0
     this.progress = 0
     this.totalFramesCount = videoItem.frames - 1
     this.videoItem = videoItem
 
-    const prepare = this._renderer.prepare()
-    this._renderer.clear()
+    const prepare = this._renderer.prepare(videoItem)
+    this._renderer.clear(this.container)
     this._setSize()
     return prepare
   }
 
-  public start () {
+  public start(): void {
     if (!this.videoItem) {
       throw new Error('video item undefined.')
     }
-    this._renderer.clear()
+    this._renderer.clear(this.container)
     this._startAnimation()
     this.$onEvent.start()
   }
 
-  public pause () {
+  public pause(): void {
     this._animator && this._animator.stop()
     this.$onEvent.pause()
   }
 
-  public stop () {
+  public stop(): void {
     this._animator && this._animator.stop()
     this.currentFrame = 0
-    this._renderer.drawFrame(this.currentFrame)
+    if (this.videoItem) {
+      if (this.intersectionObserverRender && !this.intersectionObserverRenderShow) {
+        return
+      }
+
+      const context2d = this.container.getContext('2d')
+      if (context2d === null) {
+        return
+      }
+
+      this._renderer.drawFrame(this.videoItem, this.currentFrame, this.cacheFrames, this.container.width, this.container.height, context2d)
+    }
     this._renderer.stopAllAudio()
     this.$onEvent.stop()
   }
 
-  public clear () {
+  public clear(): void {
     this._animator && this._animator.stop()
-    this._renderer.clear()
+    this._renderer.clear(this.container)
     this.$onEvent.clear()
   }
 
-  public destroy () {
+  public destroy(): void {
     this._animator && this._animator.stop()
-    this._renderer.clear()
-    this._animator = null
-    this._renderer = null
-    this.videoItem = <any>null
+    this._renderer.clear(this.container)
+    this.videoItem = null
   }
 
-  private $onEvent: {
-    [EVENT_TYPES.START]: Function
-    [EVENT_TYPES.PROCESS]: Function
-    [EVENT_TYPES.PAUSE]: Function
-    [EVENT_TYPES.STOP]: Function
-    [EVENT_TYPES.END]: Function
-    [EVENT_TYPES.CLEAR]: Function
-  } = {
-    start: () => {},
-    process: () => {},
-    pause: () => {},
-    stop: () => {},
-    end: () => {},
-    clear: () => {}
-  }
-
-  public $on (eventName: EVENT_TYPES, execFunction: Function) {
+  public $on(eventName: EVENT_TYPES, execFunction: () => unknown): this {
     this.$onEvent[eventName] = execFunction
 
     if (eventName === 'end') {
@@ -176,8 +190,13 @@ export default class Player {
     return this
   }
 
-  private _startAnimation () {
-    const { playMode, totalFramesCount, startFrame, endFrame, videoItem } = this
+  private _startAnimation() {
+    const {playMode, totalFramesCount, startFrame, endFrame, videoItem} = this
+
+    if (videoItem === null) {
+      console.error('svga player start animation fail, no video item')
+      return
+    }
 
     // 如果开始动画的当前帧是最后一帧，重置为第 0 帧
     if (this.currentFrame === totalFramesCount) {
@@ -206,22 +225,35 @@ export default class Player {
         return void 0
       }
 
-      this._renderer.processAudio(value)
+      if (this.playMode === PLAY_MODE.FORWARDS) {
+        this._renderer.processAudio(value)
+      }
 
       this.currentFrame = value
 
       this.progress = parseFloat((value + 1).toString()) / parseFloat(videoItem.frames.toString()) * 100
 
-      this._renderer.drawFrame(this.currentFrame)
+      if (!this.intersectionObserverRender || this.intersectionObserverRenderShow) {
+        const context2d = this.container.getContext('2d')
+        if (context2d !== null) {
+          this._renderer.drawFrame(videoItem, this.currentFrame, this.cacheFrames, this.container.width, this.container.height, context2d)
+        }
+      }
 
       this.$onEvent.process()
     }
 
-    this._renderer.processAudio(0)
+    if (this.playMode === PLAY_MODE.FORWARDS) {
+      this._renderer.processAudio(0)
+    }
     this._animator.start(this.currentFrame)
   }
 
-  private _setSize () {
+  private _setSize() {
+    if (this.videoItem === null) {
+      return
+    }
+
     const videoSize: VideoSize = this.videoItem.videoSize
 
     this.container.width = videoSize.width

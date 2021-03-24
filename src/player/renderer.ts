@@ -1,6 +1,6 @@
-import Player, {PLAY_MODE} from '../player/index'
 import render from './offscreen.canvas.render'
 import {com} from "../proto/svga";
+import VideoEntity from "../parser/video-entity";
 import svga = com.opensource.svga;
 
 export type DynamicElement = CanvasImageSource | {
@@ -13,32 +13,29 @@ interface AudioConfig extends svga.AudioEntity {
 }
 
 export default class Renderer {
-  private _player: Player
   private audios: HTMLAudioElement[] = []
   private audioConfigs: { [frame: number]: AudioConfig[] | undefined } = {}
   private _dynamicElements: { [key: string]: DynamicElement } = {}
   private _frames: { [key: string]: HTMLImageElement | ImageBitmap } = {}
-  private _ofsCanvas: HTMLCanvasElement | OffscreenCanvas
+  private readonly _ofsCanvas: HTMLCanvasElement | OffscreenCanvas
 
-  constructor(player: Player) {
-    this._player = player
-    const container = this._player.container
-    this._ofsCanvas = window.OffscreenCanvas ? new window.OffscreenCanvas(container.width, container.height) : document.createElement('canvas')
+  constructor(width: number, height: number) {
+    this._ofsCanvas = window.OffscreenCanvas ? new window.OffscreenCanvas(width, height) : document.createElement('canvas')
   }
 
-  public async prepare(): Promise<void> {
+  public async prepare(videoItem: VideoEntity): Promise<void> {
     this.audios = []
     this.audioConfigs = {}
 
-    if (Object.keys(this._player.videoItem.images).length == 0) {
+    if (Object.keys(videoItem.images).length == 0) {
       return
     }
 
-    if (this._player.videoItem.dynamicElements) {
-      this._dynamicElements = this._player.videoItem.dynamicElements
+    if (videoItem.dynamicElements) {
+      this._dynamicElements = videoItem.dynamicElements
     }
 
-    const loadAudios = Object.values(this._player.videoItem.audios).map(({
+    const loadAudios = Object.values(videoItem.audios).map(({
       source,
       startFrame,
       endFrame,
@@ -72,10 +69,6 @@ export default class Renderer {
   }
 
   public processAudio(frame: number): void {
-    if (this._player.playMode !== PLAY_MODE.FORWARDS) {
-      return
-    }
-
     const acs = this.audioConfigs[frame]
     if (!acs || acs.length === 0) {
       return;
@@ -96,22 +89,15 @@ export default class Renderer {
     })
   }
 
-  public clear(): void {
-    // eslint-disable-next-line no-self-assign
-    this._player.container.width = this._player.container.width
+  public clear(canvas: HTMLCanvasElement): void {
+    const context2d = canvas.getContext('2d')
+    context2d?.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  public drawFrame(frame: number): void {
-    const player = this._player
-    if (player.intersectionObserverRender && !player.intersectionObserverRenderShow) {
-      return
-    }
+  public drawFrame(videoItem: VideoEntity, frame: number, cacheFrames: boolean, width: number, height: number, context2d: CanvasRenderingContext2D): void {
+    context2d.clearRect(0, 0, width, height)
 
-    this.clear()
-
-    const context2d = player.container.getContext('2d')!
-
-    if (this._player.cacheFrames && this._frames[frame]) {
+    if (cacheFrames && this._frames[frame]) {
       const ofsFrame = this._frames[frame]
       // ImageData
       // context.putImageData(ofsFrame, 0, 0)
@@ -121,15 +107,15 @@ export default class Renderer {
 
     const ofsCanvas = this._ofsCanvas
 
-    ofsCanvas.width = this._player.container.width
-    ofsCanvas.height = this._player.container.height
+    ofsCanvas.width = width
+    ofsCanvas.height = height
 
     render(
       ofsCanvas,
-      this._player.videoItem.images,
+      videoItem.images,
       this._dynamicElements,
-      this._player.videoItem,
-      this._player.currentFrame
+      videoItem,
+      frame
     )
 
     context2d.drawImage(
@@ -138,7 +124,7 @@ export default class Renderer {
       0, 0, ofsCanvas.width, ofsCanvas.height
     )
 
-    if (this._player.cacheFrames) {
+    if (cacheFrames) {
       if ('toDataURL' in ofsCanvas) {
         const ofsImageBase64 = ofsCanvas.toDataURL()
         const ofsImage = new Image()
