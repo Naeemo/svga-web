@@ -1,3 +1,5 @@
+import { noop } from '../common/noop'
+
 const WORKER = `onmessage = function () {
   setTimeout(function() {postMessage(null)}, 1 / 60)
 }`
@@ -18,19 +20,18 @@ export default class Animator {
     )
   }
 
-  public onStart: () => any = () => {}
+  public onStart: () => unknown = noop
 
-  public onUpdate: (currentValue: number) => any = () => {}
+  public onUpdate: (currentValue: number) => unknown = noop
+  public onEnd: () => unknown = noop
 
-  public start(currentValue: number) {
+  public start(currentValue: number): void {
     this.doStart(currentValue)
   }
 
-  public stop() {
+  public stop(): void {
     this._doStop()
   }
-
-  public onEnd: () => any = () => {}
 
   private _isRunning = false
   private _mStartTime = 0
@@ -96,7 +97,7 @@ export default class Animator {
 
     this.onUpdate(this.animatedValue)
 
-    if (this._isRunning === false) {
+    if (!this._isRunning) {
       if (this._worker !== null) {
         this._worker.terminate()
         this._worker = null
