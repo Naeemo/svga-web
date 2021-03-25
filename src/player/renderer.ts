@@ -1,6 +1,6 @@
 import render from './offscreen.canvas.render'
 import { com } from '../proto/svga'
-import VideoEntity from '../parser/video-entity'
+import VideoEntity, { DynamicElements } from '../parser/video-entity'
 import svga = com.opensource.svga
 
 export type DynamicElement =
@@ -17,7 +17,7 @@ interface AudioConfig extends svga.AudioEntity {
 export default class Renderer {
   private audios: HTMLAudioElement[] = []
   private audioConfigs: { [frame: number]: AudioConfig[] | undefined } = {}
-  private _dynamicElements: { [key: string]: DynamicElement } = {}
+  private _dynamicElements: DynamicElements = {}
   private _frames: { [key: string]: HTMLImageElement | ImageBitmap } = {}
   private readonly _ofsCanvas: HTMLCanvasElement | OffscreenCanvas
 

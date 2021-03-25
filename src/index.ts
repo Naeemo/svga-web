@@ -1,3 +1,4 @@
+import './Global.d.ts'
 import Downloader from './downloader'
 import Parser from './parser'
 import Player from './player'

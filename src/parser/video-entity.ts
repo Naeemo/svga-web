@@ -1,5 +1,6 @@
 import { com } from '../proto/svga'
 import FrameEntity from './frame-entity'
+import { DynamicElement } from '../player'
 import svga = com.opensource.svga
 
 export interface VideoSize {
@@ -19,6 +20,10 @@ export interface AudioSources {
   [key: string]: AudioSource
 }
 
+export interface DynamicElements {
+  [key: string]: DynamicElement | undefined
+}
+
 interface SpriteEntity {
   imageKey: string | null
   frames: Array<FrameEntity>
@@ -31,7 +36,7 @@ export default class VideoEntity {
   public frames: number
   public images: ImageSources = {}
   public audios: AudioSources = {}
-  public dynamicElements = {}
+  public dynamicElements: DynamicElements = {}
   public sprites: Array<SpriteEntity> = []
 
   constructor(

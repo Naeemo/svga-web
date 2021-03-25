@@ -17,14 +17,14 @@ export enum EVENT_TYPES {
 }
 
 interface options {
-  loop: number | boolean
-  fillMode: FILL_MODE
-  playMode: PLAY_MODE
-  startFrame: number
-  endFrame: number
-  cacheFrames: boolean
-  intersectionObserverRender: boolean
-  noExecutionDelay: boolean
+  loop?: number | boolean
+  fillMode?: FILL_MODE
+  playMode?: PLAY_MODE
+  startFrame?: number
+  endFrame?: number
+  cacheFrames?: boolean
+  intersectionObserverRender?: boolean
+  noExecutionDelay?: boolean
 }
 
 export enum FILL_MODE {
@@ -72,7 +72,7 @@ export default class Player {
 
   constructor(
     element: string | HTMLCanvasElement,
-    videoItem: VideoEntity,
+    videoItem?: VideoEntity,
     options?: options
   ) {
     this.container =
@@ -134,7 +134,9 @@ export default class Player {
       this.intersectionObserverRenderShow = true
     }
 
-    this._animator.noExecutionDelay = options.noExecutionDelay
+    if (options.noExecutionDelay !== undefined) {
+      this._animator.noExecutionDelay = options.noExecutionDelay
+    }
   }
 
   public mount(videoItem: VideoEntity): Promise<void> {

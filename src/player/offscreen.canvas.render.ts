@@ -1,8 +1,10 @@
 import { IBezierPath } from '../common/bezier-path'
 import EllipsePath from '../common/ellipse-path'
 import RectPath from '../common/rect-path'
-import VideoEntity, { ImageSources } from '../parser/video-entity'
-import { DynamicElement } from './renderer'
+import VideoEntity, {
+  DynamicElements,
+  ImageSources,
+} from '../parser/video-entity'
 import { com } from '../proto/svga'
 import { IParseStyles } from '../parser'
 import svga = com.opensource.svga
@@ -42,7 +44,7 @@ enum PathMethod {
 function render(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   bitmapCache: ImageSources,
-  dynamicElements: { [key: string]: DynamicElement },
+  dynamicElements: DynamicElements,
   videoItem: VideoEntity,
   currentFrame: number
 ): HTMLCanvasElement | OffscreenCanvas {
