@@ -9,6 +9,36 @@ import svga = com.opensource.svga
 
 const validMethods = 'MLHVCSQRZmlhvcsqrz'
 
+interface IPoint {
+  x: number
+  y: number
+  x1: number
+  y1: number
+  x2: number
+  y2: number
+}
+
+enum PathMethod {
+  M = 'M',
+  m = 'm',
+  L = 'L',
+  l = 'l',
+  H = 'H',
+  h = 'h',
+  V = 'V',
+  v = 'v',
+  C = 'C',
+  c = 'c',
+  S = 'S',
+  s = 's',
+  Q = 'Q',
+  q = 'q',
+  A = 'A',
+  a = 'a',
+  Z = 'Z',
+  z = 'z',
+}
+
 function render(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   bitmapCache: ImageSources,
@@ -175,14 +205,17 @@ function render(
   return canvas
 }
 
-function resetShapeStyles(context, styles: IParseStyles) {
+function resetShapeStyles(
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  styles: IParseStyles
+) {
   context.strokeStyle = styles?.strokeStr || 'transparent'
 
   if (styles) {
-    context.lineWidth = styles.strokeWidth || undefined
-    context.lineCap = styles.lineCapStr || undefined
-    context.lineJoin = styles.lineJoinStr || undefined
-    context.miterLimit = styles.miterLimit || undefined
+    context.lineWidth = styles.strokeWidth
+    context.lineCap = styles.lineCapStr
+    context.lineJoin = styles.lineJoinStr
+    context.miterLimit = styles.miterLimit
   }
 
   context.fillStyle = styles?.fillStr || 'transparent'
@@ -196,7 +229,10 @@ function resetShapeStyles(context, styles: IParseStyles) {
   }
 }
 
-function drawBezier(context, obj: IBezierPath) {
+function drawBezier(
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  obj: IBezierPath
+) {
   context.save()
 
   obj._styles && resetShapeStyles(context, obj._styles)
@@ -220,7 +256,7 @@ function drawBezier(context, obj: IBezierPath) {
 
   d.split('|||').forEach((segment) => {
     if (segment.length == 0) return
-    const firstLetter = segment.substr(0, 1)
+    const firstLetter = segment.substr(0, 1) as PathMethod
     if (validMethods.indexOf(firstLetter) >= 0) {
       const args = segment.substr(1).trim().split(' ')
       drawBezierElement(context, currentPoint, firstLetter, args)
@@ -236,45 +272,50 @@ function drawBezier(context, obj: IBezierPath) {
   context.restore()
 }
 
-function drawBezierElement(context, currentPoint, method, args) {
+function drawBezierElement(
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  currentPoint: IPoint,
+  method: PathMethod,
+  args: string[]
+) {
   switch (method) {
-    case 'M':
+    case PathMethod.M:
       currentPoint.x = Number(args[0])
       currentPoint.y = Number(args[1])
       context.moveTo(currentPoint.x, currentPoint.y)
       break
-    case 'm':
+    case PathMethod.m:
       currentPoint.x += Number(args[0])
       currentPoint.y += Number(args[1])
       context.moveTo(currentPoint.x, currentPoint.y)
       break
-    case 'L':
+    case PathMethod.L:
       currentPoint.x = Number(args[0])
       currentPoint.y = Number(args[1])
       context.lineTo(currentPoint.x, currentPoint.y)
       break
-    case 'l':
+    case PathMethod.l:
       currentPoint.x += Number(args[0])
       currentPoint.y += Number(args[1])
       context.lineTo(currentPoint.x, currentPoint.y)
       break
-    case 'H':
+    case PathMethod.H:
       currentPoint.x = Number(args[0])
       context.lineTo(currentPoint.x, currentPoint.y)
       break
-    case 'h':
+    case PathMethod.h:
       currentPoint.x += Number(args[0])
       context.lineTo(currentPoint.x, currentPoint.y)
       break
-    case 'V':
+    case PathMethod.V:
       currentPoint.y = Number(args[0])
       context.lineTo(currentPoint.x, currentPoint.y)
       break
-    case 'v':
+    case PathMethod.v:
       currentPoint.y += Number(args[0])
       context.lineTo(currentPoint.x, currentPoint.y)
       break
-    case 'C':
+    case PathMethod.C:
       currentPoint.x1 = Number(args[0])
       currentPoint.y1 = Number(args[1])
       currentPoint.x2 = Number(args[2])
@@ -290,7 +331,7 @@ function drawBezierElement(context, currentPoint, method, args) {
         currentPoint.y
       )
       break
-    case 'c':
+    case PathMethod.c:
       currentPoint.x1 = currentPoint.x + Number(args[0])
       currentPoint.y1 = currentPoint.y + Number(args[1])
       currentPoint.x2 = currentPoint.x + Number(args[2])
@@ -306,7 +347,7 @@ function drawBezierElement(context, currentPoint, method, args) {
         currentPoint.y
       )
       break
-    case 'S':
+    case PathMethod.S:
       if (
         currentPoint.x1 &&
         currentPoint.y1 &&
@@ -340,7 +381,7 @@ function drawBezierElement(context, currentPoint, method, args) {
         )
       }
       break
-    case 's':
+    case PathMethod.s:
       if (
         currentPoint.x1 &&
         currentPoint.y1 &&
@@ -374,7 +415,7 @@ function drawBezierElement(context, currentPoint, method, args) {
         )
       }
       break
-    case 'Q':
+    case PathMethod.Q:
       currentPoint.x1 = Number(args[0])
       currentPoint.y1 = Number(args[1])
       currentPoint.x = Number(args[2])
@@ -386,7 +427,7 @@ function drawBezierElement(context, currentPoint, method, args) {
         currentPoint.y
       )
       break
-    case 'q':
+    case PathMethod.q:
       currentPoint.x1 = currentPoint.x + Number(args[0])
       currentPoint.y1 = currentPoint.y + Number(args[1])
       currentPoint.x += Number(args[2])
@@ -398,12 +439,12 @@ function drawBezierElement(context, currentPoint, method, args) {
         currentPoint.y
       )
       break
-    case 'A':
+    case PathMethod.A:
       break
-    case 'a':
+    case PathMethod.a:
       break
-    case 'Z':
-    case 'z':
+    case PathMethod.Z:
+    case PathMethod.z:
       context.closePath()
       break
     default:
@@ -411,7 +452,10 @@ function drawBezierElement(context, currentPoint, method, args) {
   }
 }
 
-function drawEllipse(context, obj: EllipsePath) {
+function drawEllipse(
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  obj: EllipsePath
+) {
   context.save()
 
   obj._styles && resetShapeStyles(context, obj._styles)
@@ -459,7 +503,10 @@ function drawEllipse(context, obj: EllipsePath) {
   context.restore()
 }
 
-function drawRect(context, obj) {
+function drawRect(
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  obj: RectPath
+) {
   context.save()
 
   obj._styles && resetShapeStyles(context, obj._styles)
@@ -475,11 +522,11 @@ function drawRect(context, obj) {
     )
   }
 
-  const x = obj._x
-  const y = obj._y
-  const width = obj._width
-  const height = obj._height
-  let radius = obj._cornerRadius
+  const x = obj.x
+  const y = obj.y
+  const width = obj.width
+  const height = obj.height
+  let radius = obj.cornerRadius
 
   if (width < 2 * radius) {
     radius = width / 2

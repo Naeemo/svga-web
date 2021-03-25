@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "noImplicitThis": true,

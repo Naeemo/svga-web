@@ -4,8 +4,8 @@ import svga = com.opensource.svga
 export interface IParseStyles extends svga.ShapeEntity.ShapeStyle {
   fillStr: string
   strokeStr: string
-  lineJoinStr: string
-  lineCapStr: string
+  lineJoinStr: CanvasLineJoin
+  lineCapStr: CanvasLineCap
 }
 
 interface ShapeEntity {

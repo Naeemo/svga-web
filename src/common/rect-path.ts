@@ -4,30 +4,27 @@ import { IParseStyles } from '../parser'
 import svga = com.opensource.svga
 
 export default class RectPath extends BezierPath {
-  _x?: number
-  _y?: number
-  _width?: number
-  _height?: number
-  _cornerRadius?: number
-  _transform?: svga.Transform
+  public readonly x: number
+  public readonly y: number
+  public readonly width: number
+  public readonly height: number
+  public readonly cornerRadius: number
 
   constructor(
-    x?: number,
-    y?: number,
-    width?: number,
-    height?: number,
-    cornerRadius?: number,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    cornerRadius: number,
     transform?: svga.Transform,
     styles?: IParseStyles
   ) {
-    super()
+    super(undefined, transform, styles)
 
-    this._x = x
-    this._y = y
-    this._width = width
-    this._height = height
-    this._cornerRadius = cornerRadius
-    this._transform = transform
-    this._styles = styles
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.cornerRadius = cornerRadius
   }
 }
