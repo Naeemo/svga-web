@@ -9,7 +9,7 @@ export interface VideoSize {
 }
 
 export interface ImageSources {
-  [key: string]: ImageBitmap
+  [key: string]: CanvasImageSource
 }
 
 interface AudioSource extends svga.AudioEntity {
