@@ -21,8 +21,8 @@ function isAudioData(data: Uint8Array): boolean {
   return data[0] === audioPrefix[0]
 }
 
-onmessage = function (event: MessageEvent<ArrayBuffer>) {
-  const inflateData: Uint8Array = inflate(new Uint8Array(event.data))
+onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
+  const inflateData: Uint8Array = inflate(new Uint8Array(event.data.data))
   const movie = svga.MovieEntity.decode(inflateData)
   const images: ImageSources = {}
   const audios: AudioSources = {}
@@ -78,6 +78,6 @@ onmessage = function (event: MessageEvent<ArrayBuffer>) {
 
   Promise.all(promises).then(() => {
     const data = new VideoEntity(movie, images, audios)
-    postMessage(data, transferables)
+    postMessage({ result: data, id: event.data.id }, transferables)
   })
 }
