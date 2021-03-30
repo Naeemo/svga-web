@@ -1,4 +1,4 @@
-import { noop } from '../common/noop'
+import { noop } from './noop'
 
 const WORKER = `onmessage = function () {
   setTimeout(function() {postMessage(null)}, 1 / 60)

@@ -1,7 +1,7 @@
 import Renderer from './renderer'
 import Animator from './animator'
 import VideoEntity, { VideoSize } from '../parser/video-entity'
-import { noop } from '../common/noop'
+import { noop } from './noop'
 
 export * from './animator'
 export * from './offscreen.canvas.render'
