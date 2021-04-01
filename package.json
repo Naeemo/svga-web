@@ -19,8 +19,8 @@
     "prestart": "prettier --check ./src && tsc -p ./",
     "start": "eslint ./src && vite",
     "prebuild": "prettier --check ./src && tsc -p ./",
-    "build": "vite build ",
-    "prepublish": "prettier --check ./src && tsc -p ./",
+    "build": "vite build",
+    "prepublish": "yarn build",
     "proto": "node scripts/generate-proto.js"
   },
   "author": "naeemo<naeemo@qq.com>",
