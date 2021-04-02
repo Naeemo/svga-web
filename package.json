@@ -2,6 +2,11 @@
   "name": "svga-web",
   "version": "2.0.4",
   "description": "SVGA Web Player",
+  "keywords": [
+    "svga",
+    "svga web player",
+    "svga.lite"
+  ],
   "files": [
     "dist",
     "src"
