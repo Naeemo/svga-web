@@ -24,7 +24,7 @@ export interface DynamicElements {
   [key: string]: DynamicElement | undefined
 }
 
-interface SpriteEntity {
+export interface Sprite {
   imageKey: string | null
   frames: Array<FrameEntity>
 }
@@ -37,7 +37,7 @@ export default class VideoEntity {
   public images: ImageSources = {}
   public audios: AudioSources = {}
   public dynamicElements: DynamicElements = {}
-  public sprites: Array<SpriteEntity> = []
+  public sprites: Array<Sprite> = []
 
   constructor(
     spec: svga.MovieEntity,

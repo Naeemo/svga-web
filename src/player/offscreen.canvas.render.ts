@@ -1,10 +1,7 @@
 import { drawEllipse } from './path/ellipse-path'
 import { drawRect } from './path/rect-path'
 import { drawBezier } from './path/bezier-path'
-import VideoEntity, {
-  DynamicElements,
-  ImageSources,
-} from '../parser/video-entity'
+import { DynamicElements, ImageSources, Sprite } from '../parser'
 import { com } from '../proto/svga'
 import svga = com.opensource.svga
 
@@ -12,7 +9,7 @@ function render(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   bitmapCache: ImageSources,
   dynamicElements: DynamicElements,
-  videoItem: VideoEntity,
+  sprites: Array<Sprite>,
   currentFrame: number
 ): HTMLCanvasElement | OffscreenCanvas {
   const context = canvas.getContext('2d')
@@ -22,7 +19,7 @@ function render(
     return canvas
   }
 
-  videoItem.sprites.forEach((sprite) => {
+  sprites.forEach((sprite) => {
     const frameItem = sprite.frames[currentFrame]
 
     if (frameItem.alpha < 0.05) {

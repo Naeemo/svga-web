@@ -39,7 +39,6 @@ export default class Player {
   private videoItem: VideoEntity | null = null
   private loop: number | boolean = true
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
-  private totalFramesCount = 0
   private startFrame = 0
   private endFrame = 0
   private cacheFrames = false
@@ -145,7 +144,6 @@ export default class Player {
 
   public mount(videoItem: VideoEntity): Promise<void> {
     this.currentFrame = 0
-    this.totalFramesCount = videoItem.frames - 1
     this.videoItem = videoItem
 
     const prepare = this.renderer.prepare(videoItem)
@@ -159,7 +157,7 @@ export default class Player {
       throw new Error('video item undefined.')
     }
     this.renderer.clear(this.container)
-    this.startAnimation()
+    this.startAnimation(this.videoItem)
     this.$onEvent.start()
   }
 
@@ -205,13 +203,17 @@ export default class Player {
     return this
   }
 
-  private startAnimation(): void {
-    const { playMode, totalFramesCount, startFrame, endFrame, videoItem } = this
-
-    if (videoItem === null) {
-      console.error('svga player start animation fail, no video item')
-      return
-    }
+  /**
+   * Start animation
+   * @param images
+   * @param sprites
+   * @param frames
+   * @param FPS
+   * @private
+   */
+  private startAnimation({ images, sprites, frames, FPS }: VideoEntity): void {
+    const { playMode, startFrame, endFrame } = this
+    const totalFramesCount = frames - 1
 
     // 如果开始动画的当前帧是最后一帧，重置为第 0 帧
     if (this.currentFrame === totalFramesCount) {
@@ -223,15 +225,13 @@ export default class Player {
     this.animator.endValue =
       playMode === 'fallbacks' ? startFrame || 0 : endFrame || totalFramesCount
 
-    let frames = videoItem.frames
-
     if (endFrame > 0 && endFrame > startFrame) {
       frames = endFrame - startFrame
     } else if (endFrame <= 0 && startFrame > 0) {
-      frames = videoItem.frames - startFrame
+      frames = frames - startFrame
     }
 
-    this.animator.duration = frames * (1.0 / videoItem.FPS) * 1000
+    this.animator.duration = frames * (1.0 / FPS) * 1000
     this.animator.loop =
       this.loop === true || this.loop <= 0
         ? Infinity
@@ -259,7 +259,8 @@ export default class Player {
         const context2d = this.container.getContext('2d')
         if (context2d !== null) {
           this.renderer.drawFrame(
-            videoItem,
+            images,
+            sprites,
             this.currentFrame,
             this.cacheFrames,
             this.container.width,

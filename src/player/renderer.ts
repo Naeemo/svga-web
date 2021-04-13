@@ -1,6 +1,10 @@
 import render from './offscreen.canvas.render'
 import { com } from '../proto/svga'
-import VideoEntity, { DynamicElements } from '../parser/video-entity'
+import VideoEntity, {
+  DynamicElements,
+  ImageSources,
+  Sprite,
+} from '../parser/video-entity'
 import svga = com.opensource.svga
 
 export type DynamicElement =
@@ -95,7 +99,8 @@ export default class Renderer {
   }
 
   public drawFrame(
-    videoItem: VideoEntity,
+    images: ImageSources,
+    sprites: Array<Sprite>,
     frame: number,
     cacheFrames: boolean,
     width: number,
@@ -127,7 +132,7 @@ export default class Renderer {
     ofsCanvas.width = width
     ofsCanvas.height = height
 
-    render(ofsCanvas, videoItem.images, this._dynamicElements, videoItem, frame)
+    render(ofsCanvas, images, this._dynamicElements, sprites, frame)
 
     context2d.drawImage(
       ofsCanvas,
