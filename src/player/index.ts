@@ -38,22 +38,21 @@ export enum PLAY_MODE {
 }
 
 export default class Player {
+  public currentFrame = 0
   private container: HTMLCanvasElement
   private videoItem: VideoEntity | null = null
   private loop: number | boolean = true
   private fillMode: FILL_MODE = FILL_MODE.FORWARDS
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
-  public progress = 0
-  public currentFrame = 0
   private totalFramesCount = 0
   private startFrame = 0
   private endFrame = 0
   private cacheFrames = false
   private intersectionObserverRender = false
   private intersectionObserverRenderShow = true
-  private _intersectionObserver: IntersectionObserver | null = null
-  private _renderer: Renderer
-  private _animator: Animator
+  private intersectionObserver: IntersectionObserver | null = null
+  private renderer: Renderer
+  private animator: Animator
   private $onEvent: {
     [EVENT_TYPES.START]: () => unknown
     [EVENT_TYPES.PROCESS]: () => unknown
@@ -88,13 +87,21 @@ export default class Player {
       throw new Error('container should be HTMLCanvasElement.')
     }
 
-    this._renderer = new Renderer(this.container.width, this.container.height)
-    this._animator = new Animator()
+    this.renderer = new Renderer(this.container.width, this.container.height)
+    this.animator = new Animator()
     videoItem && this.mount(videoItem)
 
     if (options) {
       this.set(options)
     }
+  }
+
+  public get progress(): number {
+    if (!this.videoItem) {
+      return 0
+    }
+
+    return ((this.currentFrame + 1) / this.videoItem.frames) * 100
   }
 
   public set(options: options): void {
@@ -110,7 +117,7 @@ export default class Player {
     options.intersectionObserverRender !== undefined &&
       (this.intersectionObserverRender = options.intersectionObserverRender)
     if (IntersectionObserver && this.intersectionObserverRender) {
-      this._intersectionObserver = new IntersectionObserver(
+      this.intersectionObserver = new IntersectionObserver(
         (entries) => {
           if (entries[0].intersectionRatio <= 0) {
             this.intersectionObserverRenderShow &&
@@ -125,29 +132,28 @@ export default class Player {
           threshold: [0, 0.5, 1],
         }
       )
-      this._intersectionObserver.observe(this.container)
+      this.intersectionObserver.observe(this.container)
     } else {
-      if (this._intersectionObserver) {
-        this._intersectionObserver.disconnect()
+      if (this.intersectionObserver) {
+        this.intersectionObserver.disconnect()
       }
       this.intersectionObserverRender = false
       this.intersectionObserverRenderShow = true
     }
 
     if (options.noExecutionDelay !== undefined) {
-      this._animator.noExecutionDelay = options.noExecutionDelay
+      this.animator.noExecutionDelay = options.noExecutionDelay
     }
   }
 
   public mount(videoItem: VideoEntity): Promise<void> {
     this.currentFrame = 0
-    this.progress = 0
     this.totalFramesCount = videoItem.frames - 1
     this.videoItem = videoItem
 
-    const prepare = this._renderer.prepare(videoItem)
-    this._renderer.clear(this.container)
-    this._setSize()
+    const prepare = this.renderer.prepare(videoItem)
+    this.renderer.clear(this.container)
+    this.setSize()
     return prepare
   }
 
@@ -155,54 +161,35 @@ export default class Player {
     if (!this.videoItem) {
       throw new Error('video item undefined.')
     }
-    this._renderer.clear(this.container)
-    this._startAnimation()
+    this.renderer.clear(this.container)
+    this.startAnimation()
     this.$onEvent.start()
   }
 
   public pause(): void {
-    this._animator && this._animator.stop()
+    this.animator && this.animator.stop()
     this.$onEvent.pause()
   }
 
   public stop(): void {
-    this._animator && this._animator.stop()
+    this.animator && this.animator.stop()
+    this.renderer.clear(this.container)
+
     this.currentFrame = 0
-    if (this.videoItem) {
-      if (
-        this.intersectionObserverRender &&
-        !this.intersectionObserverRenderShow
-      ) {
-        return
-      }
 
-      const context2d = this.container.getContext('2d')
-      if (context2d === null) {
-        return
-      }
-
-      this._renderer.drawFrame(
-        this.videoItem,
-        this.currentFrame,
-        this.cacheFrames,
-        this.container.width,
-        this.container.height,
-        context2d
-      )
-    }
-    this._renderer.stopAllAudio()
+    this.renderer.stopAllAudio()
     this.$onEvent.stop()
   }
 
   public clear(): void {
-    this._animator && this._animator.stop()
-    this._renderer.clear(this.container)
+    this.animator && this.animator.stop()
+    this.renderer.clear(this.container)
     this.$onEvent.clear()
   }
 
   public destroy(): void {
-    this._animator && this._animator.stop()
-    this._renderer.clear(this.container)
+    this.animator && this.animator.stop()
+    this.renderer.clear(this.container)
     this.videoItem = null
   }
 
@@ -210,13 +197,13 @@ export default class Player {
     this.$onEvent[eventName] = execFunction
 
     if (eventName === 'end') {
-      this._animator.onEnd = () => this.$onEvent.end()
+      this.animator.onEnd = () => this.$onEvent.end()
     }
 
     return this
   }
 
-  private _startAnimation() {
+  private startAnimation(): void {
     const { playMode, totalFramesCount, startFrame, endFrame, videoItem } = this
 
     if (videoItem === null) {
@@ -229,9 +216,9 @@ export default class Player {
       this.currentFrame = startFrame || 0
     }
 
-    this._animator.startValue =
+    this.animator.startValue =
       playMode === 'fallbacks' ? endFrame || totalFramesCount : startFrame || 0
-    this._animator.endValue =
+    this.animator.endValue =
       playMode === 'fallbacks' ? startFrame || 0 : endFrame || totalFramesCount
 
     let frames = videoItem.frames
@@ -242,16 +229,16 @@ export default class Player {
       frames = videoItem.frames - startFrame
     }
 
-    this._animator.duration = frames * (1.0 / videoItem.FPS) * 1000
-    this._animator.loop =
+    this.animator.duration = frames * (1.0 / videoItem.FPS) * 1000
+    this.animator.loop =
       this.loop === true || this.loop <= 0
         ? Infinity
         : this.loop === false
         ? 1
         : this.loop
-    this._animator.fillRule = this.fillMode === 'backwards' ? 1 : 0
+    this.animator.fillRule = this.fillMode === 'backwards' ? 1 : 0
 
-    this._animator.onUpdate = (value: number) => {
+    this.animator.onUpdate = (value: number) => {
       value = Math.floor(value)
 
       if (this.currentFrame === value) {
@@ -259,15 +246,10 @@ export default class Player {
       }
 
       if (this.playMode === PLAY_MODE.FORWARDS) {
-        this._renderer.processAudio(value)
+        this.renderer.processAudio(value)
       }
 
       this.currentFrame = value
-
-      this.progress =
-        (parseFloat((value + 1).toString()) /
-          parseFloat(videoItem.frames.toString())) *
-        100
 
       if (
         !this.intersectionObserverRender ||
@@ -275,7 +257,7 @@ export default class Player {
       ) {
         const context2d = this.container.getContext('2d')
         if (context2d !== null) {
-          this._renderer.drawFrame(
+          this.renderer.drawFrame(
             videoItem,
             this.currentFrame,
             this.cacheFrames,
@@ -290,12 +272,12 @@ export default class Player {
     }
 
     if (this.playMode === PLAY_MODE.FORWARDS) {
-      this._renderer.processAudio(0)
+      this.renderer.processAudio(0)
     }
-    this._animator.start(this.currentFrame)
+    this.animator.start(this.currentFrame)
   }
 
-  private _setSize() {
+  private setSize(): void {
     if (this.videoItem === null) {
       return
     }
