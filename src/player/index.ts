@@ -38,19 +38,19 @@ export enum PLAY_MODE {
 }
 
 export default class Player {
-  public container: HTMLCanvasElement
-  public videoItem: VideoEntity | null = null
-  public loop: number | boolean = true
-  public fillMode: FILL_MODE = FILL_MODE.FORWARDS
-  public playMode: PLAY_MODE = PLAY_MODE.FORWARDS
+  private container: HTMLCanvasElement
+  private videoItem: VideoEntity | null = null
+  private loop: number | boolean = true
+  private fillMode: FILL_MODE = FILL_MODE.FORWARDS
+  private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
   public progress = 0
   public currentFrame = 0
-  public totalFramesCount = 0
-  public startFrame = 0
-  public endFrame = 0
-  public cacheFrames = false
-  public intersectionObserverRender = false
-  public intersectionObserverRenderShow = true
+  private totalFramesCount = 0
+  private startFrame = 0
+  private endFrame = 0
+  private cacheFrames = false
+  private intersectionObserverRender = false
+  private intersectionObserverRenderShow = true
   private _intersectionObserver: IntersectionObserver | null = null
   private _renderer: Renderer
   private _animator: Animator
