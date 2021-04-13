@@ -150,7 +150,7 @@ export default class Player {
 
     const prepare = this.renderer.prepare(videoItem)
     this.renderer.clear(this.container)
-    this.setSize()
+    this.setSize(videoItem.videoSize)
     return prepare
   }
 
@@ -278,14 +278,14 @@ export default class Player {
     this.animator.start(this.currentFrame)
   }
 
-  private setSize(): void {
-    if (this.videoItem === null) {
-      return
-    }
-
-    const videoSize: VideoSize = this.videoItem.videoSize
-
-    this.container.width = videoSize.width
-    this.container.height = videoSize.height
+  /**
+   * Set canvas width and height to svga's width and height
+   * @param width
+   * @param height
+   * @private
+   */
+  private setSize({ width, height }: VideoSize): void {
+    this.container.width = width
+    this.container.height = height
   }
 }
