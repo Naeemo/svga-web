@@ -16,8 +16,9 @@ export enum EVENT_TYPES {
   CLEAR = 'clear',
 }
 
-interface options {
-  loop?: number | boolean
+interface SVGAPlayerOptions {
+  loop?: boolean
+  playCount?: number
   fillMode?: FILL_MODE
   playMode?: PLAY_MODE
   startFrame?: number
@@ -41,7 +42,6 @@ export default class Player {
   public currentFrame = 0
   private container: HTMLCanvasElement
   private videoItem: VideoEntity | null = null
-  private loop: number | boolean = true
   private fillMode: FILL_MODE = FILL_MODE.FORWARDS
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
   private totalFramesCount = 0
@@ -72,7 +72,7 @@ export default class Player {
   constructor(
     element: string | HTMLCanvasElement,
     videoItem?: VideoEntity,
-    options?: options
+    options?: SVGAPlayerOptions
   ) {
     this.container =
       typeof element === 'string'
@@ -104,18 +104,30 @@ export default class Player {
     return ((this.currentFrame + 1) / this.videoItem.frames) * 100
   }
 
-  public set(options: options): void {
-    typeof options.loop !== 'undefined' && (this.loop = options.loop)
-    options.fillMode && (this.fillMode = options.fillMode)
-    options.playMode && (this.playMode = options.playMode)
-    options.cacheFrames !== undefined &&
-      (this.cacheFrames = options.cacheFrames)
-    this.startFrame = options.startFrame ? options.startFrame : this.startFrame
-    this.endFrame = options.endFrame ? options.endFrame : this.endFrame
+  public set({
+    playCount,
+    loop,
+    endFrame,
+    startFrame,
+    cacheFrames,
+    playMode,
+    fillMode,
+    noExecutionDelay,
+    intersectionObserverRender,
+  }: SVGAPlayerOptions): void {
+    fillMode && (this.fillMode = fillMode)
+    playMode && (this.playMode = playMode)
+    cacheFrames !== undefined && (this.cacheFrames = cacheFrames)
+    this.startFrame = startFrame ? startFrame : this.startFrame
+    this.endFrame = endFrame ? endFrame : this.endFrame
+
+    this.animator.loop = !!loop
+    playCount !== undefined && (this.animator.repeat = playCount)
+    this.animator.fillRule = this.fillMode === 'backwards' ? 1 : 0
 
     // 监听容器是否处于浏览器视窗内
-    options.intersectionObserverRender !== undefined &&
-      (this.intersectionObserverRender = options.intersectionObserverRender)
+    intersectionObserverRender !== undefined &&
+      (this.intersectionObserverRender = intersectionObserverRender)
     if (IntersectionObserver && this.intersectionObserverRender) {
       this.intersectionObserver = new IntersectionObserver(
         (entries) => {
@@ -141,8 +153,8 @@ export default class Player {
       this.intersectionObserverRenderShow = true
     }
 
-    if (options.noExecutionDelay !== undefined) {
-      this.animator.noExecutionDelay = options.noExecutionDelay
+    if (noExecutionDelay !== undefined) {
+      this.animator.noExecutionDelay = noExecutionDelay
     }
   }
 
@@ -154,6 +166,16 @@ export default class Player {
     const prepare = this.renderer.prepare(videoItem)
     this.renderer.clear(this.container)
     this.setSize()
+
+    let frames = videoItem.frames
+
+    if (this.endFrame > 0 && this.endFrame > this.startFrame) {
+      frames = this.endFrame - this.startFrame
+    } else if (this.endFrame <= 0 && this.startFrame > 0) {
+      frames = videoItem.frames - this.startFrame
+    }
+
+    this.animator.duration = frames * (1.0 / videoItem.FPS) * 1000
     return prepare
   }
 
@@ -162,7 +184,7 @@ export default class Player {
       throw new Error('video item undefined.')
     }
     this.renderer.clear(this.container)
-    this.startAnimation()
+    this.startAnimation(this.videoItem)
     this.$onEvent.start()
   }
 
@@ -203,13 +225,8 @@ export default class Player {
     return this
   }
 
-  private startAnimation(): void {
-    const { playMode, totalFramesCount, startFrame, endFrame, videoItem } = this
-
-    if (videoItem === null) {
-      console.error('svga player start animation fail, no video item')
-      return
-    }
+  private startAnimation(videoItem: VideoEntity): void {
+    const { playMode, totalFramesCount, startFrame, endFrame } = this
 
     // 如果开始动画的当前帧是最后一帧，重置为第 0 帧
     if (this.currentFrame === totalFramesCount) {
@@ -220,23 +237,6 @@ export default class Player {
       playMode === 'fallbacks' ? endFrame || totalFramesCount : startFrame || 0
     this.animator.endValue =
       playMode === 'fallbacks' ? startFrame || 0 : endFrame || totalFramesCount
-
-    let frames = videoItem.frames
-
-    if (endFrame > 0 && endFrame > startFrame) {
-      frames = endFrame - startFrame
-    } else if (endFrame <= 0 && startFrame > 0) {
-      frames = videoItem.frames - startFrame
-    }
-
-    this.animator.duration = frames * (1.0 / videoItem.FPS) * 1000
-    this.animator.loop =
-      this.loop === true || this.loop <= 0
-        ? Infinity
-        : this.loop === false
-        ? 1
-        : this.loop
-    this.animator.fillRule = this.fillMode === 'backwards' ? 1 : 0
 
     this.animator.onUpdate = (value: number) => {
       value = Math.floor(value)

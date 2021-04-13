@@ -9,7 +9,8 @@ export default class Animator {
   public startValue = 0
   public endValue = 0
   public duration = 0
-  public loop = 1
+  public loop = false
+  public repeat = 1
   public fillRule = 0
   private _currentFrication = 0.0
 
@@ -88,7 +89,7 @@ export default class Animator {
   }
 
   private _doDeltaTime(deltaTime: number) {
-    if (deltaTime >= this.duration * this.loop) {
+    if (!this.loop && deltaTime >= this.duration * this.repeat) {
       this._currentFrication = this.fillRule === 1 ? 0.0 : 1.0
       this._isRunning = false
     } else {
