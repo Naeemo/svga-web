@@ -11,6 +11,7 @@ export enum EVENT_TYPES {
   START = 'start',
   PROCESS = 'process',
   PAUSE = 'pause',
+  RESUME = 'resume',
   STOP = 'stop',
   END = 'end',
   CLEAR = 'clear',
@@ -57,6 +58,7 @@ export default class Player {
     [EVENT_TYPES.START]: () => unknown
     [EVENT_TYPES.PROCESS]: () => unknown
     [EVENT_TYPES.PAUSE]: () => unknown
+    [EVENT_TYPES.RESUME]: () => unknown
     [EVENT_TYPES.STOP]: () => unknown
     [EVENT_TYPES.END]: () => unknown
     [EVENT_TYPES.CLEAR]: () => unknown
@@ -64,6 +66,7 @@ export default class Player {
     start: noop,
     process: noop,
     pause: noop,
+    resume: noop,
     stop: noop,
     end: noop,
     clear: noop,
@@ -164,6 +167,11 @@ export default class Player {
     this.renderer.clear(this.container)
     this.startAnimation()
     this.$onEvent.start()
+  }
+
+  public resume(): void {
+    this.animator?.start(this.currentFrame)
+    this.$onEvent.resume()
   }
 
   public pause(): void {

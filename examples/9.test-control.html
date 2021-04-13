@@ -1,37 +1,42 @@
-<button onclick="playerStart()">开始播放</button>
-<button onclick="playerPause()">暂停</button>
-<button onclick="playerStop()">停止</button>
-<button onclick="playerClear()">清空画布</button>
+<button onclick='playerStart()'>开始播放</button>
+<button onclick='playerPause()'>暂停</button>
+<button onclick='playerResume()'>继续</button>
+<button onclick='playerStop()'>停止</button>
+<button onclick='playerClear()'>清空画布</button>
 
-<canvas id="canvas"></canvas>
+<canvas id='canvas'></canvas>
 
-<script type="module">
-    import {Downloader, Parser, Player} from '../src/index.ts'
+<script type='module'>
+  import { Downloader, Parser, Player } from '../src/index.ts'
 
-    let player
-    ;(async () => {
-        const downloader = new Downloader()
-        const svgaFile = './svga/angel.svga'
-        const fileData = await downloader.get(svgaFile)
-        const parser = new Parser()
-        const svgaData = await parser.do(fileData)
-        player = new Player('#canvas')
-        await player.mount(svgaData)
-    })()
+  let player
+  ;(async () => {
+    const downloader = new Downloader()
+    const svgaFile = './svga/angel.svga'
+    const fileData = await downloader.get(svgaFile)
+    const parser = new Parser()
+    const svgaData = await parser.do(fileData)
+    player = new Player('#canvas')
+    await player.mount(svgaData)
+  })()
 
-    window.playerStart = function () {
-        player.start()
-    }
+  window.playerStart = function() {
+    player.start()
+  }
 
-    window.playerPause = function () {
-        player.pause()
-    }
+  window.playerPause = function() {
+    player.pause()
+  }
 
-    window.playerStop = function () {
-        player.stop()
-    }
+  window.playerResume = function() {
+    player.resume()
+  }
 
-    window.playerClear = function () {
-        player.clear()
-    }
+  window.playerStop = function() {
+    player.stop()
+  }
+
+  window.playerClear = function() {
+    player.clear()
+  }
 </script>
