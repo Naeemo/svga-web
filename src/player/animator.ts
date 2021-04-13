@@ -4,13 +4,18 @@ const WORKER = `onmessage = function () {
   setTimeout(function() {postMessage(null)}, 1 / 60)
 }`
 
+export enum FILL_MODE {
+  FORWARDS = 'forwards',
+  BACKWARDS = 'backwards',
+}
+
 export default class Animator {
   public noExecutionDelay = false
   public startValue = 0
   public endValue = 0
   public duration = 0
   public loop = 1
-  public fillRule = 0
+  public fillRule: FILL_MODE = FILL_MODE.FORWARDS
   private _currentFrication = 0.0
 
   public get animatedValue(): number {
@@ -89,7 +94,7 @@ export default class Animator {
 
   private _doDeltaTime(deltaTime: number) {
     if (deltaTime >= this.duration * this.loop) {
-      this._currentFrication = this.fillRule === 1 ? 0.0 : 1.0
+      this._currentFrication = this.fillRule === FILL_MODE.BACKWARDS ? 0.0 : 1.0
       this._isRunning = false
     } else {
       this._currentFrication = (deltaTime % this.duration) / this.duration

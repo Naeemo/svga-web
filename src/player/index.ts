@@ -1,5 +1,5 @@
 import Renderer from './renderer'
-import Animator from './animator'
+import Animator, { FILL_MODE } from './animator'
 import VideoEntity, { VideoSize } from '../parser/video-entity'
 import { noop } from './noop'
 
@@ -28,11 +28,6 @@ interface options {
   noExecutionDelay?: boolean
 }
 
-export enum FILL_MODE {
-  FORWARDS = 'forwards',
-  BACKWARDS = 'backwards',
-}
-
 export enum PLAY_MODE {
   FORWARDS = 'forwards',
   FALLBACKS = 'fallbacks',
@@ -43,7 +38,6 @@ export default class Player {
   private container: HTMLCanvasElement
   private videoItem: VideoEntity | null = null
   private loop: number | boolean = true
-  private fillMode: FILL_MODE = FILL_MODE.FORWARDS
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
   private totalFramesCount = 0
   private startFrame = 0
@@ -109,7 +103,7 @@ export default class Player {
 
   public set(options: options): void {
     typeof options.loop !== 'undefined' && (this.loop = options.loop)
-    options.fillMode && (this.fillMode = options.fillMode)
+    options.fillMode && (this.animator.fillRule = options.fillMode)
     options.playMode && (this.playMode = options.playMode)
     options.cacheFrames !== undefined &&
       (this.cacheFrames = options.cacheFrames)
@@ -244,7 +238,6 @@ export default class Player {
         : this.loop === false
         ? 1
         : this.loop
-    this.animator.fillRule = this.fillMode === 'backwards' ? 1 : 0
 
     this.animator.onUpdate = (value: number) => {
       value = Math.floor(value)
