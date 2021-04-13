@@ -170,17 +170,17 @@ export default class Player {
   }
 
   public resume(): void {
-    this.animator?.start(this.currentFrame)
+    this.animator.start(this.currentFrame)
     this.$onEvent.resume()
   }
 
   public pause(): void {
-    this.animator && this.animator.stop()
+    this.animator.stop()
     this.$onEvent.pause()
   }
 
   public stop(): void {
-    this.animator && this.animator.stop()
+    this.animator.stop()
     this.renderer.clear(this.container)
 
     this.currentFrame = 0
@@ -190,13 +190,13 @@ export default class Player {
   }
 
   public clear(): void {
-    this.animator && this.animator.stop()
+    this.animator.stop()
     this.renderer.clear(this.container)
     this.$onEvent.clear()
   }
 
   public destroy(): void {
-    this.animator && this.animator.stop()
+    this.animator.stop()
     this.renderer.clear(this.container)
     this.videoItem = null
   }
