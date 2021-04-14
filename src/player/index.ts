@@ -35,7 +35,7 @@ export enum PLAY_MODE {
 
 export default class Player {
   public currentFrame = 0
-  private container: HTMLCanvasElement
+  public readonly container: HTMLCanvasElement
   private videoItem: VideoEntity | null = null
   private loop: number | boolean = true
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
