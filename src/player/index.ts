@@ -221,9 +221,13 @@ export default class Player {
     }
 
     this.animator.startValue =
-      playMode === 'fallbacks' ? endFrame || totalFramesCount : startFrame || 0
+      playMode === PLAY_MODE.FALLBACKS
+        ? endFrame || totalFramesCount
+        : startFrame || 0
     this.animator.endValue =
-      playMode === 'fallbacks' ? startFrame || 0 : endFrame || totalFramesCount
+      playMode === PLAY_MODE.FALLBACKS
+        ? startFrame || 0
+        : endFrame || totalFramesCount
 
     if (endFrame > 0 && endFrame > startFrame) {
       frames = endFrame - startFrame
