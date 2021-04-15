@@ -16,17 +16,44 @@ export default class Animator {
   public duration = 0
   public loop = 1
   public fillRule: FILL_MODE = FILL_MODE.FORWARDS
-  public onStart: () => unknown = noop
-  public onUpdate: (currentValue: number) => unknown = noop
+  public onUpdate: (frame: number) => unknown = noop
   public onEnd: () => unknown = noop
   private isRunning = false
   private startTimestamp = 0
   private timeoutWorker: Worker | null = null
 
-  public start(currentValue: number): void {
-    this.doStart(currentValue)
+  /**
+   * Get current time in milliseconds
+   * @private
+   */
+  private static currentTimeMillisecond(): number {
+    return performance ? performance.now() : new Date().getTime()
   }
 
+  /**
+   * Start animation
+   * @param initialFrame
+   */
+  public start(initialFrame: number): void {
+    this.isRunning = true
+    this.startTimestamp = Animator.currentTimeMillisecond()
+
+    initialFrame &&
+      (this.startTimestamp -=
+        (initialFrame / (this.endValue - this.startValue)) * this.duration)
+
+    if (this.noExecutionDelay && this.timeoutWorker === null) {
+      this.timeoutWorker = new Worker(
+        window.URL.createObjectURL(new Blob([WORKER]))
+      )
+    }
+
+    this.doFrame()
+  }
+
+  /**
+   * Stop animation
+   */
   public stop(): void {
     this.isRunning = false
 
@@ -36,34 +63,11 @@ export default class Animator {
     }
   }
 
-  public _currentTimeMillisecond: () => number = () => {
-    if (typeof performance === 'undefined') {
-      return new Date().getTime()
-    }
-
-    return performance.now()
-  }
-
-  private doStart(currentValue: number) {
-    this.isRunning = true
-    this.startTimestamp = this._currentTimeMillisecond()
-
-    currentValue &&
-      (this.startTimestamp -=
-        (currentValue / (this.endValue - this.startValue)) * this.duration)
-
-    if (this.noExecutionDelay && this.timeoutWorker === null) {
-      this.timeoutWorker = new Worker(
-        window.URL.createObjectURL(new Blob([WORKER]))
-      )
-    }
-
-    this.onStart()
-    this.doFrame()
-  }
-
+  /**
+   * Process a frame, and process later frames repeatedly
+   */
   private readonly doFrame = () => {
-    const deltaTime = this._currentTimeMillisecond() - this.startTimestamp
+    const deltaTime = Animator.currentTimeMillisecond() - this.startTimestamp
     let fraction: number
     if (deltaTime >= this.duration * this.loop) {
       fraction = this.fillRule === FILL_MODE.BACKWARDS ? 0.0 : 1.0
@@ -71,9 +75,8 @@ export default class Animator {
     } else {
       fraction = (deltaTime % this.duration) / this.duration
     }
-    const animatedValue =
-      (this.endValue - this.startValue) * fraction + this.startValue
-    this.onUpdate(animatedValue)
+    const frame = (this.endValue - this.startValue) * fraction + this.startValue
+    this.onUpdate(frame)
 
     if (this.isRunning) {
       if (this.timeoutWorker) {
