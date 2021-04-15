@@ -14,7 +14,8 @@ export default class Animator {
   public startValue = 0
   public endValue = 0
   public duration = 0
-  public loop = 1
+  public repeatNumber = 1
+  public loop = false
   public fillRule: FILL_MODE = FILL_MODE.FORWARDS
   public onUpdate: (frame: number) => unknown = noop
   public onEnd: () => unknown = noop
@@ -69,7 +70,7 @@ export default class Animator {
   private readonly doFrame = () => {
     const deltaTime = Animator.currentTimeMillisecond() - this.startTimestamp
     let fraction: number
-    if (deltaTime >= this.duration * this.loop) {
+    if (!this.loop && deltaTime >= this.duration * this.repeatNumber) {
       fraction = this.fillRule === FILL_MODE.BACKWARDS ? 0.0 : 1.0
       this.isRunning = false
     } else {

@@ -37,7 +37,6 @@ export default class Player {
   public currentFrame = 0
   public readonly container: HTMLCanvasElement
   private videoItem: VideoEntity | null = null
-  private loop: number | boolean = true
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
   private startFrame = 0
   private endFrame = 0
@@ -101,7 +100,7 @@ export default class Player {
   }
 
   public set(options: options): void {
-    typeof options.loop !== 'undefined' && (this.loop = options.loop)
+    this.setAnimatorLoop(options.loop)
     options.fillMode && (this.animator.fillRule = options.fillMode)
     options.playMode && (this.playMode = options.playMode)
     options.cacheFrames !== undefined &&
@@ -203,6 +202,27 @@ export default class Player {
     return this
   }
 
+  private setAnimatorLoop(loop?: number | boolean): void {
+    switch (typeof loop) {
+      case 'undefined':
+        this.animator.loop = true
+        break
+      case 'boolean':
+        this.animator.loop = loop
+        break
+      case 'number':
+        if (loop <= 0) {
+          console.warn(
+            '[svga-web] set loop to 0 is deprecated, use "loop: true" instead'
+          )
+          this.animator.loop = true
+        } else {
+          this.animator.loop = false
+          this.animator.repeatNumber = loop
+        }
+    }
+  }
+
   /**
    * Start animation
    * @param images
@@ -236,12 +256,6 @@ export default class Player {
     }
 
     this.animator.duration = frames * (1.0 / FPS) * 1000
-    this.animator.loop =
-      this.loop === true || this.loop <= 0
-        ? Infinity
-        : this.loop === false
-        ? 1
-        : this.loop
 
     this.animator.onUpdate = (value: number) => {
       value = Math.floor(value)
