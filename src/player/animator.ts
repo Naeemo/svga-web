@@ -37,9 +37,9 @@ export default class Animator {
   public stop(): void {
     this._isRunning = false
 
-    if (this._worker !== null) {
-      this._worker.terminate()
-      this._worker = null
+    if (this.timeoutWorker !== null) {
+      this.timeoutWorker.terminate()
+      this.timeoutWorker = null
     }
   }
 
@@ -53,7 +53,7 @@ export default class Animator {
 
     return performance.now()
   }
-  private _worker: Worker | null = null
+  private timeoutWorker: Worker | null = null
 
   private doStart(currentValue: number) {
     this._isRunning = true
@@ -65,8 +65,10 @@ export default class Animator {
 
     this._currentFrication = 0.0
 
-    if (this.noExecutionDelay && this._worker === null) {
-      this._worker = new Worker(window.URL.createObjectURL(new Blob([WORKER])))
+    if (this.noExecutionDelay && this.timeoutWorker === null) {
+      this.timeoutWorker = new Worker(
+        window.URL.createObjectURL(new Blob([WORKER]))
+      )
     }
 
     this.onStart()
@@ -78,9 +80,9 @@ export default class Animator {
       this._doDeltaTime(this._currentTimeMillisecond() - this._mStartTime)
 
       if (this._isRunning) {
-        if (this._worker) {
-          this._worker.onmessage = this._doFrame.bind(this)
-          this._worker.postMessage(null)
+        if (this.timeoutWorker) {
+          this.timeoutWorker.onmessage = this._doFrame.bind(this)
+          this.timeoutWorker.postMessage(null)
         } else {
           window.requestAnimationFrame(this._doFrame.bind(this))
         }
@@ -99,9 +101,9 @@ export default class Animator {
     this.onUpdate(this.animatedValue)
 
     if (!this._isRunning) {
-      if (this._worker !== null) {
-        this._worker.terminate()
-        this._worker = null
+      if (this.timeoutWorker !== null) {
+        this.timeoutWorker.terminate()
+        this.timeoutWorker = null
       }
 
       this.onEnd()
