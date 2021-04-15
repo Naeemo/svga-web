@@ -35,7 +35,12 @@ export default class Animator {
   }
 
   public stop(): void {
-    this._doStop()
+    this._isRunning = false
+
+    if (this._worker !== null) {
+      this._worker.terminate()
+      this._worker = null
+    }
   }
 
   private _isRunning = false
@@ -66,15 +71,6 @@ export default class Animator {
 
     this.onStart()
     this._doFrame()
-  }
-
-  private _doStop() {
-    this._isRunning = false
-
-    if (this._worker !== null) {
-      this._worker.terminate()
-      this._worker = null
-    }
   }
 
   private _doFrame() {
