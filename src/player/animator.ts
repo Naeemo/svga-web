@@ -72,25 +72,11 @@ export default class Animator {
     }
 
     this.onStart()
-    this._doFrame()
+    this.doFrame()
   }
 
-  private _doFrame() {
-    if (this._isRunning) {
-      this._doDeltaTime(this._currentTimeMillisecond() - this._mStartTime)
-
-      if (this._isRunning) {
-        if (this.timeoutWorker) {
-          this.timeoutWorker.onmessage = this._doFrame.bind(this)
-          this.timeoutWorker.postMessage(null)
-        } else {
-          window.requestAnimationFrame(this._doFrame.bind(this))
-        }
-      }
-    }
-  }
-
-  private _doDeltaTime(deltaTime: number) {
+  private readonly doFrame = () => {
+    const deltaTime = this._currentTimeMillisecond() - this._mStartTime
     if (deltaTime >= this.duration * this.loop) {
       this._currentFrication = this.fillRule === FILL_MODE.BACKWARDS ? 0.0 : 1.0
       this._isRunning = false
@@ -100,7 +86,14 @@ export default class Animator {
 
     this.onUpdate(this.animatedValue)
 
-    if (!this._isRunning) {
+    if (this._isRunning) {
+      if (this.timeoutWorker) {
+        this.timeoutWorker.onmessage = this.doFrame
+        this.timeoutWorker.postMessage(null)
+      } else {
+        window.requestAnimationFrame(this.doFrame)
+      }
+    } else {
       if (this.timeoutWorker !== null) {
         this.timeoutWorker.terminate()
         this.timeoutWorker = null
