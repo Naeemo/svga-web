@@ -19,8 +19,8 @@ export default class Animator {
   public onStart: () => unknown = noop
   public onUpdate: (currentValue: number) => unknown = noop
   public onEnd: () => unknown = noop
-  private _isRunning = false
-  private _mStartTime = 0
+  private isRunning = false
+  private startTimestamp = 0
   private timeoutWorker: Worker | null = null
 
   public start(currentValue: number): void {
@@ -28,7 +28,7 @@ export default class Animator {
   }
 
   public stop(): void {
-    this._isRunning = false
+    this.isRunning = false
 
     if (this.timeoutWorker !== null) {
       this.timeoutWorker.terminate()
@@ -45,11 +45,11 @@ export default class Animator {
   }
 
   private doStart(currentValue: number) {
-    this._isRunning = true
-    this._mStartTime = this._currentTimeMillisecond()
+    this.isRunning = true
+    this.startTimestamp = this._currentTimeMillisecond()
 
     currentValue &&
-      (this._mStartTime -=
+      (this.startTimestamp -=
         (currentValue / (this.endValue - this.startValue)) * this.duration)
 
     if (this.noExecutionDelay && this.timeoutWorker === null) {
@@ -63,11 +63,11 @@ export default class Animator {
   }
 
   private readonly doFrame = () => {
-    const deltaTime = this._currentTimeMillisecond() - this._mStartTime
+    const deltaTime = this._currentTimeMillisecond() - this.startTimestamp
     let fraction: number
     if (deltaTime >= this.duration * this.loop) {
       fraction = this.fillRule === FILL_MODE.BACKWARDS ? 0.0 : 1.0
-      this._isRunning = false
+      this.isRunning = false
     } else {
       fraction = (deltaTime % this.duration) / this.duration
     }
@@ -75,7 +75,7 @@ export default class Animator {
       (this.endValue - this.startValue) * fraction + this.startValue
     this.onUpdate(animatedValue)
 
-    if (this._isRunning) {
+    if (this.isRunning) {
       if (this.timeoutWorker) {
         this.timeoutWorker.onmessage = this.doFrame
         this.timeoutWorker.postMessage(null)
