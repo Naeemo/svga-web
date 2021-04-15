@@ -16,11 +16,12 @@ export default class Animator {
   public duration = 0
   public loop = 1
   public fillRule: FILL_MODE = FILL_MODE.FORWARDS
-
   public onStart: () => unknown = noop
-
   public onUpdate: (currentValue: number) => unknown = noop
   public onEnd: () => unknown = noop
+  private _isRunning = false
+  private _mStartTime = 0
+  private timeoutWorker: Worker | null = null
 
   public start(currentValue: number): void {
     this.doStart(currentValue)
@@ -35,9 +36,6 @@ export default class Animator {
     }
   }
 
-  private _isRunning = false
-  private _mStartTime = 0
-
   public _currentTimeMillisecond: () => number = () => {
     if (typeof performance === 'undefined') {
       return new Date().getTime()
@@ -45,7 +43,6 @@ export default class Animator {
 
     return performance.now()
   }
-  private timeoutWorker: Worker | null = null
 
   private doStart(currentValue: number) {
     this._isRunning = true
