@@ -16,14 +16,6 @@ export default class Animator {
   public duration = 0
   public loop = 1
   public fillRule: FILL_MODE = FILL_MODE.FORWARDS
-  private _currentFrication = 0.0
-
-  public get animatedValue(): number {
-    return (
-      (this.endValue - this.startValue) * this._currentFrication +
-      this.startValue
-    )
-  }
 
   public onStart: () => unknown = noop
 
@@ -63,8 +55,6 @@ export default class Animator {
       (this._mStartTime -=
         (currentValue / (this.endValue - this.startValue)) * this.duration)
 
-    this._currentFrication = 0.0
-
     if (this.noExecutionDelay && this.timeoutWorker === null) {
       this.timeoutWorker = new Worker(
         window.URL.createObjectURL(new Blob([WORKER]))
@@ -77,14 +67,16 @@ export default class Animator {
 
   private readonly doFrame = () => {
     const deltaTime = this._currentTimeMillisecond() - this._mStartTime
+    let fraction: number
     if (deltaTime >= this.duration * this.loop) {
-      this._currentFrication = this.fillRule === FILL_MODE.BACKWARDS ? 0.0 : 1.0
+      fraction = this.fillRule === FILL_MODE.BACKWARDS ? 0.0 : 1.0
       this._isRunning = false
     } else {
-      this._currentFrication = (deltaTime % this.duration) / this.duration
+      fraction = (deltaTime % this.duration) / this.duration
     }
-
-    this.onUpdate(this.animatedValue)
+    const animatedValue =
+      (this.endValue - this.startValue) * fraction + this.startValue
+    this.onUpdate(animatedValue)
 
     if (this._isRunning) {
       if (this.timeoutWorker) {
