@@ -1,6 +1,5 @@
 import { com } from '../proto/svga'
 import FrameEntity from './frame-entity'
-import { DynamicElement } from '../player'
 import svga = com.opensource.svga
 
 export interface VideoSize {
@@ -19,6 +18,13 @@ interface AudioSource extends svga.AudioEntity {
 export interface AudioSources {
   [key: string]: AudioSource
 }
+
+export type DynamicElement =
+  | CanvasImageSource
+  | {
+      source: CanvasImageSource
+      fit: 'contain' | 'cover' | 'fill' | 'none'
+    }
 
 export interface DynamicElements {
   [key: string]: DynamicElement | undefined

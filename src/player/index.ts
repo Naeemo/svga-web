@@ -1,6 +1,6 @@
 import Renderer from './renderer'
 import Animator, { FILL_MODE } from './animator'
-import VideoEntity, { VideoSize } from '../parser/video-entity'
+import VideoEntity from '../parser/video-entity'
 import { noop } from './noop'
 
 export * from './animator'
@@ -40,7 +40,6 @@ export default class Player {
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
   private startFrame = 0
   private endFrame = 0
-  private cacheFrames = false
   private intersectionObserverRender = false
   private intersectionObserverRenderShow = true
   private intersectionObserver: IntersectionObserver | null = null
@@ -82,7 +81,7 @@ export default class Player {
       throw new Error('container should be HTMLCanvasElement.')
     }
 
-    this.renderer = new Renderer(this.container.width, this.container.height)
+    this.renderer = new Renderer(this.container)
     this.animator = new Animator()
     videoItem && this.mount(videoItem)
 
@@ -104,7 +103,7 @@ export default class Player {
     options.fillMode && (this.animator.fillRule = options.fillMode)
     options.playMode && (this.playMode = options.playMode)
     options.cacheFrames !== undefined &&
-      (this.cacheFrames = options.cacheFrames)
+      (this.renderer.isCacheFrame = options.cacheFrames)
     this.startFrame = options.startFrame ? options.startFrame : this.startFrame
     this.endFrame = options.endFrame ? options.endFrame : this.endFrame
 
@@ -146,8 +145,7 @@ export default class Player {
     this.videoItem = videoItem
 
     const prepare = this.renderer.prepare(videoItem)
-    this.renderer.clear(this.container)
-    this.setSize(videoItem.videoSize)
+    this.renderer.clear()
     return prepare
   }
 
@@ -155,7 +153,6 @@ export default class Player {
     if (!this.videoItem) {
       throw new Error('video item undefined.')
     }
-    this.renderer.clear(this.container)
     this.startAnimation(this.videoItem)
     this.$onEvent.start()
   }
@@ -172,7 +169,7 @@ export default class Player {
 
   public stop(): void {
     this.animator.stop()
-    this.renderer.clear(this.container)
+    this.renderer.clear()
 
     this.currentFrame = 0
 
@@ -182,13 +179,13 @@ export default class Player {
 
   public clear(): void {
     this.animator.stop()
-    this.renderer.clear(this.container)
+    this.renderer.clear()
     this.$onEvent.clear()
   }
 
   public destroy(): void {
     this.animator.stop()
-    this.renderer.clear(this.container)
+    this.renderer.clear()
     this.videoItem = null
   }
 
@@ -229,9 +226,16 @@ export default class Player {
    * @param sprites
    * @param frames
    * @param FPS
+   * @param dynamicElements
    * @private
    */
-  private startAnimation({ images, sprites, frames, FPS }: VideoEntity): void {
+  private startAnimation({
+    images,
+    sprites,
+    frames,
+    FPS,
+    dynamicElements,
+  }: VideoEntity): void {
     const { playMode, startFrame, endFrame } = this
     const totalFramesCount = frames - 1
 
@@ -274,18 +278,12 @@ export default class Player {
         !this.intersectionObserverRender ||
         this.intersectionObserverRenderShow
       ) {
-        const context2d = this.container.getContext('2d')
-        if (context2d !== null) {
-          this.renderer.drawFrame(
-            images,
-            sprites,
-            this.currentFrame,
-            this.cacheFrames,
-            this.container.width,
-            this.container.height,
-            context2d
-          )
-        }
+        this.renderer.drawFrame(
+          images,
+          sprites,
+          dynamicElements,
+          this.currentFrame
+        )
       }
 
       this.$onEvent.process()
@@ -295,16 +293,5 @@ export default class Player {
       this.renderer.processAudio(0)
     }
     this.animator.start(this.currentFrame)
-  }
-
-  /**
-   * Set canvas width and height to svga's width and height
-   * @param width
-   * @param height
-   * @private
-   */
-  private setSize({ width, height }: VideoSize): void {
-    this.container.width = width
-    this.container.height = height
   }
 }

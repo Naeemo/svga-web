@@ -7,40 +7,35 @@ import VideoEntity, {
 } from '../parser/video-entity'
 import svga = com.opensource.svga
 
-export type DynamicElement =
-  | CanvasImageSource
-  | {
-      source: CanvasImageSource
-      fit: 'contain' | 'cover' | 'fill' | 'none'
-    }
-
 interface AudioConfig extends svga.AudioEntity {
   audio: HTMLAudioElement
 }
 
 export default class Renderer {
+  private readonly target: HTMLCanvasElement
   private audios: HTMLAudioElement[] = []
   private audioConfigs: { [frame: number]: AudioConfig[] | undefined } = {}
-  private _dynamicElements: DynamicElements = {}
-  private _frames: { [key: string]: HTMLImageElement | ImageBitmap } = {}
-  private readonly _ofsCanvas: HTMLCanvasElement | OffscreenCanvas
+  isCacheFrame = false
+  private readonly frameCache: { [frame: number]: ImageBitmap } = {}
+  private readonly offscreenCanvas: HTMLCanvasElement | OffscreenCanvas
 
-  constructor(width: number, height: number) {
-    this._ofsCanvas = window.OffscreenCanvas
-      ? new window.OffscreenCanvas(width, height)
+  constructor(target: HTMLCanvasElement) {
+    this.target = target
+    this.offscreenCanvas = window.OffscreenCanvas
+      ? new window.OffscreenCanvas(target.width, target.height)
       : document.createElement('canvas')
   }
 
   public async prepare(videoItem: VideoEntity): Promise<void> {
     this.audios = []
     this.audioConfigs = {}
+    this.target.width = videoItem.videoSize.width
+    this.target.height = videoItem.videoSize.height
 
-    if (Object.keys(videoItem.images).length == 0) {
-      return
-    }
-
-    if (videoItem.dynamicElements) {
-      this._dynamicElements = videoItem.dynamicElements
+    const addAudioConfig = (frame: number, ac: AudioConfig) => {
+      const acs = this.audioConfigs[frame] || []
+      acs.push(ac)
+      this.audioConfigs[frame] = acs
     }
 
     const loadAudios = Object.values(videoItem.audios).map(
@@ -60,8 +55,8 @@ export default class Renderer {
             startTime,
             totalTime,
           }
-          this.addAudioConfig(startFrame, ac)
-          this.addAudioConfig(endFrame, ac)
+          addAudioConfig(startFrame, ac)
+          addAudioConfig(endFrame, ac)
           this.audios.push(audio)
 
           audio.onloadeddata = resolve
@@ -93,68 +88,43 @@ export default class Renderer {
     })
   }
 
-  public clear(canvas: HTMLCanvasElement): void {
-    const context2d = canvas.getContext('2d')
-    context2d?.clearRect(0, 0, canvas.width, canvas.height)
+  public clear(): void {
+    const context2d = this.target.getContext('2d')
+    context2d?.clearRect(0, 0, this.target.width, this.target.height)
   }
 
   public drawFrame(
     images: ImageSources,
     sprites: Array<Sprite>,
-    frame: number,
-    cacheFrames: boolean,
-    width: number,
-    height: number,
-    context2d: CanvasRenderingContext2D
+    dynamicElements: DynamicElements,
+    frame: number
   ): void {
-    context2d.clearRect(0, 0, width, height)
-
-    if (cacheFrames && this._frames[frame]) {
-      const ofsFrame = this._frames[frame]
-      // ImageData
-      // context.putImageData(ofsFrame, 0, 0)
-      context2d.drawImage(
-        ofsFrame,
-        0,
-        0,
-        ofsFrame.width,
-        ofsFrame.height,
-        0,
-        0,
-        ofsFrame.width,
-        ofsFrame.height
-      )
+    const context2d = this.target.getContext('2d')
+    if (!context2d) {
       return
     }
 
-    const ofsCanvas = this._ofsCanvas
+    context2d.clearRect(0, 0, this.target.width, this.target.height)
 
-    ofsCanvas.width = width
-    ofsCanvas.height = height
+    if (this.isCacheFrame && this.frameCache[frame]) {
+      const ofsFrame = this.frameCache[frame]
+      context2d.drawImage(ofsFrame, 0, 0)
+      return
+    }
 
-    render(ofsCanvas, images, this._dynamicElements, sprites, frame)
+    const ofsCanvas = this.offscreenCanvas
 
-    context2d.drawImage(
-      ofsCanvas,
-      0,
-      0,
-      ofsCanvas.width,
-      ofsCanvas.height,
-      0,
-      0,
-      ofsCanvas.width,
-      ofsCanvas.height
-    )
+    ofsCanvas.width = this.target.width
+    ofsCanvas.height = this.target.height
 
-    if (cacheFrames) {
-      if ('toDataURL' in ofsCanvas) {
-        const ofsImageBase64 = ofsCanvas.toDataURL()
-        const ofsImage = new Image()
-        ofsImage.src = ofsImageBase64
-        this._frames[frame] = ofsImage
-      } else {
-        this._frames[frame] = ofsCanvas.transferToImageBitmap()
-      }
+    render(ofsCanvas, images, dynamicElements, sprites, frame)
+
+    context2d.drawImage(ofsCanvas, 0, 0)
+
+    if (this.isCacheFrame) {
+      createImageBitmap(ofsCanvas).then((bitMap) => {
+        this.frameCache[frame] = bitMap
+      })
     }
   }
 
@@ -163,11 +133,5 @@ export default class Renderer {
       audio.pause()
       audio.currentTime = 0
     })
-  }
-
-  private addAudioConfig(frame: number, ac: AudioConfig): void {
-    const acs = this.audioConfigs[frame] || []
-    acs.push(ac)
-    this.audioConfigs[frame] = acs
   }
 }
