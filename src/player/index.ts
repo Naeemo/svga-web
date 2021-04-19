@@ -40,7 +40,6 @@ export default class Player {
   private playMode: PLAY_MODE = PLAY_MODE.FORWARDS
   private startFrame = 0
   private endFrame = 0
-  private intersectionObserverRender = false
   private intersectionObserverRenderShow = true
   private intersectionObserver: IntersectionObserver | null = null
   private renderer: Renderer
@@ -108,18 +107,15 @@ export default class Player {
     this.endFrame = options.endFrame ? options.endFrame : this.endFrame
 
     // 监听容器是否处于浏览器视窗内
-    options.intersectionObserverRender !== undefined &&
-      (this.intersectionObserverRender = options.intersectionObserverRender)
-    if (IntersectionObserver && this.intersectionObserverRender) {
+    const intersectionObserverRender =
+      options.intersectionObserverRender === undefined
+        ? false
+        : options.intersectionObserverRender
+    if (IntersectionObserver && intersectionObserverRender) {
       this.intersectionObserver = new IntersectionObserver(
         (entries) => {
-          if (entries[0].intersectionRatio <= 0) {
-            this.intersectionObserverRenderShow &&
-              (this.intersectionObserverRenderShow = false)
-          } else {
-            !this.intersectionObserverRenderShow &&
-              (this.intersectionObserverRenderShow = true)
-          }
+          this.intersectionObserverRenderShow =
+            entries[0]?.intersectionRatio > 0
         },
         {
           rootMargin: '0px',
@@ -131,7 +127,6 @@ export default class Player {
       if (this.intersectionObserver) {
         this.intersectionObserver.disconnect()
       }
-      this.intersectionObserverRender = false
       this.intersectionObserverRenderShow = true
     }
 
@@ -274,10 +269,7 @@ export default class Player {
 
       this.currentFrame = value
 
-      if (
-        !this.intersectionObserverRender ||
-        this.intersectionObserverRenderShow
-      ) {
+      if (this.intersectionObserverRenderShow) {
         this.renderer.drawFrame(
           images,
           sprites,
