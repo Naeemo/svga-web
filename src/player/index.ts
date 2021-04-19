@@ -97,42 +97,37 @@ export default class Player {
     return ((this.currentFrame + 1) / this.videoItem.frames) * 100
   }
 
-  public set(options: options): void {
-    this.setAnimatorLoop(options.loop)
-    options.fillMode && (this.animator.fillRule = options.fillMode)
-    options.playMode && (this.playMode = options.playMode)
-    options.cacheFrames !== undefined &&
-      (this.renderer.isCacheFrame = options.cacheFrames)
-    this.startFrame = options.startFrame ? options.startFrame : this.startFrame
-    this.endFrame = options.endFrame ? options.endFrame : this.endFrame
+  /**
+   * Set svga player options
+   * @param loop
+   * @param fillMode
+   * @param playMode
+   * @param startFrame
+   * @param endFrame
+   * @param cacheFrames
+   * @param intersectionObserverRender
+   * @param noExecutionDelay
+   */
+  public set({
+    loop = true,
+    fillMode = FILL_MODE.FORWARDS,
+    playMode = PLAY_MODE.FORWARDS,
+    startFrame = 0,
+    endFrame = 0,
+    cacheFrames = false,
+    intersectionObserverRender = false,
+    noExecutionDelay = false,
+  }: options): void {
+    this.playMode = playMode
+    this.startFrame = startFrame
+    this.endFrame = endFrame
+    this.handleIntersectionObserver(intersectionObserverRender)
 
-    // 监听容器是否处于浏览器视窗内
-    const intersectionObserverRender =
-      options.intersectionObserverRender === undefined
-        ? false
-        : options.intersectionObserverRender
-    if (IntersectionObserver && intersectionObserverRender) {
-      this.intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          this.intersectionObserverRenderShow =
-            entries[0]?.intersectionRatio > 0
-        },
-        {
-          rootMargin: '0px',
-          threshold: [0, 0.5, 1],
-        }
-      )
-      this.intersectionObserver.observe(this.container)
-    } else {
-      if (this.intersectionObserver) {
-        this.intersectionObserver.disconnect()
-      }
-      this.intersectionObserverRenderShow = true
-    }
+    this.setAnimatorLoop(loop)
+    this.animator.fillRule = fillMode
+    this.animator.noExecutionDelay = noExecutionDelay
 
-    if (options.noExecutionDelay !== undefined) {
-      this.animator.noExecutionDelay = options.noExecutionDelay
-    }
+    this.renderer.isCacheFrame = cacheFrames
   }
 
   public mount(videoItem: VideoEntity): Promise<void> {
@@ -194,11 +189,34 @@ export default class Player {
     return this
   }
 
-  private setAnimatorLoop(loop?: number | boolean): void {
+  /**
+   * 监听容器是否处于浏览器视窗内
+   * @param on
+   * @private
+   */
+  private handleIntersectionObserver(on: boolean): void {
+    if (IntersectionObserver && on) {
+      this.intersectionObserver = new IntersectionObserver(
+        (entries) => {
+          this.intersectionObserverRenderShow =
+            entries[0]?.intersectionRatio > 0
+        },
+        {
+          rootMargin: '0px',
+          threshold: [0, 0.5, 1],
+        }
+      )
+      this.intersectionObserver.observe(this.container)
+    } else {
+      if (this.intersectionObserver) {
+        this.intersectionObserver.disconnect()
+      }
+      this.intersectionObserverRenderShow = true
+    }
+  }
+
+  private setAnimatorLoop(loop: number | boolean): void {
     switch (typeof loop) {
-      case 'undefined':
-        this.animator.loop = true
-        break
       case 'boolean':
         this.animator.loop = loop
         break
