@@ -1,7 +1,12 @@
 # svga-web
 
-这是一个 [SVGA](http://svga.io/) Web 播放器
+一个 [SVGA](http://svga.io/) Web 播放器
 
+## 注意
+
+本项目不是由 [svga.io](http://svga.io/) 官方维护的。
+目前由我个人维护，最初代码来自官方 [svga.lite](https://github.com/svga/SVGAPlayer-Web-Lite) 。
+欢迎贡献和讨论。
 
 ## 安装
 
@@ -18,7 +23,6 @@ npm i svga-web
 ### CDN
 
 ```html
-
 <script src="https://cdn.jsdelivr.net/npm/svga-web/svga-web.min.js"></script>
 ```
 
@@ -26,26 +30,25 @@ npm i svga-web
 
 ### Player.set({ 参数 })
 
-| 属性名 | 说明 | 类型 | 默认值 | 备注 |
-| ----- | --- | --- | ----- | ---- |
-| loop | 循环次数 | `number` | `1` | 设置为 `0` 时，无限循环 |
-| fillMode | 最后停留的目标模式 | `forwards` `backwards` | `forwards` | 类似于 [css animation-fill-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-fill-mode) |
-| playMode | 播放模式 | `forwards` `fallbacks` | `forwards` |
-| startFrame | 开始播放帧 | `number` | `0` | |
-| endFrame | 结束播放帧 | `number` | `0` | 设置为 `0` 时，默认为 SVGA 文件最后一帧 |
-| cacheFrames | 是否缓存帧 | `boolean` | `false` | 开启后对已绘制的帧进行缓存，提升重复播放动画性能 |
-| noExecutionDelay | 是否避免执行延迟 | `boolean` | `false` | 开启后使用 `WebWorker` 确保动画按时执行（ [一些情况下浏览器会延迟或停止执行一些任务](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance) ） |
-| intersectionObserverRender | 是否开启动画容器视窗检测 | `boolean` | `false` | 开启后利用 [Intersection Observer API](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API) 检测动画容器是否处于视窗内，若处于视窗外，停止描绘渲染帧避免造成资源消耗 |
+| 属性名                     | 说明                     | 类型                   | 默认值     | 备注                                                                                                                                                                                                               |
+| -------------------------- | ------------------------ | ---------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| loop                       | 循环次数                 | `number`               | `1`        | 设置为 `0` 时，无限循环                                                                                                                                                                                            |
+| fillMode                   | 最后停留的目标模式       | `forwards` `backwards` | `forwards` | 类似于 [css animation-fill-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-fill-mode)                                                                                                             |
+| playMode                   | 播放模式                 | `forwards` `fallbacks` | `forwards` |
+| startFrame                 | 开始播放帧               | `number`               | `0`        |                                                                                                                                                                                                                    |
+| endFrame                   | 结束播放帧               | `number`               | `0`        | 设置为 `0` 时，默认为 SVGA 文件最后一帧                                                                                                                                                                            |
+| cacheFrames                | 是否缓存帧               | `boolean`              | `false`    | 开启后对已绘制的帧进行缓存，提升重复播放动画性能                                                                                                                                                                   |
+| noExecutionDelay           | 是否避免执行延迟         | `boolean`              | `false`    | 开启后使用 `WebWorker` 确保动画按时执行（ [一些情况下浏览器会延迟或停止执行一些任务](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance) ） |
+| intersectionObserverRender | 是否开启动画容器视窗检测 | `boolean`              | `false`    | 开启后利用 [Intersection Observer API](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API) 检测动画容器是否处于视窗内，若处于视窗外，停止描绘渲染帧避免造成资源消耗                        |
 
 ### 简单使用
 
 ```html
-
 <canvas id="canvas"></canvas>
 ```
 
 ```js
-import {Downloader, Parser, Player} from 'svga-web'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -56,7 +59,7 @@ const player = new Player('#canvas')
   const fileData = await downloader.get('./xxx.svga')
   const svgaData = await parser.do(fileData)
 
-  player.set({loop: 1})
+  player.set({ loop: 1 })
 
   await player.mount(svgaData)
 
@@ -93,7 +96,7 @@ const player = new Player('#canvas')
 你能够通过改变 `svga data` 对应键值的元素
 
 ```js
-import {Downloader, Parser, Player} from 'svga-web'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -126,9 +129,13 @@ fontContext.font = '30px Arial'
 fontContext.textAlign = 'center'
 fontContext.textBaseline = 'middle'
 fontContext.fillStyle = '#000'
-fontContext.fillText(text, fontCanvas.clientWidth / 2, fontCanvas.clientHeight / 2)
+fontContext.fillText(
+  text,
+  fontCanvas.clientWidth / 2,
+  fontCanvas.clientHeight / 2
+)
 
-const {Downloader, Parser, Player} = SVGA
+const { Downloader, Parser, Player } = SVGA
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -150,7 +157,7 @@ player.start()
 
 ```js
 const video = document.getElementById('video')
-const {Downloader, Parser, Player} = SVGA
+const { Downloader, Parser, Player } = SVGA
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -162,7 +169,7 @@ const fileData = await downloader.get(svgaFile)
 const svgaData = await parser.do(fileData)
 
 // fit: "fill", "cover", "contain", "none"
-svgaData.dynamicElements['99'] = {source: video, fit: "fill"}
+svgaData.dynamicElements['99'] = { source: video, fit: 'fill' }
 
 await player.mount(svgaData)
 
@@ -172,7 +179,7 @@ player.start()
 ### 可复用实例化 Downloader & Parser
 
 ```js
-import {Downloader, Parser, Player} from 'svga-web'
+import { Downloader, Parser, Player } from 'svga-web'
 
 const downloader = new Downloader()
 const parser = new Parser()
@@ -211,7 +218,7 @@ player.destroy()
 已下载并解析的数据利用 IndexedDB 进行持久化缓存，下次可避免重复消耗资源对统一 SVGA 下载和解析
 
 ```js
-import {Downloader, Parser, Player, DB} from 'svga-web'
+import { Downloader, Parser, Player, DB } from 'svga-web'
 
 const svgaFile = 'test.svga'
 let data = void 0
@@ -249,11 +256,14 @@ player.start()
 你可以取消下载中的 SVGA 文件请求
 
 ```js
-downloader.get('test.svga').then((fileData) => {
-  console.log('下载完成')
-}).catch(error => {
-  console.log('catch', error)
-})
+downloader
+  .get('test.svga')
+  .then((fileData) => {
+    console.log('下载完成')
+  })
+  .catch((error) => {
+    console.log('catch', error)
+  })
 
 setTimeout(() => {
   downloader.cancel() // 或者 downloader.destroy()
@@ -275,6 +285,6 @@ yarn build
 
 [MIT](./LICENSE)
 
-___
+---
 
 感谢 [JetBrains 免费许可证计划](https://www.jetbrains.com/zh-cn/community/opensource/#support?from=svga-web) 支持本项目开发。
