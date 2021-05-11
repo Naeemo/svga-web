@@ -28,13 +28,8 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
 
   // parse audios
   movie.audios.forEach((audio) => {
-    const {
-      audioKey,
-      endFrame,
-      startFrame,
-      startTime,
-      totalTime,
-    } = audio as svga.AudioEntity
+    const { audioKey, endFrame, startFrame, startTime, totalTime } =
+      audio as svga.AudioEntity
     const uint8 = movie.images[audioKey]
     if (!uint8) {
       return
