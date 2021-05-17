@@ -195,7 +195,9 @@ export default class Player {
    * @private
    */
   private handleIntersectionObserver(on: boolean): void {
-    if (IntersectionObserver && on) {
+    const hasIntersectionObserver =
+      typeof window !== 'undefined' && 'IntersectionObserver' in window
+    if (hasIntersectionObserver && on) {
       this.intersectionObserver = new IntersectionObserver(
         (entries) => {
           this.intersectionObserverRenderShow =
