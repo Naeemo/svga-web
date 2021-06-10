@@ -2,6 +2,14 @@
   "name": "svga-web",
   "version": "2.1.5",
   "description": "SVGA Web Player",
+  "homepage": "https://github.com/Naeemo/svga-web",
+  "bugs": {
+    "url": "https://github.com/Naeemo/svga-web/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Naeemo/svga-web.git"
+  },
   "keywords": [
     "svga",
     "svga web player",
