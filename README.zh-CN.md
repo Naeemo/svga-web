@@ -1,5 +1,11 @@
 # svga-web
 
+<p>
+  <a href="https://npmcharts.com/compare/svga-web?minimal=true"><img src="https://img.shields.io/npm/dm/svga-web.svg?sanitize=true" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/svga-web"><img src="https://img.shields.io/npm/v/svga-web.svg?sanitize=true" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/svga-web"><img src="https://img.shields.io/npm/l/svga-web.svg?sanitize=true" alt="License"></a>
+</p>
+
 一个 [SVGA](http://svga.io/) Web 播放器
 
 ## 注意
