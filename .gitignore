@@ -13,3 +13,11 @@ dist/
 .idea/
 yarn.lock
 .DS_Store
+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
