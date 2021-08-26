@@ -1,7 +1,7 @@
 {
   "name": "svga-web",
   "version": "2.1.8",
-  "description": "SVGA Web Player",
+  "description": "A SVGA player for modern Web.",
   "homepage": "https://github.com/Naeemo/svga-web",
   "bugs": {
     "url": "https://github.com/Naeemo/svga-web/issues"
@@ -13,6 +13,7 @@
   "keywords": [
     "svga",
     "svga web player",
+    "Typescript",
     "svga.lite"
   ],
   "files": [
