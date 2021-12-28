@@ -1,6 +1,6 @@
 {
   "name": "svga-web",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "A SVGA player for modern Web.",
   "homepage": "https://github.com/Naeemo/svga-web",
   "bugs": {
