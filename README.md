@@ -267,7 +267,8 @@ setTimeout(() => {
 }, 1000)
 ```
 
-```sh
+## Development
+```shell
 # Installation dependencies
 yarn install
 

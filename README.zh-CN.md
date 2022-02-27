@@ -276,7 +276,9 @@ setTimeout(() => {
 }, 1000)
 ```
 
-```sh
+## 开发
+
+```shell
 # 安装依赖
 yarn install
 
