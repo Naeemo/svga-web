@@ -45,9 +45,10 @@ export function drawEllipse(
   context.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye)
   context.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym)
 
-  if (obj.styles && obj.styles.fill) {
+  if (obj.styles?.fill) {
     context.fill()
-  } else if (obj.styles && obj.styles.stroke) {
+  }
+  if (obj.styles?.stroke) {
     context.stroke()
   }
 

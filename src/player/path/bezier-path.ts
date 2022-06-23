@@ -62,9 +62,10 @@ export function drawBezier(
     drawBezierElement(context, currentPoint, firstLetter, args)
   })
 
-  if (obj.styles && obj.styles.fill) {
+  if (obj.styles?.fill) {
     context.fill()
-  } else if (obj.styles && obj.styles.stroke) {
+  }
+  if (obj.styles?.stroke) {
     context.stroke()
   }
 
