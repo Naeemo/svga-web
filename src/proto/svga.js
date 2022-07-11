@@ -111,24 +111,43 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.viewBoxWidth = r.float();
-                            break;
-                        case 2:
-                            m.viewBoxHeight = r.float();
-                            break;
-                        case 3:
-                            m.fps = r.int32();
-                            break;
-                        case 4:
-                            m.frames = r.int32();
-                            break;
+                        case 1: {
+                                m.viewBoxWidth = r.float();
+                                break;
+                            }
+                        case 2: {
+                                m.viewBoxHeight = r.float();
+                                break;
+                            }
+                        case 3: {
+                                m.fps = r.int32();
+                                break;
+                            }
+                        case 4: {
+                                m.frames = r.int32();
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for MovieParams
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.MovieParams
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                MovieParams.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.MovieParams";
                 };
 
                 return MovieParams;
@@ -203,23 +222,41 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.imageKey = r.string();
-                            break;
-                        case 2:
-                            if (!(m.frames && m.frames.length))
-                                m.frames = [];
-                            m.frames.push($root.com.opensource.svga.FrameEntity.decode(r, r.uint32()));
-                            break;
-                        case 3:
-                            m.matteKey = r.string();
-                            break;
+                        case 1: {
+                                m.imageKey = r.string();
+                                break;
+                            }
+                        case 2: {
+                                if (!(m.frames && m.frames.length))
+                                    m.frames = [];
+                                m.frames.push($root.com.opensource.svga.FrameEntity.decode(r, r.uint32()));
+                                break;
+                            }
+                        case 3: {
+                                m.matteKey = r.string();
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for SpriteEntity
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.SpriteEntity
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                SpriteEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.SpriteEntity";
                 };
 
                 return SpriteEntity;
@@ -311,27 +348,47 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.audioKey = r.string();
-                            break;
-                        case 2:
-                            m.startFrame = r.int32();
-                            break;
-                        case 3:
-                            m.endFrame = r.int32();
-                            break;
-                        case 4:
-                            m.startTime = r.int32();
-                            break;
-                        case 5:
-                            m.totalTime = r.int32();
-                            break;
+                        case 1: {
+                                m.audioKey = r.string();
+                                break;
+                            }
+                        case 2: {
+                                m.startFrame = r.int32();
+                                break;
+                            }
+                        case 3: {
+                                m.endFrame = r.int32();
+                                break;
+                            }
+                        case 4: {
+                                m.startTime = r.int32();
+                                break;
+                            }
+                        case 5: {
+                                m.totalTime = r.int32();
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for AudioEntity
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.AudioEntity
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                AudioEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.AudioEntity";
                 };
 
                 return AudioEntity;
@@ -414,24 +471,43 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.x = r.float();
-                            break;
-                        case 2:
-                            m.y = r.float();
-                            break;
-                        case 3:
-                            m.width = r.float();
-                            break;
-                        case 4:
-                            m.height = r.float();
-                            break;
+                        case 1: {
+                                m.x = r.float();
+                                break;
+                            }
+                        case 2: {
+                                m.y = r.float();
+                                break;
+                            }
+                        case 3: {
+                                m.width = r.float();
+                                break;
+                            }
+                        case 4: {
+                                m.height = r.float();
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for Layout
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.Layout
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                Layout.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.Layout";
                 };
 
                 return Layout;
@@ -532,30 +608,51 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.a = r.float();
-                            break;
-                        case 2:
-                            m.b = r.float();
-                            break;
-                        case 3:
-                            m.c = r.float();
-                            break;
-                        case 4:
-                            m.d = r.float();
-                            break;
-                        case 5:
-                            m.tx = r.float();
-                            break;
-                        case 6:
-                            m.ty = r.float();
-                            break;
+                        case 1: {
+                                m.a = r.float();
+                                break;
+                            }
+                        case 2: {
+                                m.b = r.float();
+                                break;
+                            }
+                        case 3: {
+                                m.c = r.float();
+                                break;
+                            }
+                        case 4: {
+                                m.d = r.float();
+                                break;
+                            }
+                        case 5: {
+                                m.tx = r.float();
+                                break;
+                            }
+                        case 6: {
+                                m.ty = r.float();
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for Transform
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.Transform
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                Transform.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.Transform";
                 };
 
                 return Transform;
@@ -670,30 +767,51 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.type = r.int32();
-                            break;
-                        case 2:
-                            m.shape = $root.com.opensource.svga.ShapeEntity.ShapeArgs.decode(r, r.uint32());
-                            break;
-                        case 3:
-                            m.rect = $root.com.opensource.svga.ShapeEntity.RectArgs.decode(r, r.uint32());
-                            break;
-                        case 4:
-                            m.ellipse = $root.com.opensource.svga.ShapeEntity.EllipseArgs.decode(r, r.uint32());
-                            break;
-                        case 10:
-                            m.styles = $root.com.opensource.svga.ShapeEntity.ShapeStyle.decode(r, r.uint32());
-                            break;
-                        case 11:
-                            m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
-                            break;
+                        case 1: {
+                                m.type = r.int32();
+                                break;
+                            }
+                        case 2: {
+                                m.shape = $root.com.opensource.svga.ShapeEntity.ShapeArgs.decode(r, r.uint32());
+                                break;
+                            }
+                        case 3: {
+                                m.rect = $root.com.opensource.svga.ShapeEntity.RectArgs.decode(r, r.uint32());
+                                break;
+                            }
+                        case 4: {
+                                m.ellipse = $root.com.opensource.svga.ShapeEntity.EllipseArgs.decode(r, r.uint32());
+                                break;
+                            }
+                        case 10: {
+                                m.styles = $root.com.opensource.svga.ShapeEntity.ShapeStyle.decode(r, r.uint32());
+                                break;
+                            }
+                        case 11: {
+                                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for ShapeEntity
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.ShapeEntity
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                ShapeEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.ShapeEntity";
                 };
 
                 /**
@@ -764,15 +882,31 @@ export const com = $root.com = (() => {
                         while (r.pos < c) {
                             var t = r.uint32();
                             switch (t >>> 3) {
-                            case 1:
-                                m.d = r.string();
-                                break;
+                            case 1: {
+                                    m.d = r.string();
+                                    break;
+                                }
                             default:
                                 r.skipType(t & 7);
                                 break;
                             }
                         }
                         return m;
+                    };
+
+                    /**
+                     * Gets the default type url for ShapeArgs
+                     * @function getTypeUrl
+                     * @memberof com.opensource.svga.ShapeEntity.ShapeArgs
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    ShapeArgs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.ShapeArgs";
                     };
 
                     return ShapeArgs;
@@ -864,27 +998,47 @@ export const com = $root.com = (() => {
                         while (r.pos < c) {
                             var t = r.uint32();
                             switch (t >>> 3) {
-                            case 1:
-                                m.x = r.float();
-                                break;
-                            case 2:
-                                m.y = r.float();
-                                break;
-                            case 3:
-                                m.width = r.float();
-                                break;
-                            case 4:
-                                m.height = r.float();
-                                break;
-                            case 5:
-                                m.cornerRadius = r.float();
-                                break;
+                            case 1: {
+                                    m.x = r.float();
+                                    break;
+                                }
+                            case 2: {
+                                    m.y = r.float();
+                                    break;
+                                }
+                            case 3: {
+                                    m.width = r.float();
+                                    break;
+                                }
+                            case 4: {
+                                    m.height = r.float();
+                                    break;
+                                }
+                            case 5: {
+                                    m.cornerRadius = r.float();
+                                    break;
+                                }
                             default:
                                 r.skipType(t & 7);
                                 break;
                             }
                         }
                         return m;
+                    };
+
+                    /**
+                     * Gets the default type url for RectArgs
+                     * @function getTypeUrl
+                     * @memberof com.opensource.svga.ShapeEntity.RectArgs
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    RectArgs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.RectArgs";
                     };
 
                     return RectArgs;
@@ -967,24 +1121,43 @@ export const com = $root.com = (() => {
                         while (r.pos < c) {
                             var t = r.uint32();
                             switch (t >>> 3) {
-                            case 1:
-                                m.x = r.float();
-                                break;
-                            case 2:
-                                m.y = r.float();
-                                break;
-                            case 3:
-                                m.radiusX = r.float();
-                                break;
-                            case 4:
-                                m.radiusY = r.float();
-                                break;
+                            case 1: {
+                                    m.x = r.float();
+                                    break;
+                                }
+                            case 2: {
+                                    m.y = r.float();
+                                    break;
+                                }
+                            case 3: {
+                                    m.radiusX = r.float();
+                                    break;
+                                }
+                            case 4: {
+                                    m.radiusY = r.float();
+                                    break;
+                                }
                             default:
                                 r.skipType(t & 7);
                                 break;
                             }
                         }
                         return m;
+                    };
+
+                    /**
+                     * Gets the default type url for EllipseArgs
+                     * @function getTypeUrl
+                     * @memberof com.opensource.svga.ShapeEntity.EllipseArgs
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    EllipseArgs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.EllipseArgs";
                     };
 
                     return EllipseArgs;
@@ -1112,39 +1285,63 @@ export const com = $root.com = (() => {
                         while (r.pos < c) {
                             var t = r.uint32();
                             switch (t >>> 3) {
-                            case 1:
-                                m.fill = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
-                                break;
-                            case 2:
-                                m.stroke = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
-                                break;
-                            case 3:
-                                m.strokeWidth = r.float();
-                                break;
-                            case 4:
-                                m.lineCap = r.int32();
-                                break;
-                            case 5:
-                                m.lineJoin = r.int32();
-                                break;
-                            case 6:
-                                m.miterLimit = r.float();
-                                break;
-                            case 7:
-                                m.lineDashI = r.float();
-                                break;
-                            case 8:
-                                m.lineDashII = r.float();
-                                break;
-                            case 9:
-                                m.lineDashIII = r.float();
-                                break;
+                            case 1: {
+                                    m.fill = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
+                                    break;
+                                }
+                            case 2: {
+                                    m.stroke = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
+                                    break;
+                                }
+                            case 3: {
+                                    m.strokeWidth = r.float();
+                                    break;
+                                }
+                            case 4: {
+                                    m.lineCap = r.int32();
+                                    break;
+                                }
+                            case 5: {
+                                    m.lineJoin = r.int32();
+                                    break;
+                                }
+                            case 6: {
+                                    m.miterLimit = r.float();
+                                    break;
+                                }
+                            case 7: {
+                                    m.lineDashI = r.float();
+                                    break;
+                                }
+                            case 8: {
+                                    m.lineDashII = r.float();
+                                    break;
+                                }
+                            case 9: {
+                                    m.lineDashIII = r.float();
+                                    break;
+                                }
                             default:
                                 r.skipType(t & 7);
                                 break;
                             }
                         }
                         return m;
+                    };
+
+                    /**
+                     * Gets the default type url for ShapeStyle
+                     * @function getTypeUrl
+                     * @memberof com.opensource.svga.ShapeEntity.ShapeStyle
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    ShapeStyle.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.ShapeStyle";
                     };
 
                     ShapeStyle.RGBAColor = (function() {
@@ -1224,24 +1421,43 @@ export const com = $root.com = (() => {
                             while (r.pos < c) {
                                 var t = r.uint32();
                                 switch (t >>> 3) {
-                                case 1:
-                                    m.r = r.float();
-                                    break;
-                                case 2:
-                                    m.g = r.float();
-                                    break;
-                                case 3:
-                                    m.b = r.float();
-                                    break;
-                                case 4:
-                                    m.a = r.float();
-                                    break;
+                                case 1: {
+                                        m.r = r.float();
+                                        break;
+                                    }
+                                case 2: {
+                                        m.g = r.float();
+                                        break;
+                                    }
+                                case 3: {
+                                        m.b = r.float();
+                                        break;
+                                    }
+                                case 4: {
+                                        m.a = r.float();
+                                        break;
+                                    }
                                 default:
                                     r.skipType(t & 7);
                                     break;
                                 }
                             }
                             return m;
+                        };
+
+                        /**
+                         * Gets the default type url for RGBAColor
+                         * @function getTypeUrl
+                         * @memberof com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor
+                         * @static
+                         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns {string} The default type url
+                         */
+                        RGBAColor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                            if (typeUrlPrefix === undefined) {
+                                typeUrlPrefix = "type.googleapis.com";
+                            }
+                            return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor";
                         };
 
                         return RGBAColor;
@@ -1372,29 +1588,49 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.alpha = r.float();
-                            break;
-                        case 2:
-                            m.layout = $root.com.opensource.svga.Layout.decode(r, r.uint32());
-                            break;
-                        case 3:
-                            m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
-                            break;
-                        case 4:
-                            m.clipPath = r.string();
-                            break;
-                        case 5:
-                            if (!(m.shapes && m.shapes.length))
-                                m.shapes = [];
-                            m.shapes.push($root.com.opensource.svga.ShapeEntity.decode(r, r.uint32()));
-                            break;
+                        case 1: {
+                                m.alpha = r.float();
+                                break;
+                            }
+                        case 2: {
+                                m.layout = $root.com.opensource.svga.Layout.decode(r, r.uint32());
+                                break;
+                            }
+                        case 3: {
+                                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
+                                break;
+                            }
+                        case 4: {
+                                m.clipPath = r.string();
+                                break;
+                            }
+                        case 5: {
+                                if (!(m.shapes && m.shapes.length))
+                                    m.shapes = [];
+                                m.shapes.push($root.com.opensource.svga.ShapeEntity.decode(r, r.uint32()));
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for FrameEntity
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.FrameEntity
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                FrameEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.FrameEntity";
                 };
 
                 return FrameEntity;
@@ -1489,50 +1725,70 @@ export const com = $root.com = (() => {
                     while (r.pos < c) {
                         var t = r.uint32();
                         switch (t >>> 3) {
-                        case 1:
-                            m.version = r.string();
-                            break;
-                        case 2:
-                            m.params = $root.com.opensource.svga.MovieParams.decode(r, r.uint32());
-                            break;
-                        case 3:
-                            if (m.images === $util.emptyObject)
-                                m.images = {};
-                            var c2 = r.uint32() + r.pos;
-                            k = "";
-                            value = [];
-                            while (r.pos < c2) {
-                                var tag2 = r.uint32();
-                                switch (tag2 >>> 3) {
-                                case 1:
-                                    k = r.string();
-                                    break;
-                                case 2:
-                                    value = r.bytes();
-                                    break;
-                                default:
-                                    r.skipType(tag2 & 7);
-                                    break;
-                                }
+                        case 1: {
+                                m.version = r.string();
+                                break;
                             }
-                            m.images[k] = value;
-                            break;
-                        case 4:
-                            if (!(m.sprites && m.sprites.length))
-                                m.sprites = [];
-                            m.sprites.push($root.com.opensource.svga.SpriteEntity.decode(r, r.uint32()));
-                            break;
-                        case 5:
-                            if (!(m.audios && m.audios.length))
-                                m.audios = [];
-                            m.audios.push($root.com.opensource.svga.AudioEntity.decode(r, r.uint32()));
-                            break;
+                        case 2: {
+                                m.params = $root.com.opensource.svga.MovieParams.decode(r, r.uint32());
+                                break;
+                            }
+                        case 3: {
+                                if (m.images === $util.emptyObject)
+                                    m.images = {};
+                                var c2 = r.uint32() + r.pos;
+                                k = "";
+                                value = [];
+                                while (r.pos < c2) {
+                                    var tag2 = r.uint32();
+                                    switch (tag2 >>> 3) {
+                                    case 1:
+                                        k = r.string();
+                                        break;
+                                    case 2:
+                                        value = r.bytes();
+                                        break;
+                                    default:
+                                        r.skipType(tag2 & 7);
+                                        break;
+                                    }
+                                }
+                                m.images[k] = value;
+                                break;
+                            }
+                        case 4: {
+                                if (!(m.sprites && m.sprites.length))
+                                    m.sprites = [];
+                                m.sprites.push($root.com.opensource.svga.SpriteEntity.decode(r, r.uint32()));
+                                break;
+                            }
+                        case 5: {
+                                if (!(m.audios && m.audios.length))
+                                    m.audios = [];
+                                m.audios.push($root.com.opensource.svga.AudioEntity.decode(r, r.uint32()));
+                                break;
+                            }
                         default:
                             r.skipType(t & 7);
                             break;
                         }
                     }
                     return m;
+                };
+
+                /**
+                 * Gets the default type url for MovieEntity
+                 * @function getTypeUrl
+                 * @memberof com.opensource.svga.MovieEntity
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                MovieEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/com.opensource.svga.MovieEntity";
                 };
 
                 return MovieEntity;

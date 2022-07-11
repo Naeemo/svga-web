@@ -54,6 +54,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.MovieParams;
+
+                /**
+                 * Gets the default type url for MovieParams
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
             /** Properties of a SpriteEntity. */
@@ -96,6 +103,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.SpriteEntity;
+
+                /**
+                 * Gets the default type url for SpriteEntity
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
             /** Properties of an AudioEntity. */
@@ -150,6 +164,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.AudioEntity;
+
+                /**
+                 * Gets the default type url for AudioEntity
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
             /** Properties of a Layout. */
@@ -198,6 +219,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.Layout;
+
+                /**
+                 * Gets the default type url for Layout
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
             /** Properties of a Transform. */
@@ -258,6 +286,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.Transform;
+
+                /**
+                 * Gets the default type url for Transform
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
             /** Properties of a ShapeEntity. */
@@ -321,6 +356,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity;
+
+                /**
+                 * Gets the default type url for ShapeEntity
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
             namespace ShapeEntity {
@@ -361,6 +403,13 @@ export namespace com {
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.ShapeArgs;
+
+                    /**
+                     * Gets the default type url for ShapeArgs
+                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns The default type url
+                     */
+                    public static getTypeUrl(typeUrlPrefix?: string): string;
                 }
 
                 /** Properties of a RectArgs. */
@@ -415,6 +464,13 @@ export namespace com {
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.RectArgs;
+
+                    /**
+                     * Gets the default type url for RectArgs
+                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns The default type url
+                     */
+                    public static getTypeUrl(typeUrlPrefix?: string): string;
                 }
 
                 /** Properties of an EllipseArgs. */
@@ -463,6 +519,13 @@ export namespace com {
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.EllipseArgs;
+
+                    /**
+                     * Gets the default type url for EllipseArgs
+                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns The default type url
+                     */
+                    public static getTypeUrl(typeUrlPrefix?: string): string;
                 }
 
                 /** Properties of a ShapeStyle. */
@@ -541,6 +604,13 @@ export namespace com {
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.ShapeStyle;
+
+                    /**
+                     * Gets the default type url for ShapeStyle
+                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns The default type url
+                     */
+                    public static getTypeUrl(typeUrlPrefix?: string): string;
                 }
 
                 namespace ShapeStyle {
@@ -591,6 +661,13 @@ export namespace com {
                          * @throws {$protobuf.util.ProtocolError} If required fields are missing
                          */
                         public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor;
+
+                        /**
+                         * Gets the default type url for RGBAColor
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
                     }
 
                     /** LineCap enum. */
@@ -661,6 +738,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.FrameEntity;
+
+                /**
+                 * Gets the default type url for FrameEntity
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
             /** Properties of a MovieEntity. */
@@ -715,6 +799,13 @@ export namespace com {
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.MovieEntity;
+
+                /**
+                 * Gets the default type url for MovieEntity
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
             }
         }
     }

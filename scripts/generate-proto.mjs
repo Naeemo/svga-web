@@ -3,8 +3,8 @@
  * https://github.com/protobufjs/protobuf.js#pbts-for-typescript
  */
 
-import pbjs from 'protobufjs/cli/pbjs.js'
-import pbts from 'protobufjs/cli/pbts.js'
+import pbjs from 'protobufjs-cli/pbjs.js'
+import pbts from 'protobufjs-cli/pbts.js'
 
 // generate js from proto file
 const generateJS = () => new Promise((resolve, reject) =>
