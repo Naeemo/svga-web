@@ -21,7 +21,7 @@
 
         if (!data) {
             const downloader = new Downloader()
-            const fileData = await downloader.get('https://iovo-oss.yy.com/yoyi_global/Fl6Mww.svga')
+            const fileData = await downloader.get('/examples/svga/story.svga')
             const parser = new Parser()
             data = await parser.do(fileData)
 
