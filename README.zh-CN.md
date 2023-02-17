@@ -14,8 +14,8 @@
 目前由我个人维护，最初代码来自官方 [svga.lite](https://github.com/svga/SVGAPlayer-Web-Lite) 。
 欢迎贡献和讨论。
 
-[x] TypeScript 支持。
-[x] 使用原生 `audio` 标签实现的声音播放。
+- [x] TypeScript 支持。
+- [x] 使用原生 `audio` 标签实现的声音播放。
 
 ## 安装
 

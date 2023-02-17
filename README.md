@@ -16,8 +16,8 @@ This lib is not an official one by [svga.io](http://svga.io/en/).
 It is maintained by myself currently, original source came from the official [svga.lite](https://github.com/svga/SVGAPlayer-Web-Lite).
 Contributions and discussions are welcome.
 
-[x] TypeScript Support.
-[x] Audio support with native `audio` element.
+- [x] TypeScript Support.
+- [x] Audio support with native `audio` element.
 
 ## Usage
 
