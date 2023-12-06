@@ -133,10 +133,7 @@ export default class Player {
   public mount(videoItem: VideoEntity): Promise<void> {
     this.currentFrame = 0
     this.videoItem = videoItem
-
-    const prepare = this.renderer.prepare(videoItem)
-    this.renderer.clear()
-    return prepare
+    return this.renderer.prepare(videoItem)
   }
 
   public start(): void {

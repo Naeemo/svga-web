@@ -23,8 +23,7 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
   const movie = svga.MovieEntity.decode(inflateData)
   const images: ImageSources = {}
   const audios: AudioSources = {}
-  const transferables: Transferable[] = []
-  const promises: Promise<void>[] = []
+  const transferables = new Set<Transferable>();
 
   // parse audios
   movie.audios.forEach((audio) => {
@@ -39,7 +38,7 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
       uint8.byteOffset,
       uint8.byteOffset + uint8.byteLength
     )
-    transferables.push(sourceBuffer)
+    transferables.add(sourceBuffer)
     audios[audioKey] = {
       audioKey,
       source: sourceBuffer,
@@ -65,22 +64,17 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
       continue
     }
 
-    const blob = new Blob([uint8], { type: 'image/png' })
-    promises.push(
-      createImageBitmap(blob)
-        .then((bitMap) => {
-          images[key] = bitMap
-          transferables.push(bitMap)
-        })
-        .catch((err) => {
-          console.error('decode svga image source fail:\n', err)
-          console.error(uint8, blob, movie)
-        })
+    const sourceBuffer = uint8.buffer.slice(
+        uint8.byteOffset,
+        uint8.byteOffset + uint8.byteLength
     )
+    images[key] = sourceBuffer;
+    transferables.add(sourceBuffer)
   }
 
-  Promise.all(promises).then(() => {
-    const data = new VideoEntity(movie, images, audios)
-    postMessage({ result: data, id: event.data.id }, transferables)
-  })
+
+  const data = new VideoEntity(movie, images, audios)
+
+  const transfers = Array.from(transferables);
+  postMessage({ result: data, id: event.data.id }, transfers);
 }
