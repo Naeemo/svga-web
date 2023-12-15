@@ -45,7 +45,11 @@ function render(
         })
         context.clip()
       }
-      context.drawImage(img, 0, 0)
+      if (img instanceof Image) {
+        context.drawImage(img, 0, 0, img.width, img.height)
+      } else {
+        context.drawImage(img, 0, 0)
+      }
     }
 
     const dynamicElement = sprite.imageKey && dynamicElements[sprite.imageKey]
