@@ -22,11 +22,9 @@
 ### NPM
 
 ```sh
-yarn add svga-web
-
-# 或者
-
-npm i svga-web
+$ pnpm add svga-web
+# yarn add svga-web
+# npm i svga-web
 ```
 
 ### CDN
@@ -283,13 +281,14 @@ setTimeout(() => {
 
 ```shell
 # 安装依赖
-yarn install
+# nvm use
+$ pnpm install --frozen-lockfile
 
 # 开发
-yarn start
+$ pnpm start
 
 # 构建
-yarn build
+$ pnpm build
 ```
 
 ## LICENSE

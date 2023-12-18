@@ -15,7 +15,7 @@ interface IRectPath {
 
 export function drawRect(
   context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-  obj: IRectPath
+  obj: IRectPath,
 ): void {
   context.save()
 

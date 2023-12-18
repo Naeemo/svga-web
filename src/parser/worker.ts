@@ -36,7 +36,7 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
 
     const sourceBuffer = uint8.buffer.slice(
       uint8.byteOffset,
-      uint8.byteOffset + uint8.byteLength
+      uint8.byteOffset + uint8.byteLength,
     )
     transferables.add(sourceBuffer)
     audios[audioKey] = {
@@ -66,7 +66,7 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
 
     const sourceBuffer = uint8.buffer.slice(
       uint8.byteOffset,
-      uint8.byteOffset + uint8.byteLength
+      uint8.byteOffset + uint8.byteLength,
     )
     images[key] = sourceBuffer
     transferables.add(sourceBuffer)

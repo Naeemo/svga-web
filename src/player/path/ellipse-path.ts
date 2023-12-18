@@ -14,7 +14,7 @@ interface IEllipsePath {
 
 export function drawEllipse(
   context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-  obj: IEllipsePath
+  obj: IEllipsePath,
 ): void {
   context.save()
 

@@ -75,9 +75,9 @@ export default class FrameEntity {
               const { r, g, b, a } = shape.styles
                 .fill as svga.ShapeEntity.ShapeStyle.RGBAColor
               shape.styles.fillStr = `rgba(${parseInt(
-                (r * 255).toString()
+                (r * 255).toString(),
               )}, ${parseInt((g * 255).toString())}, ${parseInt(
-                (b * 255).toString()
+                (b * 255).toString(),
               )}, ${a})`
             }
 
@@ -85,9 +85,9 @@ export default class FrameEntity {
               const { r, g, b, a } = shape.styles
                 .stroke as svga.ShapeEntity.ShapeStyle.RGBAColor
               shape.styles.strokeStr = `rgba(${parseInt(
-                (r * 255).toString()
+                (r * 255).toString(),
               )}, ${parseInt((g * 255).toString())}, ${parseInt(
-                (b * 255).toString()
+                (b * 255).toString(),
               )}, ${a})`
             }
 

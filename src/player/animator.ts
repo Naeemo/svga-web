@@ -45,7 +45,7 @@ export default class Animator {
 
     if (this.noExecutionDelay && this.timeoutWorker === null) {
       this.timeoutWorker = new Worker(
-        window.URL.createObjectURL(new Blob([WORKER]))
+        window.URL.createObjectURL(new Blob([WORKER])),
       )
     }
 

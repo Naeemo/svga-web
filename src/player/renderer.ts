@@ -51,7 +51,7 @@ export default class Renderer {
           videoItem.images[key] = bitmap
         }
         return item
-      }
+      },
     )
 
     const loadAudios = Object.values(videoItem.audios).map(
@@ -59,8 +59,8 @@ export default class Renderer {
         new Promise((resolve) => {
           const audio = new Audio(
             URL.createObjectURL(
-              new Blob([new Uint8Array(source)], { type: 'audio/x-mpeg' })
-            )
+              new Blob([new Uint8Array(source)], { type: 'audio/x-mpeg' }),
+            ),
           )
 
           const ac: AudioConfig = {
@@ -77,7 +77,7 @@ export default class Renderer {
 
           audio.onloadeddata = resolve
           audio.load()
-        })
+        }),
     )
 
     await Promise.all([...loadAudios, ...loadImages])
@@ -113,7 +113,7 @@ export default class Renderer {
     images: ImageSources,
     sprites: Array<Sprite>,
     dynamicElements: DynamicElements,
-    frame: number
+    frame: number,
   ): void {
     const context2d = this.target.getContext('2d')
     if (!context2d) {

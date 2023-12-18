@@ -1,6 +1,7 @@
 {
   "name": "svga-web",
   "version": "2.3.0",
+  "packageManager": "pnpm@8.12.1",
   "description": "A SVGA player for modern Web.",
   "homepage": "https://github.com/Naeemo/svga-web",
   "publishConfig": {
@@ -23,12 +24,13 @@
     "dist",
     "src"
   ],
-  "main": "./dist/svga-web.umd.js",
-  "module": "./dist/svga-web.es.js",
+  "type": "module",
+  "main": "./dist/svga-web.js",
+  "module": "./dist/svga-web.umd.cjs",
   "exports": {
     ".": {
-      "import": "./dist/svga-web.es.js",
-      "require": "./dist/svga-web.umd.js"
+      "import": "./dist/svga-web.js",
+      "require": "./dist/svga-web.umd.cjs"
     }
   },
   "types": "src/index.ts",
@@ -37,31 +39,29 @@
     "start": "eslint ./src && vite",
     "prebuild": "prettier --check ./src && tsc -p ./",
     "build": "vite build",
-    "prepublish": "yarn build",
+    "prepublish": "pnpm build",
     "proto": "node scripts/generate-proto.mjs"
   },
   "author": "naeemo<naeemo@qq.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.7.5",
+    "@types/node": "^20.10.5",
     "@types/offscreencanvas": "^2019.6.4",
     "@types/pako": "^2.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.33.1",
-    "@typescript-eslint/parser": "^5.33.1",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
     "eslint": "^8.22.0",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "np": "^7.5.0",
+    "lint-staged": "^15.2.0",
     "pako": "^2.0.4",
-    "prettier": "^2.4.1",
+    "prettier": "^3.1.1",
     "protobufjs": "^7.0.0",
     "protobufjs-cli": "^1.0.0",
-    "typescript": "^4.5.5",
-    "vite": "^3.0.8"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
   },
-  "dependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

@@ -48,7 +48,7 @@ export default class VideoEntity {
   constructor(
     spec: svga.MovieEntity,
     images: ImageSources,
-    audios: AudioSources
+    audios: AudioSources,
   ) {
     this.version = spec.version
     this.videoSize.width = spec.params?.viewBoxWidth || 0.0

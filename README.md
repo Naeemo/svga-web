@@ -24,11 +24,9 @@ Contributions and discussions are welcome.
 ### NPM
 
 ```sh
-yarn add svga-web
-
-# or
-
-npm i svga-web
+$ pnpm add svga-web
+# yarn add svga-web
+# npm i svga-web
 ```
 
 ### CDN
@@ -273,13 +271,14 @@ setTimeout(() => {
 ## Development
 ```shell
 # Installation dependencies
-yarn install
+# nvm use
+$ pnpm install --frozen-lockfile
 
 # Development
-yarn start
+$ pnpm start
 
 # Build
-yarn build
+$ pnpm build
 ```
 
 ## LICENSE

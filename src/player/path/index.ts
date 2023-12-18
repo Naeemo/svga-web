@@ -4,7 +4,7 @@ import svga = com.opensource.svga
 
 export function resetShapeStyles(
   context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-  styles?: IParseStyles
+  styles?: IParseStyles,
 ): void {
   if (!styles) {
     return
@@ -32,7 +32,7 @@ export function resetShapeStyles(
 
 export function applyTransform(
   context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-  transform?: svga.Transform
+  transform?: svga.Transform,
 ): void {
   if (!transform) {
     return
@@ -44,6 +44,6 @@ export function applyTransform(
     transform.c || 0,
     transform.d || 1.0,
     transform.tx || 0,
-    transform.ty || 0
+    transform.ty || 0,
   )
 }

@@ -10,7 +10,7 @@ function render(
   bitmapCache: ImageSources,
   dynamicElements: DynamicElements,
   sprites: Array<Sprite>,
-  currentFrame: number
+  currentFrame: number,
 ): HTMLCanvasElement | OffscreenCanvas {
   const context = canvas.getContext('2d')
 
@@ -34,7 +34,7 @@ function render(
       frameItem.transform.c || 0,
       frameItem.transform.d || 1,
       frameItem.transform.tx || 0,
-      frameItem.transform.ty || 0
+      frameItem.transform.ty || 0,
     )
 
     const img = sprite.imageKey && bitmapCache[sprite.imageKey]
@@ -85,7 +85,7 @@ function render(
             (frameItem.layout.width - width) / 2,
             (frameItem.layout.height - height) / 2,
             width,
-            height
+            height,
           )
           break
         }
@@ -100,7 +100,7 @@ function render(
             (frameItem.layout.width - width) / 2,
             (frameItem.layout.height - height) / 2,
             width,
-            height
+            height,
           )
           break
         }
@@ -110,7 +110,7 @@ function render(
             0,
             0,
             frameItem.layout.width,
-            frameItem.layout.height
+            frameItem.layout.height,
           )
           break
         case 'none':
@@ -118,7 +118,7 @@ function render(
           context.drawImage(
             source,
             (frameItem.layout.width - sourceWidth) / 2,
-            (frameItem.layout.height - sourceHeight) / 2
+            (frameItem.layout.height - sourceHeight) / 2,
           )
           break
       }

@@ -41,7 +41,7 @@ interface IBezierPath {
 
 export function drawBezier(
   context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-  obj: IBezierPath
+  obj: IBezierPath,
 ): void {
   context.save()
 
@@ -76,7 +76,7 @@ function drawBezierElement(
   context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   currentPoint: IPoint,
   method: PathMethod,
-  args: string[]
+  args: string[],
 ): void {
   switch (method) {
     case PathMethod.M:
@@ -128,7 +128,7 @@ function drawBezierElement(
         currentPoint.x2,
         currentPoint.y2,
         currentPoint.x,
-        currentPoint.y
+        currentPoint.y,
       )
       break
     case PathMethod.c:
@@ -144,7 +144,7 @@ function drawBezierElement(
         currentPoint.x2,
         currentPoint.y2,
         currentPoint.x,
-        currentPoint.y
+        currentPoint.y,
       )
       break
     case PathMethod.S:
@@ -166,7 +166,7 @@ function drawBezierElement(
           currentPoint.x2,
           currentPoint.y2,
           currentPoint.x,
-          currentPoint.y
+          currentPoint.y,
         )
       } else {
         currentPoint.x1 = Number(args[0])
@@ -177,7 +177,7 @@ function drawBezierElement(
           currentPoint.x1,
           currentPoint.y1,
           currentPoint.x,
-          currentPoint.y
+          currentPoint.y,
         )
       }
       break
@@ -200,7 +200,7 @@ function drawBezierElement(
           currentPoint.x2,
           currentPoint.y2,
           currentPoint.x,
-          currentPoint.y
+          currentPoint.y,
         )
       } else {
         currentPoint.x1 = currentPoint.x + Number(args[0])
@@ -211,7 +211,7 @@ function drawBezierElement(
           currentPoint.x1,
           currentPoint.y1,
           currentPoint.x,
-          currentPoint.y
+          currentPoint.y,
         )
       }
       break
@@ -224,7 +224,7 @@ function drawBezierElement(
         currentPoint.x1,
         currentPoint.y1,
         currentPoint.x,
-        currentPoint.y
+        currentPoint.y,
       )
       break
     case PathMethod.q:
@@ -236,7 +236,7 @@ function drawBezierElement(
         currentPoint.x1,
         currentPoint.y1,
         currentPoint.x,
-        currentPoint.y
+        currentPoint.y,
       )
       break
     case PathMethod.A:

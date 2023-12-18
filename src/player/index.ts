@@ -65,7 +65,7 @@ export default class Player {
   constructor(
     element: string | HTMLCanvasElement,
     videoItem?: VideoEntity,
-    options?: options
+    options?: options,
   ) {
     this.container =
       typeof element === 'string'
@@ -203,7 +203,7 @@ export default class Player {
         {
           rootMargin: '0px',
           threshold: [0, 0.5, 1],
-        }
+        },
       )
       this.intersectionObserver.observe(this.container)
     } else {
@@ -222,7 +222,7 @@ export default class Player {
       case 'number':
         if (loop <= 0) {
           console.warn(
-            '[svga-web] set loop to 0 is deprecated, use "loop: true" instead'
+            '[svga-web] set loop to 0 is deprecated, use "loop: true" instead',
           )
           this.animator.loop = true
         } else {
@@ -291,7 +291,7 @@ export default class Player {
           images,
           sprites,
           dynamicElements,
-          this.currentFrame
+          this.currentFrame,
         )
       }
 
