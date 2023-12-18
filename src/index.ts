@@ -9,19 +9,21 @@ import VideoEntity from './parser/video-entity'
  * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap
  */
 if (!('createImageBitmap' in window)) {
-    window.createImageBitmap = async function(blob) {
-        return new Promise((resolve,reject) => {
-            let img = document.createElement('img');
-            img.addEventListener('load', function() {
-                resolve(this as any);
-            });
-            img.addEventListener('error', function(e) {
-                // console.log('createImageBitmap error', e);
-                reject(e);
-            })
-            img.src = URL.createObjectURL(blob as any);
-        });
-    }
+  Object.assign(window, {
+    createImageBitmap: async function (blob: Blob) {
+      return new Promise((resolve, reject) => {
+        const img = document.createElement('img')
+        img.addEventListener('load', function () {
+          resolve(this)
+        })
+        img.addEventListener('error', function (e) {
+          // console.log('createImageBitmap error', e);
+          reject(e)
+        })
+        img.src = URL.createObjectURL(blob)
+      })
+    },
+  })
 }
 
 export * from './parser'

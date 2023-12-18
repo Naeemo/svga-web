@@ -31,10 +31,10 @@ export default class Renderer {
     this.audioConfigs = {}
     // 重新设置 canvas 的尺寸，哪怕设置的值与原值没有区别，都会导致 canvas 重绘，在移动端上会清屏 https://blog.csdn.net/harmsworth2016/article/details/118426390
     if (this.target.width !== videoItem.videoSize.width) {
-      this.target.width = videoItem.videoSize.width;
+      this.target.width = videoItem.videoSize.width
     }
     if (this.target.height !== videoItem.videoSize.height) {
-      this.target.height = videoItem.videoSize.height;
+      this.target.height = videoItem.videoSize.height
     }
 
     const addAudioConfig = (frame: number, ac: AudioConfig) => {
@@ -43,14 +43,16 @@ export default class Renderer {
       this.audioConfigs[frame] = acs
     }
 
-    const loadImages = Object.entries(videoItem.images).map(async ([key, item]) => {
-      if (item instanceof ArrayBuffer) {
-        const blob = new Blob([item], { type: 'image/png' })
-        const bitmap = await createImageBitmap(blob);
-        videoItem.images[key] = bitmap;
+    const loadImages = Object.entries(videoItem.images).map(
+      async ([key, item]) => {
+        if (item instanceof ArrayBuffer) {
+          const blob = new Blob([item], { type: 'image/png' })
+          const bitmap = await createImageBitmap(blob)
+          videoItem.images[key] = bitmap
+        }
+        return item
       }
-      return item;
-    });
+    )
 
     const loadAudios = Object.values(videoItem.audios).map(
       ({ source, startFrame, endFrame, audioKey, startTime, totalTime }) =>

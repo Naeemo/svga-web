@@ -48,7 +48,7 @@ function render(
       if (img instanceof Image) {
         context.drawImage(img, 0, 0, img.width, img.height)
       } else {
-        context.drawImage(img, 0, 0)
+        context.drawImage(img as ImageBitmap, 0, 0)
       }
     }
 
