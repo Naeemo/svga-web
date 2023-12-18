@@ -3,6 +3,9 @@
   "version": "2.3.0",
   "description": "A SVGA player for modern Web.",
   "homepage": "https://github.com/Naeemo/svga-web",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "bugs": {
     "url": "https://github.com/Naeemo/svga-web/issues"
   },
