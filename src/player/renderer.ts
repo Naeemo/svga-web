@@ -11,6 +11,29 @@ interface AudioConfig extends svga.AudioEntity {
   audio: HTMLAudioElement
 }
 
+function polyfillCreateImageBitmap() {
+  /* Safari and Edge polyfill for createImageBitmap
+   * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap
+   */
+  if (!('createImageBitmap' in window)) {
+    Object.assign(window, {
+      createImageBitmap: async function (blob: Blob) {
+        return new Promise((resolve, reject) => {
+          const img = document.createElement('img')
+          img.addEventListener('load', function () {
+            resolve(this)
+          })
+          img.addEventListener('error', function (e) {
+            // console.log('createImageBitmap error', e);
+            reject(e)
+          })
+          img.src = URL.createObjectURL(blob)
+        })
+      },
+    })
+  }
+}
+
 export default class Renderer {
   private readonly target: HTMLCanvasElement
   private audios: HTMLAudioElement[] = []
@@ -20,6 +43,7 @@ export default class Renderer {
   private readonly offscreenCanvas: HTMLCanvasElement | OffscreenCanvas
 
   constructor(target: HTMLCanvasElement) {
+    polyfillCreateImageBitmap()
     this.target = target
     this.offscreenCanvas = window.OffscreenCanvas
       ? new window.OffscreenCanvas(target.width, target.height)
