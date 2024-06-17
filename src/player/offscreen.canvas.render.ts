@@ -68,6 +68,9 @@ function render(
       } else if (source instanceof SVGImageElement) {
         sourceWidth = source.width.baseVal.value
         sourceHeight = source.height.baseVal.value
+      } else if (source instanceof VideoFrame) {
+        sourceWidth = source.codedWidth
+        sourceHeight = source.codedHeight
       } else {
         sourceWidth = source.width
         sourceHeight = source.height
