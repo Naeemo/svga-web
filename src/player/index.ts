@@ -82,7 +82,9 @@ export default class Player {
 
     this.renderer = new Renderer(this.container)
     this.animator = new Animator()
-    videoItem && this.mount(videoItem)
+    if (videoItem) {
+      this.mount(videoItem)
+    }
 
     if (options) {
       this.set(options)

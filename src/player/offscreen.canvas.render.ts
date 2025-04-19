@@ -127,45 +127,41 @@ function render(
       }
     }
 
-    frameItem.shapes &&
-      frameItem.shapes.forEach((shape) => {
-        if (
-          shape.type === svga.ShapeEntity.ShapeType.SHAPE &&
-          shape.shape &&
-          shape.shape.d
-        ) {
-          drawBezier(context, {
-            d: shape.shape.d,
-            transform: shape.transform,
-            styles: shape.styles,
-          })
-        } else if (
-          shape.type === svga.ShapeEntity.ShapeType.ELLIPSE &&
-          shape.ellipse
-        ) {
-          drawEllipse(context, {
-            x: shape.ellipse.x || 0.0,
-            y: shape.ellipse.y || 0.0,
-            radiusX: shape.ellipse.radiusX || 0.0,
-            radiusY: shape.ellipse.radiusY || 0.0,
-            transform: shape.transform,
-            styles: shape.styles,
-          })
-        } else if (
-          shape.type === svga.ShapeEntity.ShapeType.RECT &&
-          shape.rect
-        ) {
-          drawRect(context, {
-            x: shape.rect.x || 0.0,
-            y: shape.rect.y || 0.0,
-            width: shape.rect.width || 0.0,
-            height: shape.rect.height || 0.0,
-            cornerRadius: shape.rect.cornerRadius || 0.0,
-            transform: shape.transform,
-            styles: shape.styles,
-          })
-        }
-      })
+    frameItem.shapes?.forEach((shape) => {
+      if (
+        shape.type === svga.ShapeEntity.ShapeType.SHAPE &&
+        shape.shape &&
+        shape.shape.d
+      ) {
+        drawBezier(context, {
+          d: shape.shape.d,
+          transform: shape.transform,
+          styles: shape.styles,
+        })
+      } else if (
+        shape.type === svga.ShapeEntity.ShapeType.ELLIPSE &&
+        shape.ellipse
+      ) {
+        drawEllipse(context, {
+          x: shape.ellipse.x || 0.0,
+          y: shape.ellipse.y || 0.0,
+          radiusX: shape.ellipse.radiusX || 0.0,
+          radiusY: shape.ellipse.radiusY || 0.0,
+          transform: shape.transform,
+          styles: shape.styles,
+        })
+      } else if (shape.type === svga.ShapeEntity.ShapeType.RECT && shape.rect) {
+        drawRect(context, {
+          x: shape.rect.x || 0.0,
+          y: shape.rect.y || 0.0,
+          width: shape.rect.width || 0.0,
+          height: shape.rect.height || 0.0,
+          cornerRadius: shape.rect.cornerRadius || 0.0,
+          transform: shape.transform,
+          styles: shape.styles,
+        })
+      }
+    })
     context.restore()
   })
 

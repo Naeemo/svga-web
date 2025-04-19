@@ -39,9 +39,10 @@ export default class Animator {
     this.isRunning = true
     this.startTimestamp = Animator.currentTimeMillisecond()
 
-    initialFrame &&
-      (this.startTimestamp -=
-        (initialFrame / (this.endValue - this.startValue)) * this.duration)
+    if (initialFrame) {
+      this.startTimestamp -=
+        (initialFrame / (this.endValue - this.startValue)) * this.duration
+    }
 
     if (this.noExecutionDelay && this.timeoutWorker === null) {
       this.timeoutWorker = new Worker(

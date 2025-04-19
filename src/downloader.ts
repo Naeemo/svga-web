@@ -33,10 +33,10 @@ export default class Downloader {
   }
 
   cancel(): void {
-    this.request && this.request.abort()
+    this.request?.abort()
   }
 
   destroy(): void {
-    this.request && this.request.abort()
+    this.request?.abort()
   }
 }
