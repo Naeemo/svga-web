@@ -104,12 +104,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MovieParams.decode = function decode(r, l) {
+                MovieParams.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.MovieParams();
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.viewBoxWidth = r.float();
@@ -215,12 +217,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                SpriteEntity.decode = function decode(r, l) {
+                SpriteEntity.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.SpriteEntity();
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.imageKey = r.string();
@@ -341,12 +345,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                AudioEntity.decode = function decode(r, l) {
+                AudioEntity.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.AudioEntity();
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.audioKey = r.string();
@@ -464,12 +470,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                Layout.decode = function decode(r, l) {
+                Layout.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.Layout();
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.x = r.float();
@@ -601,12 +609,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                Transform.decode = function decode(r, l) {
+                Transform.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.Transform();
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.a = r.float();
@@ -760,12 +770,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ShapeEntity.decode = function decode(r, l) {
+                ShapeEntity.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity();
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.type = r.int32();
@@ -875,12 +887,14 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    ShapeArgs.decode = function decode(r, l) {
+                    ShapeArgs.decode = function decode(r, l, e) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
                         var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.ShapeArgs();
                         while (r.pos < c) {
                             var t = r.uint32();
+                            if (t === e)
+                                break;
                             switch (t >>> 3) {
                             case 1: {
                                     m.d = r.string();
@@ -991,12 +1005,14 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    RectArgs.decode = function decode(r, l) {
+                    RectArgs.decode = function decode(r, l, e) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
                         var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.RectArgs();
                         while (r.pos < c) {
                             var t = r.uint32();
+                            if (t === e)
+                                break;
                             switch (t >>> 3) {
                             case 1: {
                                     m.x = r.float();
@@ -1114,12 +1130,14 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    EllipseArgs.decode = function decode(r, l) {
+                    EllipseArgs.decode = function decode(r, l, e) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
                         var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.EllipseArgs();
                         while (r.pos < c) {
                             var t = r.uint32();
+                            if (t === e)
+                                break;
                             switch (t >>> 3) {
                             case 1: {
                                     m.x = r.float();
@@ -1278,12 +1296,14 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    ShapeStyle.decode = function decode(r, l) {
+                    ShapeStyle.decode = function decode(r, l, e) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
                         var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.ShapeStyle();
                         while (r.pos < c) {
                             var t = r.uint32();
+                            if (t === e)
+                                break;
                             switch (t >>> 3) {
                             case 1: {
                                     m.fill = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
@@ -1414,12 +1434,14 @@ export const com = $root.com = (() => {
                          * @throws {Error} If the payload is not a reader or valid buffer
                          * @throws {$protobuf.util.ProtocolError} If required fields are missing
                          */
-                        RGBAColor.decode = function decode(r, l) {
+                        RGBAColor.decode = function decode(r, l, e) {
                             if (!(r instanceof $Reader))
                                 r = $Reader.create(r);
                             var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor();
                             while (r.pos < c) {
                                 var t = r.uint32();
+                                if (t === e)
+                                    break;
                                 switch (t >>> 3) {
                                 case 1: {
                                         m.r = r.float();
@@ -1581,12 +1603,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FrameEntity.decode = function decode(r, l) {
+                FrameEntity.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.FrameEntity();
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.alpha = r.float();
@@ -1718,12 +1742,14 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MovieEntity.decode = function decode(r, l) {
+                MovieEntity.decode = function decode(r, l, e) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
                     var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.MovieEntity(), k, value;
                     while (r.pos < c) {
                         var t = r.uint32();
+                        if (t === e)
+                            break;
                         switch (t >>> 3) {
                         case 1: {
                                 m.version = r.string();
