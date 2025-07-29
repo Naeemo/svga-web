@@ -168,6 +168,12 @@ export default class Renderer {
     }
   }
 
+  public pauseAllAudio(): void {
+    this.audios.forEach(function (audio) {
+      audio.pause()
+    })
+  }
+
   public stopAllAudio(): void {
     this.audios.forEach(function (audio) {
       audio.pause()
