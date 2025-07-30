@@ -174,6 +174,12 @@ export default class Renderer {
     })
   }
 
+  public resumeAllAudio(): void {
+    this.audios.forEach(function (audio) {
+      audio.play()
+    })
+  }
+
   public stopAllAudio(): void {
     this.audios.forEach(function (audio) {
       audio.pause()

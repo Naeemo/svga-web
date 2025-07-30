@@ -148,6 +148,7 @@ export default class Player {
 
   public resume(): void {
     this.animator.start(this.currentFrame)
+    this.renderer.resumeAllAudio()
     this.$onEvent.resume()
   }
 
@@ -170,12 +171,15 @@ export default class Player {
   public clear(): void {
     this.animator.stop()
     this.renderer.clear()
+    this.renderer.stopAllAudio()
     this.$onEvent.clear()
   }
 
   public destroy(): void {
     this.animator.stop()
     this.renderer.clear()
+    this.renderer.stopAllAudio()
+    this.currentFrame = 0
     this.videoItem = null
   }
 
