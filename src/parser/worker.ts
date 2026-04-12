@@ -18,6 +18,13 @@ enum BinaryPrefix {
   IMAGE_PNG = 0b10001001,
 }
 
+const toTransferableBuffer = (source: Uint8Array): ArrayBuffer => {
+  const buffer = new Uint8Array(source.byteLength)
+  buffer.set(source)
+
+  return buffer.buffer
+}
+
 onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
   const inflateData: Uint8Array = inflate(new Uint8Array(event.data.data))
   const movie = svga.MovieEntity.decode(inflateData)
@@ -34,10 +41,7 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
       return
     }
 
-    const sourceBuffer = uint8.buffer.slice(
-      uint8.byteOffset,
-      uint8.byteOffset + uint8.byteLength,
-    )
+    const sourceBuffer = toTransferableBuffer(uint8)
     transferables.add(sourceBuffer)
     audios[audioKey] = {
       audioKey,
@@ -64,10 +68,7 @@ onmessage = function (event: MessageEvent<{ data: ArrayBuffer; id: number }>) {
       continue
     }
 
-    const sourceBuffer = uint8.buffer.slice(
-      uint8.byteOffset,
-      uint8.byteOffset + uint8.byteLength,
-    )
+    const sourceBuffer = toTransferableBuffer(uint8)
     images[key] = sourceBuffer
     transferables.add(sourceBuffer)
   }

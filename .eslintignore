@@ -1,5 +1,0 @@
-dist
-src/proto/svga.d.ts
-src/proto/svga.js
-tests/*.min.js
-tests/dist
