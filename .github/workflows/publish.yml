@@ -90,4 +90,6 @@ jobs:
 
       - name: Publish to npm
         if: steps.npm.outputs.published != 'true'
-        run: npm publish --tag "${{ steps.package.outputs.dist_tag }}" --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --tag "${{ steps.package.outputs.dist_tag }}" --ignore-scripts
