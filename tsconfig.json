@@ -10,7 +10,7 @@
     "alwaysStrict": true,
     "noEmit": true,
     "lib": [
-      "es2015",
+      "es2020",
       "dom",
       "webworker"
     ],
