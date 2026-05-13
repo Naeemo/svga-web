@@ -1,5 +1,5 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
-import * as $protobuf from "protobufjs/minimal";
+/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars, default-case, jsdoc/require-param*/
+import $protobuf from "protobufjs/minimal.js";
 
 // Common aliases
 const $Reader = $protobuf.Reader, $util = $protobuf.util;
@@ -44,6 +44,7 @@ export const com = $root.com = (() => {
                  * @property {number|null} [viewBoxHeight] MovieParams viewBoxHeight
                  * @property {number|null} [fps] MovieParams fps
                  * @property {number|null} [frames] MovieParams frames
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -53,11 +54,12 @@ export const com = $root.com = (() => {
                  * @implements IMovieParams
                  * @constructor
                  * @param {com.opensource.svga.IMovieParams=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function MovieParams(p) {
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -104,52 +106,81 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MovieParams.decode = function decode(r, l, e) {
+                MovieParams.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.MovieParams();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.MovieParams(), v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
-                            break;
-                        switch (t >>> 3) {
-                        case 1: {
-                                m.viewBoxWidth = r.float();
-                                break;
-                            }
-                        case 2: {
-                                m.viewBoxHeight = r.float();
-                                break;
-                            }
-                        case 3: {
-                                m.fps = r.int32();
-                                break;
-                            }
-                        case 4: {
-                                m.frames = r.int32();
-                                break;
-                            }
-                        default:
-                            r.skipType(t & 7);
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
                         }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
+                        case 1: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.viewBoxWidth = v;
+                                else
+                                    delete m.viewBoxWidth;
+                                continue;
+                            }
+                        case 2: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.viewBoxHeight = v;
+                                else
+                                    delete m.viewBoxHeight;
+                                continue;
+                            }
+                        case 3: {
+                                if (u !== 0)
+                                    break;
+                                if (v = r.int32())
+                                    m.fps = v;
+                                else
+                                    delete m.fps;
+                                continue;
+                            }
+                        case 4: {
+                                if (u !== 0)
+                                    break;
+                                if (v = r.int32())
+                                    m.frames = v;
+                                else
+                                    delete m.frames;
+                                continue;
+                            }
+                        }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for MovieParams
+                 * Gets the type url for MovieParams
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.MovieParams
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                MovieParams.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.MovieParams";
+                MovieParams.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.MovieParams";
                 };
 
                 return MovieParams;
@@ -164,6 +195,7 @@ export const com = $root.com = (() => {
                  * @property {string|null} [imageKey] SpriteEntity imageKey
                  * @property {Array.<com.opensource.svga.IFrameEntity>|null} [frames] SpriteEntity frames
                  * @property {string|null} [matteKey] SpriteEntity matteKey
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -173,12 +205,13 @@ export const com = $root.com = (() => {
                  * @implements ISpriteEntity
                  * @constructor
                  * @param {com.opensource.svga.ISpriteEntity=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function SpriteEntity(p) {
                     this.frames = [];
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -217,50 +250,71 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                SpriteEntity.decode = function decode(r, l, e) {
+                SpriteEntity.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.SpriteEntity();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.SpriteEntity(), v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
-                            break;
-                        switch (t >>> 3) {
-                        case 1: {
-                                m.imageKey = r.string();
-                                break;
-                            }
-                        case 2: {
-                                if (!(m.frames && m.frames.length))
-                                    m.frames = [];
-                                m.frames.push($root.com.opensource.svga.FrameEntity.decode(r, r.uint32()));
-                                break;
-                            }
-                        case 3: {
-                                m.matteKey = r.string();
-                                break;
-                            }
-                        default:
-                            r.skipType(t & 7);
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
                         }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
+                        case 1: {
+                                if (u !== 2)
+                                    break;
+                                if ((v = r.string()).length)
+                                    m.imageKey = v;
+                                else
+                                    delete m.imageKey;
+                                continue;
+                            }
+                        case 2: {
+                                if (u !== 2)
+                                    break;
+                                if (!(m.frames && m.frames.length))
+                                    m.frames = [];
+                                m.frames.push($root.com.opensource.svga.FrameEntity.decode(r, r.uint32(), undefined, q + 1));
+                                continue;
+                            }
+                        case 3: {
+                                if (u !== 2)
+                                    break;
+                                if ((v = r.string()).length)
+                                    m.matteKey = v;
+                                else
+                                    delete m.matteKey;
+                                continue;
+                            }
+                        }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for SpriteEntity
+                 * Gets the type url for SpriteEntity
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.SpriteEntity
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                SpriteEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.SpriteEntity";
+                SpriteEntity.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.SpriteEntity";
                 };
 
                 return SpriteEntity;
@@ -277,6 +331,7 @@ export const com = $root.com = (() => {
                  * @property {number|null} [endFrame] AudioEntity endFrame
                  * @property {number|null} [startTime] AudioEntity startTime
                  * @property {number|null} [totalTime] AudioEntity totalTime
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -286,11 +341,12 @@ export const com = $root.com = (() => {
                  * @implements IAudioEntity
                  * @constructor
                  * @param {com.opensource.svga.IAudioEntity=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function AudioEntity(p) {
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -345,56 +401,90 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                AudioEntity.decode = function decode(r, l, e) {
+                AudioEntity.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.AudioEntity();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.AudioEntity(), v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
-                            break;
-                        switch (t >>> 3) {
-                        case 1: {
-                                m.audioKey = r.string();
-                                break;
-                            }
-                        case 2: {
-                                m.startFrame = r.int32();
-                                break;
-                            }
-                        case 3: {
-                                m.endFrame = r.int32();
-                                break;
-                            }
-                        case 4: {
-                                m.startTime = r.int32();
-                                break;
-                            }
-                        case 5: {
-                                m.totalTime = r.int32();
-                                break;
-                            }
-                        default:
-                            r.skipType(t & 7);
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
                         }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
+                        case 1: {
+                                if (u !== 2)
+                                    break;
+                                if ((v = r.string()).length)
+                                    m.audioKey = v;
+                                else
+                                    delete m.audioKey;
+                                continue;
+                            }
+                        case 2: {
+                                if (u !== 0)
+                                    break;
+                                if (v = r.int32())
+                                    m.startFrame = v;
+                                else
+                                    delete m.startFrame;
+                                continue;
+                            }
+                        case 3: {
+                                if (u !== 0)
+                                    break;
+                                if (v = r.int32())
+                                    m.endFrame = v;
+                                else
+                                    delete m.endFrame;
+                                continue;
+                            }
+                        case 4: {
+                                if (u !== 0)
+                                    break;
+                                if (v = r.int32())
+                                    m.startTime = v;
+                                else
+                                    delete m.startTime;
+                                continue;
+                            }
+                        case 5: {
+                                if (u !== 0)
+                                    break;
+                                if (v = r.int32())
+                                    m.totalTime = v;
+                                else
+                                    delete m.totalTime;
+                                continue;
+                            }
+                        }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for AudioEntity
+                 * Gets the type url for AudioEntity
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.AudioEntity
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                AudioEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.AudioEntity";
+                AudioEntity.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.AudioEntity";
                 };
 
                 return AudioEntity;
@@ -410,6 +500,7 @@ export const com = $root.com = (() => {
                  * @property {number|null} [y] Layout y
                  * @property {number|null} [width] Layout width
                  * @property {number|null} [height] Layout height
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -419,11 +510,12 @@ export const com = $root.com = (() => {
                  * @implements ILayout
                  * @constructor
                  * @param {com.opensource.svga.ILayout=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function Layout(p) {
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -470,52 +562,81 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                Layout.decode = function decode(r, l, e) {
+                Layout.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.Layout();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.Layout(), v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
-                            break;
-                        switch (t >>> 3) {
-                        case 1: {
-                                m.x = r.float();
-                                break;
-                            }
-                        case 2: {
-                                m.y = r.float();
-                                break;
-                            }
-                        case 3: {
-                                m.width = r.float();
-                                break;
-                            }
-                        case 4: {
-                                m.height = r.float();
-                                break;
-                            }
-                        default:
-                            r.skipType(t & 7);
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
                         }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
+                        case 1: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.x = v;
+                                else
+                                    delete m.x;
+                                continue;
+                            }
+                        case 2: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.y = v;
+                                else
+                                    delete m.y;
+                                continue;
+                            }
+                        case 3: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.width = v;
+                                else
+                                    delete m.width;
+                                continue;
+                            }
+                        case 4: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.height = v;
+                                else
+                                    delete m.height;
+                                continue;
+                            }
+                        }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for Layout
+                 * Gets the type url for Layout
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.Layout
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                Layout.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.Layout";
+                Layout.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.Layout";
                 };
 
                 return Layout;
@@ -533,6 +654,7 @@ export const com = $root.com = (() => {
                  * @property {number|null} [d] Transform d
                  * @property {number|null} [tx] Transform tx
                  * @property {number|null} [ty] Transform ty
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -542,11 +664,12 @@ export const com = $root.com = (() => {
                  * @implements ITransform
                  * @constructor
                  * @param {com.opensource.svga.ITransform=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function Transform(p) {
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -609,60 +732,99 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                Transform.decode = function decode(r, l, e) {
+                Transform.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.Transform();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.Transform(), v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
-                            break;
-                        switch (t >>> 3) {
-                        case 1: {
-                                m.a = r.float();
-                                break;
-                            }
-                        case 2: {
-                                m.b = r.float();
-                                break;
-                            }
-                        case 3: {
-                                m.c = r.float();
-                                break;
-                            }
-                        case 4: {
-                                m.d = r.float();
-                                break;
-                            }
-                        case 5: {
-                                m.tx = r.float();
-                                break;
-                            }
-                        case 6: {
-                                m.ty = r.float();
-                                break;
-                            }
-                        default:
-                            r.skipType(t & 7);
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
                         }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
+                        case 1: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.a = v;
+                                else
+                                    delete m.a;
+                                continue;
+                            }
+                        case 2: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.b = v;
+                                else
+                                    delete m.b;
+                                continue;
+                            }
+                        case 3: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.c = v;
+                                else
+                                    delete m.c;
+                                continue;
+                            }
+                        case 4: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.d = v;
+                                else
+                                    delete m.d;
+                                continue;
+                            }
+                        case 5: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.tx = v;
+                                else
+                                    delete m.tx;
+                                continue;
+                            }
+                        case 6: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.ty = v;
+                                else
+                                    delete m.ty;
+                                continue;
+                            }
+                        }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for Transform
+                 * Gets the type url for Transform
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.Transform
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                Transform.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.Transform";
+                Transform.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.Transform";
                 };
 
                 return Transform;
@@ -680,6 +842,7 @@ export const com = $root.com = (() => {
                  * @property {com.opensource.svga.ShapeEntity.IEllipseArgs|null} [ellipse] ShapeEntity ellipse
                  * @property {com.opensource.svga.ShapeEntity.IShapeStyle|null} [styles] ShapeEntity styles
                  * @property {com.opensource.svga.ITransform|null} [transform] ShapeEntity transform
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -689,11 +852,12 @@ export const com = $root.com = (() => {
                  * @implements IShapeEntity
                  * @constructor
                  * @param {com.opensource.svga.IShapeEntity=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function ShapeEntity(p) {
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -770,60 +934,87 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ShapeEntity.decode = function decode(r, l, e) {
+                ShapeEntity.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.ShapeEntity(), v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
-                            break;
-                        switch (t >>> 3) {
-                        case 1: {
-                                m.type = r.int32();
-                                break;
-                            }
-                        case 2: {
-                                m.shape = $root.com.opensource.svga.ShapeEntity.ShapeArgs.decode(r, r.uint32());
-                                break;
-                            }
-                        case 3: {
-                                m.rect = $root.com.opensource.svga.ShapeEntity.RectArgs.decode(r, r.uint32());
-                                break;
-                            }
-                        case 4: {
-                                m.ellipse = $root.com.opensource.svga.ShapeEntity.EllipseArgs.decode(r, r.uint32());
-                                break;
-                            }
-                        case 10: {
-                                m.styles = $root.com.opensource.svga.ShapeEntity.ShapeStyle.decode(r, r.uint32());
-                                break;
-                            }
-                        case 11: {
-                                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
-                                break;
-                            }
-                        default:
-                            r.skipType(t & 7);
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
                         }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
+                        case 1: {
+                                if (u !== 0)
+                                    break;
+                                if (v = r.int32())
+                                    m.type = v;
+                                else
+                                    delete m.type;
+                                continue;
+                            }
+                        case 2: {
+                                if (u !== 2)
+                                    break;
+                                m.shape = $root.com.opensource.svga.ShapeEntity.ShapeArgs.decode(r, r.uint32(), undefined, q + 1, m.shape);
+                                m.args = "shape";
+                                continue;
+                            }
+                        case 3: {
+                                if (u !== 2)
+                                    break;
+                                m.rect = $root.com.opensource.svga.ShapeEntity.RectArgs.decode(r, r.uint32(), undefined, q + 1, m.rect);
+                                m.args = "rect";
+                                continue;
+                            }
+                        case 4: {
+                                if (u !== 2)
+                                    break;
+                                m.ellipse = $root.com.opensource.svga.ShapeEntity.EllipseArgs.decode(r, r.uint32(), undefined, q + 1, m.ellipse);
+                                m.args = "ellipse";
+                                continue;
+                            }
+                        case 10: {
+                                if (u !== 2)
+                                    break;
+                                m.styles = $root.com.opensource.svga.ShapeEntity.ShapeStyle.decode(r, r.uint32(), undefined, q + 1, m.styles);
+                                continue;
+                            }
+                        case 11: {
+                                if (u !== 2)
+                                    break;
+                                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32(), undefined, q + 1, m.transform);
+                                continue;
+                            }
+                        }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for ShapeEntity
+                 * Gets the type url for ShapeEntity
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.ShapeEntity
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                ShapeEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.ShapeEntity";
+                ShapeEntity.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.ShapeEntity";
                 };
 
                 /**
@@ -851,6 +1042,7 @@ export const com = $root.com = (() => {
                      * @memberof com.opensource.svga.ShapeEntity
                      * @interface IShapeArgs
                      * @property {string|null} [d] ShapeArgs d
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
 
                     /**
@@ -860,11 +1052,12 @@ export const com = $root.com = (() => {
                      * @implements IShapeArgs
                      * @constructor
                      * @param {com.opensource.svga.ShapeEntity.IShapeArgs=} [p] Properties to set
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
                     function ShapeArgs(p) {
                         if (p)
                             for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                                if (p[ks[i]] != null)
+                                if (p[ks[i]] != null && ks[i] !== "__proto__")
                                     this[ks[i]] = p[ks[i]];
                     }
 
@@ -887,40 +1080,54 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    ShapeArgs.decode = function decode(r, l, e) {
+                    ShapeArgs.decode = function decode(r, l, z, q, g) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
-                        var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.ShapeArgs();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $Reader.recursionLimit)
+                            throw Error("max depth exceeded");
+                        var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.ShapeEntity.ShapeArgs(), v;
                         while (r.pos < c) {
-                            var t = r.uint32();
-                            if (t === e)
-                                break;
-                            switch (t >>> 3) {
-                            case 1: {
-                                    m.d = r.string();
-                                    break;
-                                }
-                            default:
-                                r.skipType(t & 7);
+                            var s = r.pos;
+                            var t = r.tag();
+                            if (t === z) {
+                                z = undefined;
                                 break;
                             }
+                            var u = t & 7;
+                            switch (t >>>= 3) {
+                            case 1: {
+                                    if (u !== 2)
+                                        break;
+                                    if ((v = r.string()).length)
+                                        m.d = v;
+                                    else
+                                        delete m.d;
+                                    continue;
+                                }
+                            }
+                            r.skipType(u, q, t);
+                            $util.makeProp(m, "$unknowns", false);
+                            (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                         }
+                        if (z !== undefined)
+                            throw Error("missing end group");
                         return m;
                     };
 
                     /**
-                     * Gets the default type url for ShapeArgs
+                     * Gets the type url for ShapeArgs
                      * @function getTypeUrl
                      * @memberof com.opensource.svga.ShapeEntity.ShapeArgs
                      * @static
-                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns {string} The default type url
+                     * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns {string} The type url
                      */
-                    ShapeArgs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                        if (typeUrlPrefix === undefined) {
-                            typeUrlPrefix = "type.googleapis.com";
-                        }
-                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.ShapeArgs";
+                    ShapeArgs.getTypeUrl = function getTypeUrl(prefix) {
+                        if (prefix === undefined)
+                            prefix = "type.googleapis.com";
+                        return prefix + "/com.opensource.svga.ShapeEntity.ShapeArgs";
                     };
 
                     return ShapeArgs;
@@ -937,6 +1144,7 @@ export const com = $root.com = (() => {
                      * @property {number|null} [width] RectArgs width
                      * @property {number|null} [height] RectArgs height
                      * @property {number|null} [cornerRadius] RectArgs cornerRadius
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
 
                     /**
@@ -946,11 +1154,12 @@ export const com = $root.com = (() => {
                      * @implements IRectArgs
                      * @constructor
                      * @param {com.opensource.svga.ShapeEntity.IRectArgs=} [p] Properties to set
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
                     function RectArgs(p) {
                         if (p)
                             for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                                if (p[ks[i]] != null)
+                                if (p[ks[i]] != null && ks[i] !== "__proto__")
                                     this[ks[i]] = p[ks[i]];
                     }
 
@@ -1005,56 +1214,90 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    RectArgs.decode = function decode(r, l, e) {
+                    RectArgs.decode = function decode(r, l, z, q, g) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
-                        var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.RectArgs();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $Reader.recursionLimit)
+                            throw Error("max depth exceeded");
+                        var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.ShapeEntity.RectArgs(), v;
                         while (r.pos < c) {
-                            var t = r.uint32();
-                            if (t === e)
-                                break;
-                            switch (t >>> 3) {
-                            case 1: {
-                                    m.x = r.float();
-                                    break;
-                                }
-                            case 2: {
-                                    m.y = r.float();
-                                    break;
-                                }
-                            case 3: {
-                                    m.width = r.float();
-                                    break;
-                                }
-                            case 4: {
-                                    m.height = r.float();
-                                    break;
-                                }
-                            case 5: {
-                                    m.cornerRadius = r.float();
-                                    break;
-                                }
-                            default:
-                                r.skipType(t & 7);
+                            var s = r.pos;
+                            var t = r.tag();
+                            if (t === z) {
+                                z = undefined;
                                 break;
                             }
+                            var u = t & 7;
+                            switch (t >>>= 3) {
+                            case 1: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.x = v;
+                                    else
+                                        delete m.x;
+                                    continue;
+                                }
+                            case 2: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.y = v;
+                                    else
+                                        delete m.y;
+                                    continue;
+                                }
+                            case 3: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.width = v;
+                                    else
+                                        delete m.width;
+                                    continue;
+                                }
+                            case 4: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.height = v;
+                                    else
+                                        delete m.height;
+                                    continue;
+                                }
+                            case 5: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.cornerRadius = v;
+                                    else
+                                        delete m.cornerRadius;
+                                    continue;
+                                }
+                            }
+                            r.skipType(u, q, t);
+                            $util.makeProp(m, "$unknowns", false);
+                            (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                         }
+                        if (z !== undefined)
+                            throw Error("missing end group");
                         return m;
                     };
 
                     /**
-                     * Gets the default type url for RectArgs
+                     * Gets the type url for RectArgs
                      * @function getTypeUrl
                      * @memberof com.opensource.svga.ShapeEntity.RectArgs
                      * @static
-                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns {string} The default type url
+                     * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns {string} The type url
                      */
-                    RectArgs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                        if (typeUrlPrefix === undefined) {
-                            typeUrlPrefix = "type.googleapis.com";
-                        }
-                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.RectArgs";
+                    RectArgs.getTypeUrl = function getTypeUrl(prefix) {
+                        if (prefix === undefined)
+                            prefix = "type.googleapis.com";
+                        return prefix + "/com.opensource.svga.ShapeEntity.RectArgs";
                     };
 
                     return RectArgs;
@@ -1070,6 +1313,7 @@ export const com = $root.com = (() => {
                      * @property {number|null} [y] EllipseArgs y
                      * @property {number|null} [radiusX] EllipseArgs radiusX
                      * @property {number|null} [radiusY] EllipseArgs radiusY
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
 
                     /**
@@ -1079,11 +1323,12 @@ export const com = $root.com = (() => {
                      * @implements IEllipseArgs
                      * @constructor
                      * @param {com.opensource.svga.ShapeEntity.IEllipseArgs=} [p] Properties to set
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
                     function EllipseArgs(p) {
                         if (p)
                             for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                                if (p[ks[i]] != null)
+                                if (p[ks[i]] != null && ks[i] !== "__proto__")
                                     this[ks[i]] = p[ks[i]];
                     }
 
@@ -1130,52 +1375,81 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    EllipseArgs.decode = function decode(r, l, e) {
+                    EllipseArgs.decode = function decode(r, l, z, q, g) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
-                        var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.EllipseArgs();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $Reader.recursionLimit)
+                            throw Error("max depth exceeded");
+                        var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.ShapeEntity.EllipseArgs(), v;
                         while (r.pos < c) {
-                            var t = r.uint32();
-                            if (t === e)
-                                break;
-                            switch (t >>> 3) {
-                            case 1: {
-                                    m.x = r.float();
-                                    break;
-                                }
-                            case 2: {
-                                    m.y = r.float();
-                                    break;
-                                }
-                            case 3: {
-                                    m.radiusX = r.float();
-                                    break;
-                                }
-                            case 4: {
-                                    m.radiusY = r.float();
-                                    break;
-                                }
-                            default:
-                                r.skipType(t & 7);
+                            var s = r.pos;
+                            var t = r.tag();
+                            if (t === z) {
+                                z = undefined;
                                 break;
                             }
+                            var u = t & 7;
+                            switch (t >>>= 3) {
+                            case 1: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.x = v;
+                                    else
+                                        delete m.x;
+                                    continue;
+                                }
+                            case 2: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.y = v;
+                                    else
+                                        delete m.y;
+                                    continue;
+                                }
+                            case 3: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.radiusX = v;
+                                    else
+                                        delete m.radiusX;
+                                    continue;
+                                }
+                            case 4: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.radiusY = v;
+                                    else
+                                        delete m.radiusY;
+                                    continue;
+                                }
+                            }
+                            r.skipType(u, q, t);
+                            $util.makeProp(m, "$unknowns", false);
+                            (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                         }
+                        if (z !== undefined)
+                            throw Error("missing end group");
                         return m;
                     };
 
                     /**
-                     * Gets the default type url for EllipseArgs
+                     * Gets the type url for EllipseArgs
                      * @function getTypeUrl
                      * @memberof com.opensource.svga.ShapeEntity.EllipseArgs
                      * @static
-                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns {string} The default type url
+                     * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns {string} The type url
                      */
-                    EllipseArgs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                        if (typeUrlPrefix === undefined) {
-                            typeUrlPrefix = "type.googleapis.com";
-                        }
-                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.EllipseArgs";
+                    EllipseArgs.getTypeUrl = function getTypeUrl(prefix) {
+                        if (prefix === undefined)
+                            prefix = "type.googleapis.com";
+                        return prefix + "/com.opensource.svga.ShapeEntity.EllipseArgs";
                     };
 
                     return EllipseArgs;
@@ -1196,6 +1470,7 @@ export const com = $root.com = (() => {
                      * @property {number|null} [lineDashI] ShapeStyle lineDashI
                      * @property {number|null} [lineDashII] ShapeStyle lineDashII
                      * @property {number|null} [lineDashIII] ShapeStyle lineDashIII
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
 
                     /**
@@ -1205,11 +1480,12 @@ export const com = $root.com = (() => {
                      * @implements IShapeStyle
                      * @constructor
                      * @param {com.opensource.svga.ShapeEntity.IShapeStyle=} [p] Properties to set
+                     * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                      */
                     function ShapeStyle(p) {
                         if (p)
                             for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                                if (p[ks[i]] != null)
+                                if (p[ks[i]] != null && ks[i] !== "__proto__")
                                     this[ks[i]] = p[ks[i]];
                     }
 
@@ -1296,72 +1572,120 @@ export const com = $root.com = (() => {
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    ShapeStyle.decode = function decode(r, l, e) {
+                    ShapeStyle.decode = function decode(r, l, z, q, g) {
                         if (!(r instanceof $Reader))
                             r = $Reader.create(r);
-                        var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.ShapeStyle();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $Reader.recursionLimit)
+                            throw Error("max depth exceeded");
+                        var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.ShapeEntity.ShapeStyle(), v;
                         while (r.pos < c) {
-                            var t = r.uint32();
-                            if (t === e)
-                                break;
-                            switch (t >>> 3) {
-                            case 1: {
-                                    m.fill = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
-                                    break;
-                                }
-                            case 2: {
-                                    m.stroke = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32());
-                                    break;
-                                }
-                            case 3: {
-                                    m.strokeWidth = r.float();
-                                    break;
-                                }
-                            case 4: {
-                                    m.lineCap = r.int32();
-                                    break;
-                                }
-                            case 5: {
-                                    m.lineJoin = r.int32();
-                                    break;
-                                }
-                            case 6: {
-                                    m.miterLimit = r.float();
-                                    break;
-                                }
-                            case 7: {
-                                    m.lineDashI = r.float();
-                                    break;
-                                }
-                            case 8: {
-                                    m.lineDashII = r.float();
-                                    break;
-                                }
-                            case 9: {
-                                    m.lineDashIII = r.float();
-                                    break;
-                                }
-                            default:
-                                r.skipType(t & 7);
+                            var s = r.pos;
+                            var t = r.tag();
+                            if (t === z) {
+                                z = undefined;
                                 break;
                             }
+                            var u = t & 7;
+                            switch (t >>>= 3) {
+                            case 1: {
+                                    if (u !== 2)
+                                        break;
+                                    m.fill = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32(), undefined, q + 1, m.fill);
+                                    continue;
+                                }
+                            case 2: {
+                                    if (u !== 2)
+                                        break;
+                                    m.stroke = $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor.decode(r, r.uint32(), undefined, q + 1, m.stroke);
+                                    continue;
+                                }
+                            case 3: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.strokeWidth = v;
+                                    else
+                                        delete m.strokeWidth;
+                                    continue;
+                                }
+                            case 4: {
+                                    if (u !== 0)
+                                        break;
+                                    if (v = r.int32())
+                                        m.lineCap = v;
+                                    else
+                                        delete m.lineCap;
+                                    continue;
+                                }
+                            case 5: {
+                                    if (u !== 0)
+                                        break;
+                                    if (v = r.int32())
+                                        m.lineJoin = v;
+                                    else
+                                        delete m.lineJoin;
+                                    continue;
+                                }
+                            case 6: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.miterLimit = v;
+                                    else
+                                        delete m.miterLimit;
+                                    continue;
+                                }
+                            case 7: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.lineDashI = v;
+                                    else
+                                        delete m.lineDashI;
+                                    continue;
+                                }
+                            case 8: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.lineDashII = v;
+                                    else
+                                        delete m.lineDashII;
+                                    continue;
+                                }
+                            case 9: {
+                                    if (u !== 5)
+                                        break;
+                                    if ((v = r.float()) !== 0)
+                                        m.lineDashIII = v;
+                                    else
+                                        delete m.lineDashIII;
+                                    continue;
+                                }
+                            }
+                            r.skipType(u, q, t);
+                            $util.makeProp(m, "$unknowns", false);
+                            (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                         }
+                        if (z !== undefined)
+                            throw Error("missing end group");
                         return m;
                     };
 
                     /**
-                     * Gets the default type url for ShapeStyle
+                     * Gets the type url for ShapeStyle
                      * @function getTypeUrl
                      * @memberof com.opensource.svga.ShapeEntity.ShapeStyle
                      * @static
-                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns {string} The default type url
+                     * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns {string} The type url
                      */
-                    ShapeStyle.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                        if (typeUrlPrefix === undefined) {
-                            typeUrlPrefix = "type.googleapis.com";
-                        }
-                        return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.ShapeStyle";
+                    ShapeStyle.getTypeUrl = function getTypeUrl(prefix) {
+                        if (prefix === undefined)
+                            prefix = "type.googleapis.com";
+                        return prefix + "/com.opensource.svga.ShapeEntity.ShapeStyle";
                     };
 
                     ShapeStyle.RGBAColor = (function() {
@@ -1374,6 +1698,7 @@ export const com = $root.com = (() => {
                          * @property {number|null} [g] RGBAColor g
                          * @property {number|null} [b] RGBAColor b
                          * @property {number|null} [a] RGBAColor a
+                         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                          */
 
                         /**
@@ -1383,11 +1708,12 @@ export const com = $root.com = (() => {
                          * @implements IRGBAColor
                          * @constructor
                          * @param {com.opensource.svga.ShapeEntity.ShapeStyle.IRGBAColor=} [p] Properties to set
+                         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                          */
                         function RGBAColor(p) {
                             if (p)
                                 for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                                    if (p[ks[i]] != null)
+                                    if (p[ks[i]] != null && ks[i] !== "__proto__")
                                         this[ks[i]] = p[ks[i]];
                         }
 
@@ -1434,52 +1760,81 @@ export const com = $root.com = (() => {
                          * @throws {Error} If the payload is not a reader or valid buffer
                          * @throws {$protobuf.util.ProtocolError} If required fields are missing
                          */
-                        RGBAColor.decode = function decode(r, l, e) {
+                        RGBAColor.decode = function decode(r, l, z, q, g) {
                             if (!(r instanceof $Reader))
                                 r = $Reader.create(r);
-                            var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor();
+                            if (q === undefined)
+                                q = 0;
+                            if (q > $Reader.recursionLimit)
+                                throw Error("max depth exceeded");
+                            var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor(), v;
                             while (r.pos < c) {
-                                var t = r.uint32();
-                                if (t === e)
-                                    break;
-                                switch (t >>> 3) {
-                                case 1: {
-                                        m.r = r.float();
-                                        break;
-                                    }
-                                case 2: {
-                                        m.g = r.float();
-                                        break;
-                                    }
-                                case 3: {
-                                        m.b = r.float();
-                                        break;
-                                    }
-                                case 4: {
-                                        m.a = r.float();
-                                        break;
-                                    }
-                                default:
-                                    r.skipType(t & 7);
+                                var s = r.pos;
+                                var t = r.tag();
+                                if (t === z) {
+                                    z = undefined;
                                     break;
                                 }
+                                var u = t & 7;
+                                switch (t >>>= 3) {
+                                case 1: {
+                                        if (u !== 5)
+                                            break;
+                                        if ((v = r.float()) !== 0)
+                                            m.r = v;
+                                        else
+                                            delete m.r;
+                                        continue;
+                                    }
+                                case 2: {
+                                        if (u !== 5)
+                                            break;
+                                        if ((v = r.float()) !== 0)
+                                            m.g = v;
+                                        else
+                                            delete m.g;
+                                        continue;
+                                    }
+                                case 3: {
+                                        if (u !== 5)
+                                            break;
+                                        if ((v = r.float()) !== 0)
+                                            m.b = v;
+                                        else
+                                            delete m.b;
+                                        continue;
+                                    }
+                                case 4: {
+                                        if (u !== 5)
+                                            break;
+                                        if ((v = r.float()) !== 0)
+                                            m.a = v;
+                                        else
+                                            delete m.a;
+                                        continue;
+                                    }
+                                }
+                                r.skipType(u, q, t);
+                                $util.makeProp(m, "$unknowns", false);
+                                (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                             }
+                            if (z !== undefined)
+                                throw Error("missing end group");
                             return m;
                         };
 
                         /**
-                         * Gets the default type url for RGBAColor
+                         * Gets the type url for RGBAColor
                          * @function getTypeUrl
                          * @memberof com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor
                          * @static
-                         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                         * @returns {string} The default type url
+                         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                         * @returns {string} The type url
                          */
-                        RGBAColor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                            if (typeUrlPrefix === undefined) {
-                                typeUrlPrefix = "type.googleapis.com";
-                            }
-                            return typeUrlPrefix + "/com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor";
+                        RGBAColor.getTypeUrl = function getTypeUrl(prefix) {
+                            if (prefix === undefined)
+                                prefix = "type.googleapis.com";
+                            return prefix + "/com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor";
                         };
 
                         return RGBAColor;
@@ -1534,6 +1889,7 @@ export const com = $root.com = (() => {
                  * @property {com.opensource.svga.ITransform|null} [transform] FrameEntity transform
                  * @property {string|null} [clipPath] FrameEntity clipPath
                  * @property {Array.<com.opensource.svga.IShapeEntity>|null} [shapes] FrameEntity shapes
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -1543,12 +1899,13 @@ export const com = $root.com = (() => {
                  * @implements IFrameEntity
                  * @constructor
                  * @param {com.opensource.svga.IFrameEntity=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function FrameEntity(p) {
                     this.shapes = [];
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -1603,58 +1960,83 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FrameEntity.decode = function decode(r, l, e) {
+                FrameEntity.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.FrameEntity();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.FrameEntity(), v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
-                            break;
-                        switch (t >>> 3) {
-                        case 1: {
-                                m.alpha = r.float();
-                                break;
-                            }
-                        case 2: {
-                                m.layout = $root.com.opensource.svga.Layout.decode(r, r.uint32());
-                                break;
-                            }
-                        case 3: {
-                                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32());
-                                break;
-                            }
-                        case 4: {
-                                m.clipPath = r.string();
-                                break;
-                            }
-                        case 5: {
-                                if (!(m.shapes && m.shapes.length))
-                                    m.shapes = [];
-                                m.shapes.push($root.com.opensource.svga.ShapeEntity.decode(r, r.uint32()));
-                                break;
-                            }
-                        default:
-                            r.skipType(t & 7);
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
                         }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
+                        case 1: {
+                                if (u !== 5)
+                                    break;
+                                if ((v = r.float()) !== 0)
+                                    m.alpha = v;
+                                else
+                                    delete m.alpha;
+                                continue;
+                            }
+                        case 2: {
+                                if (u !== 2)
+                                    break;
+                                m.layout = $root.com.opensource.svga.Layout.decode(r, r.uint32(), undefined, q + 1, m.layout);
+                                continue;
+                            }
+                        case 3: {
+                                if (u !== 2)
+                                    break;
+                                m.transform = $root.com.opensource.svga.Transform.decode(r, r.uint32(), undefined, q + 1, m.transform);
+                                continue;
+                            }
+                        case 4: {
+                                if (u !== 2)
+                                    break;
+                                if ((v = r.string()).length)
+                                    m.clipPath = v;
+                                else
+                                    delete m.clipPath;
+                                continue;
+                            }
+                        case 5: {
+                                if (u !== 2)
+                                    break;
+                                if (!(m.shapes && m.shapes.length))
+                                    m.shapes = [];
+                                m.shapes.push($root.com.opensource.svga.ShapeEntity.decode(r, r.uint32(), undefined, q + 1));
+                                continue;
+                            }
+                        }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for FrameEntity
+                 * Gets the type url for FrameEntity
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.FrameEntity
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                FrameEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.FrameEntity";
+                FrameEntity.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.FrameEntity";
                 };
 
                 return FrameEntity;
@@ -1671,6 +2053,7 @@ export const com = $root.com = (() => {
                  * @property {Object.<string,Uint8Array>|null} [images] MovieEntity images
                  * @property {Array.<com.opensource.svga.ISpriteEntity>|null} [sprites] MovieEntity sprites
                  * @property {Array.<com.opensource.svga.IAudioEntity>|null} [audios] MovieEntity audios
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
 
                 /**
@@ -1680,6 +2063,7 @@ export const com = $root.com = (() => {
                  * @implements IMovieEntity
                  * @constructor
                  * @param {com.opensource.svga.IMovieEntity=} [p] Properties to set
+                 * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
                  */
                 function MovieEntity(p) {
                     this.images = {};
@@ -1687,7 +2071,7 @@ export const com = $root.com = (() => {
                     this.audios = [];
                     if (p)
                         for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                            if (p[ks[i]] != null)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
                                 this[ks[i]] = p[ks[i]];
                 }
 
@@ -1742,79 +2126,106 @@ export const com = $root.com = (() => {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MovieEntity.decode = function decode(r, l, e) {
+                MovieEntity.decode = function decode(r, l, z, q, g) {
                     if (!(r instanceof $Reader))
                         r = $Reader.create(r);
-                    var c = l === undefined ? r.len : r.pos + l, m = new $root.com.opensource.svga.MovieEntity(), k, value;
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $Reader.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var c = l === undefined ? r.len : r.pos + l, m = g || new $root.com.opensource.svga.MovieEntity(), k, v;
                     while (r.pos < c) {
-                        var t = r.uint32();
-                        if (t === e)
+                        var s = r.pos;
+                        var t = r.tag();
+                        if (t === z) {
+                            z = undefined;
                             break;
-                        switch (t >>> 3) {
+                        }
+                        var u = t & 7;
+                        switch (t >>>= 3) {
                         case 1: {
-                                m.version = r.string();
-                                break;
+                                if (u !== 2)
+                                    break;
+                                if ((v = r.string()).length)
+                                    m.version = v;
+                                else
+                                    delete m.version;
+                                continue;
                             }
                         case 2: {
-                                m.params = $root.com.opensource.svga.MovieParams.decode(r, r.uint32());
-                                break;
+                                if (u !== 2)
+                                    break;
+                                m.params = $root.com.opensource.svga.MovieParams.decode(r, r.uint32(), undefined, q + 1, m.params);
+                                continue;
                             }
                         case 3: {
+                                if (u !== 2)
+                                    break;
                                 if (m.images === $util.emptyObject)
                                     m.images = {};
                                 var c2 = r.uint32() + r.pos;
                                 k = "";
-                                value = [];
+                                v = [];
                                 while (r.pos < c2) {
-                                    var tag2 = r.uint32();
-                                    switch (tag2 >>> 3) {
+                                    var t2 = r.tag();
+                                    u = t2 & 7;
+                                    switch (t2 >>>= 3) {
                                     case 1:
+                                        if (u !== 2)
+                                            break;
                                         k = r.string();
-                                        break;
+                                        continue;
                                     case 2:
-                                        value = r.bytes();
-                                        break;
-                                    default:
-                                        r.skipType(tag2 & 7);
-                                        break;
+                                        if (u !== 2)
+                                            break;
+                                        v = r.bytes();
+                                        continue;
                                     }
+                                    r.skipType(u, q, t2);
                                 }
-                                m.images[k] = value;
-                                break;
+                                if (k === "__proto__")
+                                    $util.makeProp(m.images, k);
+                                m.images[k] = v;
+                                continue;
                             }
                         case 4: {
+                                if (u !== 2)
+                                    break;
                                 if (!(m.sprites && m.sprites.length))
                                     m.sprites = [];
-                                m.sprites.push($root.com.opensource.svga.SpriteEntity.decode(r, r.uint32()));
-                                break;
+                                m.sprites.push($root.com.opensource.svga.SpriteEntity.decode(r, r.uint32(), undefined, q + 1));
+                                continue;
                             }
                         case 5: {
+                                if (u !== 2)
+                                    break;
                                 if (!(m.audios && m.audios.length))
                                     m.audios = [];
-                                m.audios.push($root.com.opensource.svga.AudioEntity.decode(r, r.uint32()));
-                                break;
+                                m.audios.push($root.com.opensource.svga.AudioEntity.decode(r, r.uint32(), undefined, q + 1));
+                                continue;
                             }
-                        default:
-                            r.skipType(t & 7);
-                            break;
                         }
+                        r.skipType(u, q, t);
+                        $util.makeProp(m, "$unknowns", false);
+                        (m.$unknowns || (m.$unknowns = [])).push(r.raw(s, r.pos));
                     }
+                    if (z !== undefined)
+                        throw Error("missing end group");
                     return m;
                 };
 
                 /**
-                 * Gets the default type url for MovieEntity
+                 * Gets the type url for MovieEntity
                  * @function getTypeUrl
                  * @memberof com.opensource.svga.MovieEntity
                  * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
+                 * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns {string} The type url
                  */
-                MovieEntity.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/com.opensource.svga.MovieEntity";
+                MovieEntity.getTypeUrl = function getTypeUrl(prefix) {
+                    if (prefix === undefined)
+                        prefix = "type.googleapis.com";
+                    return prefix + "/com.opensource.svga.MovieEntity";
                 };
 
                 return MovieEntity;
@@ -1829,4 +2240,6 @@ export const com = $root.com = (() => {
     return com;
 })();
 
-export { $root as default };
+export {
+  $root as default
+};

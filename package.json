@@ -1,7 +1,7 @@
 {
   "name": "svga-web",
-  "version": "2.4.3",
-  "packageManager": "pnpm@10.33.0",
+  "version": "2.4.4",
+  "packageManager": "pnpm@11.1.1",
   "description": "A SVGA player for modern Web.",
   "homepage": "https://github.com/Naeemo/svga-web",
   "publishConfig": {
@@ -46,22 +46,22 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@types/node": "^20.19.10",
+    "@types/node": "^24",
     "@types/offscreencanvas": "^2019.6.4",
     "@types/pako": "^2.0.4",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.1.7",
-    "jiti": "^2.6.1",
+    "jiti": "^2.7.0",
     "lint-staged": "^15.5.2",
     "pako": "^2.0.4",
-    "prettier": "^3.8.2",
-    "protobufjs": "^7.5.4",
-    "protobufjs-cli": "^1.2.0",
-    "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.1",
-    "vite": "^7.1.2"
+    "prettier": "^3.8.3",
+    "protobufjs": "^8.2.0",
+    "protobufjs-cli": "^2.2.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3",
+    "vite": "^8.0.12"
   },
   "husky": {
     "hooks": {

@@ -23,6 +23,9 @@ export namespace com {
 
                 /** MovieParams frames */
                 frames?: (number|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents a MovieParams. */
@@ -33,6 +36,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.IMovieParams);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** MovieParams viewBoxWidth. */
                 public viewBoxWidth: number;
@@ -57,11 +63,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.MovieParams;
 
                 /**
-                 * Gets the default type url for MovieParams
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for MovieParams
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
 
             /** Properties of a SpriteEntity. */
@@ -75,6 +81,9 @@ export namespace com {
 
                 /** SpriteEntity matteKey */
                 matteKey?: (string|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents a SpriteEntity. */
@@ -85,6 +94,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.ISpriteEntity);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** SpriteEntity imageKey. */
                 public imageKey: string;
@@ -106,11 +118,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.SpriteEntity;
 
                 /**
-                 * Gets the default type url for SpriteEntity
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for SpriteEntity
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
 
             /** Properties of an AudioEntity. */
@@ -130,6 +142,9 @@ export namespace com {
 
                 /** AudioEntity totalTime */
                 totalTime?: (number|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents an AudioEntity. */
@@ -140,6 +155,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.IAudioEntity);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** AudioEntity audioKey. */
                 public audioKey: string;
@@ -167,11 +185,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.AudioEntity;
 
                 /**
-                 * Gets the default type url for AudioEntity
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for AudioEntity
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
 
             /** Properties of a Layout. */
@@ -188,6 +206,9 @@ export namespace com {
 
                 /** Layout height */
                 height?: (number|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents a Layout. */
@@ -198,6 +219,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.ILayout);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** Layout x. */
                 public x: number;
@@ -222,11 +246,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.Layout;
 
                 /**
-                 * Gets the default type url for Layout
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for Layout
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
 
             /** Properties of a Transform. */
@@ -249,6 +273,9 @@ export namespace com {
 
                 /** Transform ty */
                 ty?: (number|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents a Transform. */
@@ -259,6 +286,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.ITransform);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** Transform a. */
                 public a: number;
@@ -289,11 +319,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.Transform;
 
                 /**
-                 * Gets the default type url for Transform
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for Transform
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
 
             /** Properties of a ShapeEntity. */
@@ -316,6 +346,9 @@ export namespace com {
 
                 /** ShapeEntity transform */
                 transform?: (com.opensource.svga.ITransform|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents a ShapeEntity. */
@@ -326,6 +359,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.IShapeEntity);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** ShapeEntity type. */
                 public type: com.opensource.svga.ShapeEntity.ShapeType;
@@ -359,11 +395,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity;
 
                 /**
-                 * Gets the default type url for ShapeEntity
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for ShapeEntity
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
 
             namespace ShapeEntity {
@@ -381,6 +417,9 @@ export namespace com {
 
                     /** ShapeArgs d */
                     d?: (string|null);
+
+                    /** Unknown fields preserved while decoding */
+                    $unknowns?: Uint8Array[];
                 }
 
                 /** Represents a ShapeArgs. */
@@ -391,6 +430,9 @@ export namespace com {
                      * @param [p] Properties to set
                      */
                     constructor(p?: com.opensource.svga.ShapeEntity.IShapeArgs);
+
+                    /** Unknown fields preserved while decoding */
+                    public $unknowns?: Uint8Array[];
 
                     /** ShapeArgs d. */
                     public d: string;
@@ -406,11 +448,11 @@ export namespace com {
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.ShapeArgs;
 
                     /**
-                     * Gets the default type url for ShapeArgs
-                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns The default type url
+                     * Gets the type url for ShapeArgs
+                     * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns The type url
                      */
-                    public static getTypeUrl(typeUrlPrefix?: string): string;
+                    public static getTypeUrl(prefix?: string): string;
                 }
 
                 /** Properties of a RectArgs. */
@@ -430,6 +472,9 @@ export namespace com {
 
                     /** RectArgs cornerRadius */
                     cornerRadius?: (number|null);
+
+                    /** Unknown fields preserved while decoding */
+                    $unknowns?: Uint8Array[];
                 }
 
                 /** Represents a RectArgs. */
@@ -440,6 +485,9 @@ export namespace com {
                      * @param [p] Properties to set
                      */
                     constructor(p?: com.opensource.svga.ShapeEntity.IRectArgs);
+
+                    /** Unknown fields preserved while decoding */
+                    public $unknowns?: Uint8Array[];
 
                     /** RectArgs x. */
                     public x: number;
@@ -467,11 +515,11 @@ export namespace com {
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.RectArgs;
 
                     /**
-                     * Gets the default type url for RectArgs
-                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns The default type url
+                     * Gets the type url for RectArgs
+                     * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns The type url
                      */
-                    public static getTypeUrl(typeUrlPrefix?: string): string;
+                    public static getTypeUrl(prefix?: string): string;
                 }
 
                 /** Properties of an EllipseArgs. */
@@ -488,6 +536,9 @@ export namespace com {
 
                     /** EllipseArgs radiusY */
                     radiusY?: (number|null);
+
+                    /** Unknown fields preserved while decoding */
+                    $unknowns?: Uint8Array[];
                 }
 
                 /** Represents an EllipseArgs. */
@@ -498,6 +549,9 @@ export namespace com {
                      * @param [p] Properties to set
                      */
                     constructor(p?: com.opensource.svga.ShapeEntity.IEllipseArgs);
+
+                    /** Unknown fields preserved while decoding */
+                    public $unknowns?: Uint8Array[];
 
                     /** EllipseArgs x. */
                     public x: number;
@@ -522,11 +576,11 @@ export namespace com {
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.EllipseArgs;
 
                     /**
-                     * Gets the default type url for EllipseArgs
-                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns The default type url
+                     * Gets the type url for EllipseArgs
+                     * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns The type url
                      */
-                    public static getTypeUrl(typeUrlPrefix?: string): string;
+                    public static getTypeUrl(prefix?: string): string;
                 }
 
                 /** Properties of a ShapeStyle. */
@@ -558,6 +612,9 @@ export namespace com {
 
                     /** ShapeStyle lineDashIII */
                     lineDashIII?: (number|null);
+
+                    /** Unknown fields preserved while decoding */
+                    $unknowns?: Uint8Array[];
                 }
 
                 /** Represents a ShapeStyle. */
@@ -568,6 +625,9 @@ export namespace com {
                      * @param [p] Properties to set
                      */
                     constructor(p?: com.opensource.svga.ShapeEntity.IShapeStyle);
+
+                    /** Unknown fields preserved while decoding */
+                    public $unknowns?: Uint8Array[];
 
                     /** ShapeStyle fill. */
                     public fill?: (com.opensource.svga.ShapeEntity.ShapeStyle.IRGBAColor|null);
@@ -607,11 +667,11 @@ export namespace com {
                     public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.ShapeStyle;
 
                     /**
-                     * Gets the default type url for ShapeStyle
-                     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                     * @returns The default type url
+                     * Gets the type url for ShapeStyle
+                     * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                     * @returns The type url
                      */
-                    public static getTypeUrl(typeUrlPrefix?: string): string;
+                    public static getTypeUrl(prefix?: string): string;
                 }
 
                 namespace ShapeStyle {
@@ -630,6 +690,9 @@ export namespace com {
 
                         /** RGBAColor a */
                         a?: (number|null);
+
+                        /** Unknown fields preserved while decoding */
+                        $unknowns?: Uint8Array[];
                     }
 
                     /** Represents a RGBAColor. */
@@ -640,6 +703,9 @@ export namespace com {
                          * @param [p] Properties to set
                          */
                         constructor(p?: com.opensource.svga.ShapeEntity.ShapeStyle.IRGBAColor);
+
+                        /** Unknown fields preserved while decoding */
+                        public $unknowns?: Uint8Array[];
 
                         /** RGBAColor r. */
                         public r: number;
@@ -664,11 +730,11 @@ export namespace com {
                         public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.ShapeEntity.ShapeStyle.RGBAColor;
 
                         /**
-                         * Gets the default type url for RGBAColor
-                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                         * @returns The default type url
+                         * Gets the type url for RGBAColor
+                         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                         * @returns The type url
                          */
-                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                        public static getTypeUrl(prefix?: string): string;
                     }
 
                     /** LineCap enum. */
@@ -704,6 +770,9 @@ export namespace com {
 
                 /** FrameEntity shapes */
                 shapes?: (com.opensource.svga.IShapeEntity[]|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents a FrameEntity. */
@@ -714,6 +783,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.IFrameEntity);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** FrameEntity alpha. */
                 public alpha: number;
@@ -741,11 +813,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.FrameEntity;
 
                 /**
-                 * Gets the default type url for FrameEntity
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for FrameEntity
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
 
             /** Properties of a MovieEntity. */
@@ -765,6 +837,9 @@ export namespace com {
 
                 /** MovieEntity audios */
                 audios?: (com.opensource.svga.IAudioEntity[]|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
             }
 
             /** Represents a MovieEntity. */
@@ -775,6 +850,9 @@ export namespace com {
                  * @param [p] Properties to set
                  */
                 constructor(p?: com.opensource.svga.IMovieEntity);
+
+                /** Unknown fields preserved while decoding */
+                public $unknowns?: Uint8Array[];
 
                 /** MovieEntity version. */
                 public version: string;
@@ -802,11 +880,11 @@ export namespace com {
                 public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): com.opensource.svga.MovieEntity;
 
                 /**
-                 * Gets the default type url for MovieEntity
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
+                 * Gets the type url for MovieEntity
+                 * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+                 * @returns The type url
                  */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
+                public static getTypeUrl(prefix?: string): string;
             }
         }
     }
